@@ -4,7 +4,7 @@ export default function Contact() {
       className=""
     >
       <div> 
-        <Contact></Contact>
+        will come
       </div>
     </main>
   )
