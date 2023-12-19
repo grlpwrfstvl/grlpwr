@@ -1,14 +1,12 @@
 import { PortableTextBlock } from "sanity";
 
-export type Artist = {
+export type Eventer = {
     _id: string;
     _createdAt: Date;
     name: string;
     slug: string;
-    instagram?: string;
-    spotify?: string;
     image: string;
-    stage: string;
+    location: string;
     time: Date
     description: PortableTextBlock[];
 

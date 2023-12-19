@@ -1,8 +1,8 @@
 import {defineField, defineType} from 'sanity'
 
 export default defineType({
-  name: 'artist',
-  title: 'Artist',
+  name: 'event',
+  title: 'Event',
   type: 'document',
   fields: [
     defineField({
@@ -18,16 +18,6 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
-    }),
-    defineField({
-      name: 'instagram',
-      title: 'Instagram',
-      type: 'string',
-    }),
-    defineField({
-      name: 'spotify',
-      title: 'Spotify',
-      type: 'string',
     }),
 
     defineField({
@@ -45,19 +35,9 @@ export default defineType({
       
     }),
     defineField({
-        name: 'stage',
-        title: 'Stage',
+        name: 'location',
+        title: 'Location',
         type: 'string',
-        options: {
-          list: [
-            {title: 'Tæps Scene', value: 'taeps'},
-            {title: 'St. Croix Scene', value: 'stCroix'},
-            {title: 'Klubbscenen', value: 'klubb'},
-            {title: 'Kafescenen', value: 'kafe'}
-
-          ], 
-          layout: 'radio'
-        }
       }),    
     defineField({
         name: 'time',
