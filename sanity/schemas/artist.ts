@@ -22,12 +22,12 @@ export default defineType({
     defineField({
       name: 'instagram',
       title: 'Instagram',
-      type: 'string',
+      type: 'url',
     }),
     defineField({
       name: 'spotify',
       title: 'Spotify',
-      type: 'string',
+      type: 'url',
     }),
 
     defineField({
