@@ -4,9 +4,6 @@ import Image from "next/image";
 import { PortableText } from '@portabletext/react';
 import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
-import Link from "next/link";
-import { formatTime } from "../../utils/formatTime";
-import { parse } from "path";
 
 type Props = {
   params: {artist: string};
@@ -19,8 +16,8 @@ export default async function Artist({params}: Props) {
   const dateOptions: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
   const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
 
-  const formattedDate = playTime.toLocaleDateString(undefined, dateOptions);
-  const formattedTime = playTime.toLocaleTimeString(undefined, timeOptions);
+  const formattedDate = playTime.toLocaleDateString("no", dateOptions);
+  const formattedTime = playTime.toLocaleTimeString("no", timeOptions);
   return (
     <main className="pl-12">
       <div className="relative max-w-5xl w-full flex flex-row">
@@ -50,7 +47,7 @@ export default async function Artist({params}: Props) {
     <div className="flex items-center justify-center gap-6">
     {artist.instagram && (
     <a href={artist.instagram}
-    target="blank" 
+    target="_blank" 
     rel="noopener noreferrer">
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
     </a>
@@ -58,7 +55,7 @@ export default async function Artist({params}: Props) {
         {artist.spotify && (
 
     <a href={artist.spotify}
-    target="blank" 
+    target="_blank" 
     rel="noopener noreferrer">
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
     </a>
