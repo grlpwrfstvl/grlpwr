@@ -45,23 +45,27 @@ export default async function Artist({params}: Props) {
     <h2>{formattedTime}</h2>
     <h2>{artist.stage}</h2>
     <div className="flex items-center justify-center gap-6">
-    {artist.instagram && (
-    <a 
-    href="https://www.nrk.no"
+    <a
+    href={artist.instagram}
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-    </a>
-    )}
-        {artist.spotify && (
 
-    <a 
+    </a>
+    <a
+    href={artist.instagram}
+    target="_blank" 
+    rel="noopener noreferrer">
+        <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+
+    </a>
+    <a
     href="https://www.nrk.no"
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+
     </a>
-        )}
     </div>
     </div>
     </div>
