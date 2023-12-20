@@ -12,10 +12,11 @@ type Props = {
 export default async function Artist({params}: Props) {
   const slug = params.artist;
   const artist = await getArtist(slug);
+
+
   const playTime = new Date(artist.time); 
   const dateOptions: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
   const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
-
   const formattedDate = playTime.toLocaleDateString("no", dateOptions);
   const formattedTime = playTime.toLocaleTimeString("no", timeOptions);
 
@@ -44,13 +45,13 @@ export default async function Artist({params}: Props) {
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
     <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
     </svg>
-    <div className="text-white z-20 absolute pt-10 top-1 pl-14 left-1 font-semibold font-bold text-lg">
-    <h2 className="text-xl">{artist.name}</h2>
-    <br />
+    <div className="text-white z-20 absolute pt-10 top-1 pl-12 left-1 font-semibold font-bold text-lg">
+    <h2 className="text-2xl">{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
     <h2>{artist.stage}</h2>
-    <div className="flex items-center justify-center gap-6">
+    <div className="flex justify-center p-4 gap-8">
+    {artist.instagram && (
     <a
     href={"https://"+instaLink}
     target="_blank" 
@@ -58,6 +59,8 @@ export default async function Artist({params}: Props) {
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
 
     </a>
+    )}
+    {artist.spotify && (
     <a
     href={"https://"+spotiLink}
     target="_blank" 
@@ -65,13 +68,7 @@ export default async function Artist({params}: Props) {
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
 
     </a>
-    <a
-    href="https://www.nrk.no"
-    target="_blank" 
-    rel="noopener noreferrer">
-        <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-
-    </a>
+    )}
     </div>
     </div>
     </div>
