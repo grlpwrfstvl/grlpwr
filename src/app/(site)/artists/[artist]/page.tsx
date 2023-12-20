@@ -49,15 +49,19 @@ export default async function Artist({params}: Props) {
     <h2>{artist.stage}</h2>
     <div className="flex items-center justify-center gap-6">
     {artist.instagram && (
-    <Link href={artist.instagram}>
+    <a href={artist.instagram}
+    target="blank" 
+    rel="noopener noreferrer">
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-    </Link>
+    </a>
     )}
         {artist.spotify && (
 
-    <Link href={artist.spotify}>
+    <a href={artist.spotify}
+    target="blank" 
+    rel="noopener noreferrer">
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-    </Link>
+    </a>
         )}
     </div>
     </div>
