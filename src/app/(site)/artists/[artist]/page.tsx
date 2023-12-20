@@ -36,7 +36,7 @@ export default async function Artist({params}: Props) {
     />
     <div className="w-2/6 h-64 mt-20 relative">
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
-    <path d={blobPaths[3]} fill="#e82265" transform="scale(1" />
+    <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
     </svg>
     <div className="text-white z-20 absolute pt-10 top-1 pl-14 left-1 font-semibold font-bold text-lg">
     <h2 className="text-xl">{artist.name}</h2>
@@ -46,7 +46,8 @@ export default async function Artist({params}: Props) {
     <h2>{artist.stage}</h2>
     <div className="flex items-center justify-center gap-6">
     {artist.instagram && (
-    <a href={artist.instagram}
+    <a 
+    href="https://www.nrk.no"
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
@@ -54,7 +55,8 @@ export default async function Artist({params}: Props) {
     )}
         {artist.spotify && (
 
-    <a href={artist.spotify}
+    <a 
+    href="https://www.nrk.no"
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
