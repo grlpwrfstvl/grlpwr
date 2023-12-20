@@ -9,7 +9,7 @@ export type Artist = {
     spotify?: string;
     image: string;
     stage: string;
-    time: Date
+    time: Date;
     description: PortableTextBlock[];
 
 };

@@ -7,6 +7,6 @@ import home from './home'
 import eventer from './eventer'
 import workshop from './workshop'
 
-const schemas = [artist, eventer, gallery, news, page, blockContent,workshop, home]
+const schemas = [artist, eventer, gallery, news, page, blockContent, workshop, home]
 
 export default schemas;

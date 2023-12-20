@@ -4,6 +4,8 @@ import { Artist } from "../types/Artist";
 import { Home } from "../types/Home";
 import { Page } from "../types/Page";
 import { News } from "../types/News";
+import { Workshop } from "../types/Workshop";
+import { Eventer } from "../types/Eventer";
 
 export async function getHome(): Promise<Home[]> {
   return createClient(clientConfig).fetch(
@@ -79,6 +81,112 @@ export async function getArtists(): Promise<Artist[]> {
   }
 }
 
+export async function getArtist(slug: string): Promise<Artist> {
+  return createClient(clientConfig).fetch(
+      groq`*[_type == "artist" && slug.current == $slug][0]{
+          _id,
+          _createdAt,
+          name,
+          "slug": slug.current,
+          instagram,
+          spotify,
+          "image": image.asset->url,
+          stage,
+          time,
+          description
+      }`,
+      { slug }
+  )
+}
+
+export async function getWorkshops(): Promise<Workshop[]> {
+  try {
+    const sanityClient = createClient(clientConfig);
+
+    const query = groq`*[_type == "workshop"]{
+      _id,
+      _createdAt,
+      name,
+      "slug": slug.current,
+      "image": image.asset->url,
+      location,
+      time,
+      description
+    }`;
+
+    const workshops = await sanityClient.fetch(query);
+
+    if (!workshops || !Array.isArray(workshops)) {
+      throw new Error('Invalid or empty response from Sanity.io');
+    }
+
+    return workshops;
+  } catch (error) {
+    console.error('Error fetching workshops:', error);
+    throw error;
+  }
+}
+
+export async function getWorkshop(slug: string): Promise<Workshop> {
+  return createClient(clientConfig).fetch(
+      groq`*[_type == "workshop" && slug.current == $slug][0]{
+          _id,
+          _createdAt,
+          name,
+          "slug": slug.current,
+          "image": image.asset->url,
+          location,
+          time,
+          description
+      }`,
+      { slug }
+  )
+}
+
+export async function getAllEventer(): Promise<Eventer[]> {
+  try {
+    const sanityClient = createClient(clientConfig);
+
+    const query = groq`*[_type == "eventer"]{
+      _id,
+      _createdAt,
+      name,
+      "slug": slug.current,
+      "image": image.asset->url,
+      location,
+      time,
+      description
+    }`;
+
+    const allEventer = await sanityClient.fetch(query);
+
+    if (!allEventer || !Array.isArray(allEventer)) {
+      throw new Error('Invalid or empty response from Sanity.io');
+    }
+
+    return allEventer;
+  } catch (error) {
+    console.error('Error fetching events:', error);
+    throw error;
+  }
+}
+
+export async function getEvent(slug: string): Promise<Eventer> {
+  return createClient(clientConfig).fetch(
+      groq`*[_type == "eventer" && slug.current == $slug][0]{
+          _id,
+          _createdAt,
+          name,
+          "slug": slug.current,
+          "image": image.asset->url,
+          location,
+          time,
+          description
+      }`,
+      { slug }
+  )
+}
+
 export async function getNews(): Promise<News[]> {
   try {
     const sanityClient = createClient(clientConfig);
@@ -106,20 +214,3 @@ export async function getNews(): Promise<News[]> {
 }
 
 
-export async function getArtist(slug: string): Promise<Artist> {
-    return createClient(clientConfig).fetch(
-        groq`*[_type == "artist" && slug.current == $slug][0]{
-            _id,
-            _createdAt,
-            name,
-            "slug": slug.current,
-            instagram,
-            spotify,
-            "image": image.asset->url,
-            stage,
-            time,
-            description
-        }`,
-        { slug }
-    )
-}
