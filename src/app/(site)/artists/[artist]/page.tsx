@@ -19,6 +19,10 @@ export default async function Artist({params}: Props) {
   const formattedDate = playTime.toLocaleDateString("no", dateOptions);
   const formattedTime = playTime.toLocaleTimeString("no", timeOptions);
 
+  const instaLink = artist.instagram;
+  const spotiLink = artist.spotify;
+
+  console.log(instaLink);
 
   return (
     <main className="pl-12">
@@ -48,14 +52,14 @@ export default async function Artist({params}: Props) {
     <h2>{artist.stage}</h2>
     <div className="flex items-center justify-center gap-6">
     <a
-    href={"https://"+artist.instagram}
+    href={"https://"+instaLink}
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
 
     </a>
     <a
-    href={"https://"+artist.spotify}
+    href={"https://"+spotiLink}
     target="_blank" 
     rel="noopener noreferrer">
         <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
