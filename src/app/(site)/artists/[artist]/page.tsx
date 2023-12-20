@@ -41,24 +41,12 @@ export default async function Artist({params}: Props) {
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
     <path d={blobPaths[3]} fill="#e82265" transform="scale(1" />
     </svg>
-    <div className="text-white z-20 absolute bottom-1/4 left-1/4 font-semibold font-bold text-lg">
-    <h2>{artist.name}</h2>
+    <div className="text-white z-20 absolute pt-10 top-1 pl-14 left-1 font-semibold font-bold text-lg">
+    <h2 className="text-xl">{artist.name}</h2>
     <br />
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
-    <br />
     <h2>{artist.stage}</h2>
-    </div>
-    </div>
-</div>
-
-
-<div className="relative max-w-5xl w-full">
-  <svg viewBox="-10 0 400 350" className="absolute inset-0 -z-10 -mt-28">
-    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.95, 0.6)" />
-  </svg>
-  <div className="relative z-10 w-3/4 text-white font-semibold pt-10 mx-auto">
-      <PortableText value={artist.description} />
     <div className="flex items-center justify-center gap-6">
     {artist.instagram && (
     <Link href={artist.instagram}>
@@ -72,6 +60,17 @@ export default async function Artist({params}: Props) {
     </Link>
         )}
     </div>
+    </div>
+    </div>
+</div>
+
+
+<div className="relative max-w-5xl w-full">
+  <svg viewBox="-10 0 400 350" className="absolute inset-0 -z-10 -mt-28">
+    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.95, 0.6)" />
+  </svg>
+  <div className="relative z-10 w-3/4 text-white font-semibold pt-10 mx-auto">
+      <PortableText value={artist.description} />
   </div>
 </div>
 

@@ -43,7 +43,7 @@ export default function RootLayout({
       <div className='flex flex-row'>
       <main className="mx-auto w-5/6 pt-24 pl-10 pb-20">{children}</main>
       </div>
-      <footer className='pt-20 z-10 relative w-full text-center'>
+      <footer className='pt-96 z-10 relative w-full text-center'>
         <h2>
         GRL PWR FSTVL
         </h2>
