@@ -12,25 +12,26 @@ export default async function Page({ params }: Props) {
 
   return (
     <div className="max-w-4xl mx-auto">
-      <h1 className="pt-10 text-4xl text-gray-700 drop-shadow font-extrabold">
-        {page.title}
-      </h1>
       <div>
-      <svg viewBox="5 0 400 400" className="absolute w-64 h-64 inset-0 z-20" fill="#fff">
+      <svg viewBox="0 0 400 400" className="absolute w-3/4 mx-auto inset-0 z-20" fill="#fff">
       <clipPath id={page._id}>
-      <path d={blobPaths[3]} transform="scale(0.85, 0.62)" />
+      <path d={blobPaths[3]} transform="scale(1.9, 1.25)" />
       </clipPath>
       </svg>
       <Image
         src={page.image}
         alt="GRL PWR logo"
         priority={true}
-        height={400}
-        width={400}
-        className=""
+        height={800}
+        width={700}
+        className="mx-auto mt-4 -mb-20 w-11/12"
         style={{ clipPath: `url(#${page._id})` }}
       />
     </div>
+    <h1 className="text-5xl text-grlPink drop-shadow font-extrabold">
+        {page.title}
+      </h1>
+
       <div className="">
         <PortableText value={page.content} />
       </div>
