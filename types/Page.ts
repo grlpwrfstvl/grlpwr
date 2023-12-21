@@ -6,5 +6,6 @@ export type Page = {
     title: string;
     slug: string;
     content: PortableTextBlock[];
+    image: string;
 
 };

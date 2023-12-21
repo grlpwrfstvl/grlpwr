@@ -29,14 +29,7 @@ export default async function Home() {
 
     </div>
 
-    {/* <div className='flex flex-col grid grid-cols-2'>
-      {someArtists.map((artist, index) => (
-        <ArtistCard key={artist._id} artist={artist} index={index} />
-      ))}
-    </div> */}
-
-
-      </main>
+    </main>
     )
   }
 

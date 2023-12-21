@@ -1,50 +1,50 @@
-import {defineField, defineType} from 'sanity'
+const page = {
 
-export default defineType({
   name: 'page',
-  title: 'Page',
+  title: 'Pages',
   type: 'document',
   fields: [
-    defineField({
-      name: 'title',
-      title: 'Title',
-      type: 'string',
-    }),
-    defineField({
-      name: 'slug',
-      title: 'Slug',
-      type: 'slug',
-      options: {
-          source: 'title',
-      },
-    }),
-    
-    defineField({
-      name: 'image',
-      title: 'Image',
-      type: 'image',
-      options: {
-        hotspot: true,
-      },
-    }),   
-    defineField({
-      name: 'description',
-      title: 'Description',
-      type: 'array',
-      of: [
-        {
-          title: 'Block',
-          type: 'block',
-          styles: [{title: 'Normal', value: 'normal'}],
-          lists: [],
-        },
-      ],
-    }),
-  ],
-  preview: {
-    select: {
-      title: 'title',
-      media: 'image',
+       {
+          name: 'title',
+          title: 'Title',
+          type: 'string'
+       },
+  
+       {
+          name: 'slug',
+          title: 'Slug',
+          type: 'slug',
+          options: {
+              source: 'title',
+              maxLenght: 96,
+          },
+       },
+
+       {
+        name: 'image',
+        title: 'Image',
+        type: 'image',
+        options: {hotspot: true},
+        fields: [
+
+            {
+                name: 'alt',
+                title: 'Alt',
+                type: 'string'
+            }
+        ]
     },
-  },
-})
+
+  
+       {
+          name: 'content',
+          title: 'Content',
+          type: 'array',
+          of: [{type: 'block'}],
+  
+       },
+  ]
+  };
+  
+  export default page;
+

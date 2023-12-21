@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react';
 import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
 
+
 type Props = {
   params: {artist: string};
 };
