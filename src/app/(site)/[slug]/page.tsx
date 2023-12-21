@@ -28,7 +28,7 @@ export default async function Page({ params }: Props) {
         style={{ clipPath: `url(#${page._id})` }}
       />
     </div>
-    <h1 className="text-5xl text-grlPink drop-shadow font-extrabold">
+    <h1 className="text-5xl pb-2 text-grlPink drop-shadow font-extrabold">
         {page.title}
       </h1>
 
