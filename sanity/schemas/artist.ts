@@ -1,16 +1,15 @@
-import {defineField, defineType} from 'sanity'
-
-export default defineType({
+const artist = {
   name: 'artist',
   title: 'Artist',
   type: 'document',
   fields: [
-    defineField({
+    {
       name: 'name',
       title: 'Name',
       type: 'string',
-    }),
-    defineField({
+    },
+
+    {
       name: 'slug',
       title: 'Slug',
       type: 'slug',
@@ -18,19 +17,19 @@ export default defineType({
         source: 'name',
         maxLength: 96,
       },
-    }),
-    defineField({
+    },
+    {
       name: 'instagram',
       title: 'Instagram',
       type: 'string',
-    }),
-    defineField({
+    },
+    {
       name: 'spotify',
       title: 'Spotify',
       type: 'string',
-    }),
+    },
 
-    defineField({
+    {
       name: 'image',
       title: 'Image',
       type: 'image',
@@ -43,8 +42,8 @@ export default defineType({
         }
       ]
       
-    }),
-    defineField({
+    },
+    {
         name: 'stage',
         title: 'Stage',
         type: 'string',
@@ -58,13 +57,13 @@ export default defineType({
           ], 
           layout: 'radio'
         }
-      }),    
-    defineField({
+      },    
+    {
         name: 'time',
         title: 'Time',
         type: 'datetime',
-      }),
-    defineField({
+      },
+    {
       name: 'description',
       title: 'Description',
       type: 'array',
@@ -76,7 +75,7 @@ export default defineType({
           lists: [],
         },
       ],
-    }),
+    },
   ],
   preview: {
     select: {
@@ -84,4 +83,6 @@ export default defineType({
       media: 'image',
     },
   },
-})
+};
+
+export default artist;
