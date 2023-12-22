@@ -10,15 +10,14 @@ export default async function Home() {
   const artists = await getArtists();
   const home = await getHome();
   const [firstNews, secondNews] = (await getNews()).slice(0, 2);
-  const someArtists = artists.slice(0,3);
 
   console.log({ artistsCount: artists.length })
 
   return (
 
-    <main className="w-max mx-auto pt-16">
+    <main className="w-full mx-auto pt-16">
 
-    <div className='flex flex-row grid grid-cols-1 md:grid-cols-3 gap-x-8'>
+    <div className='flex flex-row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3 gap-x-8'>
     <ArtistCard key={artists[0]._id} artist={artists[0]} index={1} />
     <TextBlob text={home[0].description} />
     <ArtistCard key={artists[1]._id} artist={artists[1]} index={2} />

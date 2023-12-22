@@ -28,13 +28,13 @@ export default async function RootLayout({
       <Image
       src={hockey}
       alt="festive art"
-      height={500}
-      className='fixed h-3/6 w-auto bottom-0 right-0 z-50'
+      height={400}
+      className='fixed h-52 md:h-1/2 w-auto bottom-0 right-0 z-50'
       />
 
       <Menu pages={pages}/>
       <div className='flex flex-row'>
-      <main className="mx-auto w-5/6 pt-24 pl-10 pb-20">{children}</main>
+      <main className="mx-auto w-5/6 pt-24 pb-20 pl-0 md:pl-12">{children}</main>
       </div>
       <footer className='pt-96 z-10 relative w-full text-center'>
         <h2>
