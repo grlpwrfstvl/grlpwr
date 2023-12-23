@@ -5,7 +5,7 @@ export default async function Artists() {
   const artists = await getArtists();
 
   return (
-    <div className="pl-10">
+    <div className="">
       <div className='flex justify-end flex-col gap-y-10 grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2  xl:grid-cols-3 py-20'>
       {artists.map((artist, index) => (
         <ArtistCard key={artist._id} artist={artist} index={index}/>

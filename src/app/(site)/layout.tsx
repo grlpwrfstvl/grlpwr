@@ -34,7 +34,7 @@ export default async function RootLayout({
 
       <Menu pages={pages}/>
       <div className='flex flex-row'>
-      <main className="mx-auto w-5/6 pt-24 pb-20 pl-0 md:pl-12">{children}</main>
+      <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>
       <footer className='pt-96 z-10 relative w-full text-center'>
         <h2>

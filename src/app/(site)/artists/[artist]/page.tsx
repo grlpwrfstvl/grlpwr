@@ -4,6 +4,7 @@ import Image from "next/image";
 import { PortableText } from '@portabletext/react';
 import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
+import ArtistPortrait from "../../components/artistPortrait";
 
 
 type Props = {
@@ -29,27 +30,39 @@ export default async function Artist({params}: Props) {
   return (
     <main className="pl-0 md:pl-12">
       <div className="relative max-w-5xl w-full flex flex-col md:flex-row">
-      <svg width="100%" height="100%" viewBox="5 0 400 400" className="absolute inset-0 z-20" fill="#fff">
+      {/* <svg width="100%" height="100%" viewBox="5 0 500 500" className="absolute inset-0 z-20" fill="#fff">
       <clipPath id={artist._id}>
-      <path d={blobPaths[1]} transform="scale(1.33)" />
+      <path d={blobPaths[1]} transform="scale(1.2)" />
       </clipPath>
       </svg>
     <Image
     src={artist.image}
     alt={artist.name}
-    width={550}
-    height={550}
-    className='z-20 moving-object'
+    width={500}
+    height={500}
+    className='z-40 moving-object'
     style={{ clipPath: `url(#${artist._id})` }}
+    /> */}
+    <div className='z-40 opacity-0 w-0 md:w-max md:opacity-100'>
+    <ArtistPortrait key={artist._id} artist={artist} />
+    </div>
+    <Image
+    src={artist.image}
+    alt={artist.name}
+    width={500}
+    height={500}
+    className='z-20 opacity-100 -mb-12 md:opacity-0 w-100vw md:w-0 object-cover object-center'
     />
-    <div className="w-full md:w-2/6 h-52 mt-0 md:mt-20 relative">
+
+
+    <div className="w-4/6 z-30 md:w-2/6 h-48 mt-0 md:mt-20 relative moving-object">
     <svg viewBox="0 0 500 500" className="absolute opacity-0 md:opacity-100 inset-0 z-10">
     <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
     </svg>
     <svg viewBox="0 0 500 500" className="absolute opacity-100 md:opacity-0 inset-0 z-10">
     <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
     </svg>
-    <div className="text-white z-20 absolute pt-10 top-1 pl-12 left-1 font-semibold font-bold text-base md:text-lg">
+    <div className="text-white z-20 absolute pt-7 md:pt-10 top-1 pl-10 md:pl-12 left-1 font-semibold font-bold text-base md:text-lg">
     <h2 className="text-lg md:text-2xl">{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
@@ -83,10 +96,11 @@ export default async function Artist({params}: Props) {
   <svg viewBox="-10 0 400 350" className="absolute opacity-0 md:opacity-100 inset-0 -z-10 -mt-28">
     <path d={blobPaths[2]} fill="#e82265" transform="scale(0.95, 0.6)" />
   </svg>
-  <div className="relative z-10 w-full md:w-3/4 text-grlPink md:text-white font-semibold pt-10 mx-auto">
+  <div className="relative z-10 p-4 md:p-0 w-full md:w-3/4 text-grlPink md:text-white font-semibold pt-10 mx-auto">
       <PortableText value={artist.description} />
   </div>
 </div>
+
 
 
     </main>
