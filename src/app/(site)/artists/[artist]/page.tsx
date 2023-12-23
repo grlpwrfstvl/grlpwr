@@ -36,18 +36,15 @@ export default async function Artist({params}: Props) {
     <ArtistPortrait key={artist._id} artist={artist} />
     </div>
     <div 
-     className='z-20 opacity-100 -mb-36 md:opacity-0 w-100vw md:w-0 object-cover object-center'>
+     className='z-20 opacity-100 -mb-20 md:opacity-0 w-100vw md:w-0 object-cover object-center'>
       <ArtistPortraitSmall key={artist._id} artist={artist} index={1}          />
     </div>
 
     <div className="w-4/6 z-30 md:w-2/6 h-48 mt-0 md:mt-20 relative moving-object">
-    <svg viewBox="0 0 500 500" className="absolute opacity-0 md:opacity-100 inset-0 z-10">
-    <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
+    <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
+    <path d={blobPaths[2]} fill="#e82265" transform="scale(1)"/>
     </svg>
-    <svg viewBox="0 0 500 500" className="absolute opacity-100 md:opacity-0 inset-0 z-10">
-    <path d={blobPaths[3]} fill="#e82265" transform="scale(1)"/>
-    </svg>
-    <div className="text-white z-20 absolute pt-7 md:pt-10 top-1 pl-10 md:pl-12 left-1 font-semibold font-bold text-base md:text-lg">
+    <div className="text-white z-20 absolute pt-7 md:pt-10 top-1 pl-6 md:pl-12 left-1 font-semibold font-bold text-base md:text-lg">
     <h2 className="text-lg md:text-2xl">{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
@@ -74,19 +71,17 @@ export default async function Artist({params}: Props) {
     </div>
     </div>
     </div>
-</div>
+  </div>
 
 
-<div className="relative max-w-5xl w-full">
+  <div className="relative max-w-5xl w-full">
   <svg viewBox="-10 0 400 350" className="absolute opacity-0 md:opacity-100 inset-0 -z-10 -mt-28">
-    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.95, 0.6)" />
+    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.93, 0.58)" />
   </svg>
   <div className="relative z-10 w-full md:w-3/4 px-4 md:px-0 text-grlPink md:text-white font-semibold pt-10 mx-auto">
       <PortableText value={artist.description} />
   </div>
-</div>
-
-
+  </div>
 
     </main>
   )
@@ -95,17 +90,3 @@ export default async function Artist({params}: Props) {
 
 
 
-
-      {/* <svg width="100%" height="100%" viewBox="5 0 500 500" className="absolute inset-0 z-20" fill="#fff">
-      <clipPath id={artist._id}>
-      <path d={blobPaths[1]} transform="scale(1.2)" />
-      </clipPath>
-      </svg>
-    <Image
-    src={artist.image}
-    alt={artist.name}
-    width={500}
-    height={500}
-    className='z-40 moving-object'
-    style={{ clipPath: `url(#${artist._id})` }}
-    /> */}

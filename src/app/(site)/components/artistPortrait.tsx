@@ -20,7 +20,7 @@ return (
     alt={artist.name}
     width={500}
     height={500}
-    className='z-40 moving-object'
+    className='z-40'
     style={{ clipPath: `url(#${artist._id})` }}
     />
 </div>

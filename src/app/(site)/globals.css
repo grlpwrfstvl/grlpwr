@@ -17,3 +17,7 @@
 .moving-object {
 	animation: float 6s ease-in-out infinite;
 }
+
+.still-object {
+	animation: float 0s;
+}

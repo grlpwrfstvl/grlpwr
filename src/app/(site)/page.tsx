@@ -15,7 +15,7 @@ export default async function Home() {
 
   return (
 
-    <main className="w-full mx-auto pt-16">
+    <main className="w-full mx-auto pt-0 md:pt-16">
 
     <div className='flex flex-row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3 gap-x-8'>
     <ArtistCard key={artists[0]._id} artist={artists[0]} index={1} />
