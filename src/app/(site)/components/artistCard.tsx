@@ -24,7 +24,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 400, index }) =>
         </clipPath>
       </svg>
       <Image src={artist.image} alt={artist.name} width={size} height={size} className='z-10 overflow-visible' style={{ clipPath: `url(#${clipPathId})` }} />
-      <h2 className="z-20 transform absolute p-5 bottom-1/4 left-1/4 transform font-extrabold text-2xl text-white drop-shadow-lg">{artist.name}</h2>
+      <h2 className="z-20 transform absolute p-5 bottom-8 left-4 transform font-extrabold text-2xl text-white drop-shadow-lg">{artist.name}</h2>
     </Link>
   );
 };

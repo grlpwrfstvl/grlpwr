@@ -14,7 +14,6 @@ const ArtistPortraitSmall: React.FC<ArtistCardProps> = ({ artist, size = 500, in
   const randomIndex = Math.floor(Math.random() * blobPaths.length);
   const blobPath = blobPaths[randomIndex % blobPaths.length];
   const clipPathId = `blob-clip-${index}`;
-  const isMiddleCard = index % 3 === 1;
 
   return (
     <div key={artist._id} className={`z-10 h-72 w-full relative overflow-visible`}>

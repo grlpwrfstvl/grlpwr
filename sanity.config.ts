@@ -8,9 +8,11 @@ const config = defineConfig({
 
     dataset: "production",
 
+    "useCdn": false,
+
     title: "GRL PWR",
 
-    apiVersion: "2023-11-01",
+    apiVersion: "2021-08-31",
 
     basePath: "/admin",
 

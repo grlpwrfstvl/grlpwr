@@ -36,15 +36,15 @@ export default async function Artist({params}: Props) {
     <ArtistPortrait key={artist._id} artist={artist} />
     </div>
     <div 
-     className='z-20 opacity-100 -mb-20 md:opacity-0 w-100vw md:w-0 object-cover object-center'>
+     className='z-20 opacity-100 -mb-10 md:opacity-0 w-100vw md:w-0 object-cover object-center'>
       <ArtistPortraitSmall key={artist._id} artist={artist} index={1}          />
     </div>
 
     <div className="w-4/6 z-30 md:w-2/6 h-48 mt-0 md:mt-20 relative moving-object">
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
-    <path d={blobPaths[2]} fill="#e82265" transform="scale(1)"/>
+    <path d={blobPaths[2]} fill="#e82265" transform="scale(1.05)"/>
     </svg>
-    <div className="text-white z-20 absolute pt-7 md:pt-10 top-1 pl-6 md:pl-12 left-1 font-semibold font-bold text-base md:text-lg">
+    <div className="text-white z-20 absolute pt-10 md:pt-10 top-1 pl-6 left-1 font-semibold font-bold text-base md:text-lg">
     <h2 className="text-lg md:text-2xl">{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
