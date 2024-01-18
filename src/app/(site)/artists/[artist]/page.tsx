@@ -19,7 +19,7 @@ export default async function Artist({params}: Props) {
 
   const playTime = new Date(artist.time); 
   const dateOptions: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
-  const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric' };
+  const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Oslo' };
   const formattedDate = playTime.toLocaleDateString("no", dateOptions);
   const formattedTime = playTime.toLocaleTimeString("no", timeOptions);
 

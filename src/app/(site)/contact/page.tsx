@@ -1,18 +1,22 @@
-export default function Contact() {
-  return (
-    <main
-      className=""
-    >
-      <div> 
-        <h1>Kontakt</h1>
-       
-        <p>
-          Spille på GRLP PWR Festivalen? 
-          Send oss en mail med beskrivelse av prosjektet deres med linker. 
-          Vi tar konktakt dersom det blir aktuelt! 
-          Artister som har spilt på GRL PWR FSTVL 
-          No. 4, Blomst, Sløtface, Hudkreft, Pikekyss, Klossmajor, Of All Things, Alt kan Brennes Edvard, MONNE, Han Gaiden, Frøkedal og Familien m. flere. </p>
-      </div>
-    </main>
-  )
+import ContactForm from "../components/contactForm"
+
+export default async function Contact() {
+
+    return (
+        <main className="w-full py-2 md:py-12">
+        <div className="flex flex-col justify-center">
+        <h1 className="text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
+                Kontakt
+        </h1> 
+        <p className="p-4 md:px-10">
+          Har du spørsmål om festivalen? Eller vil du spille på GRLP PWR Festival? 
+          <br />
+          Ta kontakt, så svarer vi på henvendelsen din så fort vi kan.
+
+        </p>
+        <ContactForm />
+          
+        </div>
+        </main>
+    )
 }

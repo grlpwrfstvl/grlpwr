@@ -14,17 +14,17 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 400, index }) =>
   const randomIndex = Math.floor(Math.random() * blobPaths.length);
   const blobPath = blobPaths[randomIndex % blobPaths.length];
   const clipPathId = `blob-clip-${index}`;
-  const isMiddleCard = index % 3 === 1;
+  const isMiddleCard = index % 2 === 1;
 
   return (
-    <Link href={`/artists/${artist.slug}`} key={artist._id} className={`z-10 h-72 w-full relative overflow-visible ${isMiddleCard ? 'mb-0' : 'mt-0'} transition-transform transform hover:-translate-y-2`}>
+    <Link href={`/artists/${artist.slug}`} key={artist._id} className={`z-10 h-72 w-full relative overflow-visible ${isMiddleCard ? 'md:mt-20' : 'md:-mb-10'} transition-transform transform hover:-translate-y-2`}>
       <svg viewBox={`0 0 ${size} ${size}`} className="absolute top-0 z-10" fill="#fff">
         <clipPath id={clipPathId}>
-          <path d={blobPath} transform=" translate(0 0) scale(0.74, 0.7)" />
+          <path d={blobPath} transform=" translate(40 0) scale(0.74, 0.7)" />
         </clipPath>
       </svg>
       <Image src={artist.image} alt={artist.name} width={size} height={size} className='z-10 overflow-visible' style={{ clipPath: `url(#${clipPathId})` }} />
-      <h2 className="z-20 transform absolute p-5 bottom-8 left-4 transform font-extrabold text-2xl text-white drop-shadow-lg">{artist.name}</h2>
+      <h2 className="z-20 transform absolute p-5 bottom-8 left-14 transform font-extrabold text-2xl text-white drop-shadow-lg">{artist.name}</h2>
     </Link>
   );
 };
