@@ -6,6 +6,7 @@ import { Page } from "../types/Page";
 import { News } from "../types/News";
 import { Workshop } from "../types/Workshop";
 import { Eventer } from "../types/Eventer";
+import { Gallery } from "../types/Gallery";
 
 export async function getHome(): Promise<Home[]> {
   return createClient(clientConfig).fetch(
@@ -226,5 +227,18 @@ export async function getNews(): Promise<News[]> {
     throw error;
   }
 }
+
+export async function getGalleries(): Promise<Gallery[]> {
+  return createClient(clientConfig).fetch(
+
+      groq`*[_type == "gallery"]{
+          _id,
+          _createdAt,
+          name,
+          images[],
+      }`
+  )
+}
+
 
 

@@ -21,6 +21,9 @@ export default async function RootLayout({
 }) {
   const pages = await getPages();
 
+  const filteredPages = pages.filter(page => page.slug !== 'kontaktinfo');
+
+
 
   return (
     <html lang="en" className={inter.className}>
@@ -32,7 +35,7 @@ export default async function RootLayout({
       className='fixed h-52 md:h-1/2 w-auto bottom-0 right-0 z-50'
       />
 
-      <Menu pages={pages}/>
+      <Menu pages={filteredPages}/>
       <div className='flex flex-row'>
       <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>

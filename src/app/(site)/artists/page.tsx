@@ -8,7 +8,7 @@ export default async function Artists() {
 
   return (
     <div className="m-auto">
-      <div className='flex justify-end flex-col gap-y-10 grid grid-cols-1 md:grid-cols-2 py-20'>
+      <div className='flex justify-end flex-col gap-y-20 grid grid-cols-1 md:grid-cols-2 py-20'>
       {filteredArtists.map((artist, index) => (
         <ArtistCard key={artist._id} artist={artist} index={index}/>
       ))}

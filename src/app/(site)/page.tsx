@@ -1,8 +1,5 @@
 import { getArtists, getHome, getNews } from '../../../sanity/sanity-utils'
-import ArtistCard from './components/artistCard';
-import NewsCard from './components/newsCard';
 import React from 'react';
-import TextBlob from './components/textBlob';
 
 
 export default async function Home() {
@@ -12,17 +9,20 @@ export default async function Home() {
   const [firstNews, secondNews] = (await getNews()).slice(0, 2);
 
   console.log({artists})
-
   console.log({ artistsCount: artists.length })
 
   return (
 
-    <main className="w-full mx-auto pt-0 md:pt-16">
+    <main className="w-full mx-auto md:pt-12">
 
-    <div className='flex flex-row grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-3 gap-x-8'>
-    {/* <TextBlob text={home[0].description} /> */}
+    <div className="flex flex-col mx-auto">
+    <h1 className="text-4xl md:text-5xl pt-0 p-2 text-grlPink drop-shadow font-extrabold ">
+      Fredrikstad 2024</h1>
+    <h2 className="text-2xl md:text-3xl p-2 text-grlPink drop-shadow font-extrabold">
+      19-20 April</h2>
+    <div>
 
-
+    </div>
 
     </div>
 
