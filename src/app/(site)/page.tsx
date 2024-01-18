@@ -16,9 +16,9 @@ export default async function Home() {
     <main className="w-full mx-auto md:pt-12">
 
     <div className="flex flex-col mx-auto">
-    <h1 className="text-4xl md:text-5xl pt-0 p-2 text-grlPink drop-shadow font-extrabold ">
+    <h1 className="text-4xl md:text-5xl pt-0 p-2 text-grlPink font-extrabold ">
       Fredrikstad 2024</h1>
-    <h2 className="text-2xl md:text-3xl p-2 text-grlPink drop-shadow font-extrabold">
+    <h2 className="text-2xl md:text-3xl p-2 text-grlPink font-extrabold">
       19-20 April</h2>
     <div>
 

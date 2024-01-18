@@ -11,7 +11,7 @@ export default async function Page({ params }: Props) {
   const page = await getPage(params.slug);
 
   return (
-    <div className="max-w-4xl mx-auto mt-5">
+    <div className="max-w-4xl mx-auto mt-16">
       <div>
       <svg viewBox="0 0 800 800" className="absolute w-3/4 mx-auto inset-0 z-20" fill="#fff">
       <clipPath id={page._id}>
@@ -36,11 +36,11 @@ export default async function Page({ params }: Props) {
         className="mx-auto mt-4 -mb-20 w-11/12 opacity-100 h-full w-full md:w-0 h-0 md:opacity-0"
       />
     </div>
-    <h1 className="text-5xl p-4 text-grlPink drop-shadow font-extrabold">
+    <h1 className="text-5xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
         {page.title}
       </h1>
 
-      <div className="">
+      <div className="p-4 md:px-10">
         <PortableText value={page.content} />
       </div>
     </div>

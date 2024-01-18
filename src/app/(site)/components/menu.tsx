@@ -43,7 +43,8 @@ return (
     />
     </div>
     <div className='flex flex-col gap-1 pl-4 -mt-24 md:-mt-0 items-center md:items-start text-3xl'>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/artists" >Artister</Link>
+    <Link className="hover:text-grlPink" onClick={closeMenu} href="/artists">Artister</Link>
+    <Link className="hover:text-grlPink" onClick={closeMenu} href="/">Events</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/gallery">Galleri</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/contact">Kontakt</Link>
 
