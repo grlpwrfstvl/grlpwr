@@ -40,9 +40,12 @@ export default async function RootLayout({
       <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>
       <footer className='pt-64 z-10 relative w-full text-center'>
-        <h2 className='pb-12'>
+        <h2 className='p-2'>
         GRL PWR FSTVL
         </h2>
+        <h3>Design og foto: Maja Brenna</h3>
+        <h3>Grafikk: Nora</h3>
+        <h3>Web: Håkon Vadstein</h3>
         <Image
       src={leg}
       alt="festive art"

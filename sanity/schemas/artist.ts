@@ -49,10 +49,10 @@ const artist = {
         type: 'string',
         options: {
           list: [
-            {title: 'Tæps Scene', value: 'taeps'},
-            {title: 'St. Croix Scene', value: 'stCroix'},
-            {title: 'Klubbscenen', value: 'klubb'},
-            {title: 'Kafescenen', value: 'kafe'}
+            {title: 'Tæps Scene', value: 'Tæps Scene'},
+            {title: 'St. Croix Scene', value: 'St. Croix Scene'},
+            {title: 'Klubbscenen', value: 'Klubbscenen'},
+            {title: 'Kafescenen', value: 'Kafescenen'}
 
           ], 
           layout: 'radio'
