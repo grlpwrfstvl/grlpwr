@@ -9,7 +9,7 @@ export default async function Contact() {
                 Kontakt
         </h1> 
         <p className="p-4 md:px-10">
-          Har du spørsmål om festivalen? Eller vil du spille på GRLP PWR Festival? 
+          Har du spørsmål eller tilbakemelding om festivalen? 
           <br />
           Ta kontakt, så svarer vi på henvendelsen din så fort vi kan.
 

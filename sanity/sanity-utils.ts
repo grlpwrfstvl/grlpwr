@@ -126,6 +126,7 @@ export async function getWorkshops(): Promise<Workshop[]> {
       "image": image.asset->url,
       location,
       time,
+      link,
       description
     }`;
 
@@ -162,7 +163,7 @@ export async function getAllEventer(): Promise<Eventer[]> {
   try {
     const sanityClient = createClient(clientConfig);
 
-    const query = groq`*[_type == "eventer"]{
+    const query = groq`*[_type == "event"]{
       _id,
       _createdAt,
       name,
@@ -170,7 +171,7 @@ export async function getAllEventer(): Promise<Eventer[]> {
       "image": image.asset->url,
       location,
       time,
-      description
+      description,
     }`;
 
     const allEventer = await sanityClient.fetch(query);
@@ -188,7 +189,7 @@ export async function getAllEventer(): Promise<Eventer[]> {
 
 export async function getEvent(slug: string): Promise<Eventer> {
   return createClient(clientConfig).fetch(
-      groq`*[_type == "eventer" && slug.current == $slug][0]{
+      groq`*[_type == "event" && slug.current == $slug][0]{
           _id,
           _createdAt,
           name,

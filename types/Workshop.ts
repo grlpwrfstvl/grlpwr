@@ -5,6 +5,7 @@ export type Workshop = {
     _createdAt: Date;
     name: string;
     slug: string;
+    link?: string;
     image: string;
     location: string;
     time: Date
