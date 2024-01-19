@@ -38,7 +38,7 @@ export default async function Home() {
       <div>
         <ImageBlob imagelink={sortedNews[0].image} id={sortedNews[0]._id} alt={sortedNews[0].title}></ImageBlob>  
       </div>
-      <div className='p-4 md:p-8'>
+      <div className='p-4 md:p-8 my-6 text-xl font-semibold'>
       <PortableText value={sortedNews[0].description} />
       </div>
       {eventer.map((eventer) => (

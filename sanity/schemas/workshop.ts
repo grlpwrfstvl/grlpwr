@@ -27,7 +27,7 @@ export default defineType({
 
     defineField({
       name: 'image',
-      title: 'Image',
+      title: 'Image (Kvadrat)',
       type: 'image',
       options: { hotspot: true},
       fields:[

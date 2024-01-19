@@ -38,7 +38,7 @@ const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id, alt, title }) => {
       {/* Second SVG */}
       <svg viewBox="0 0 500 500" className="absolute z-20" fill="#fff">
         <clipPath id={`${id}-large`}>
-          <path d={blobPath} transform="translate(40 0) scale(1.1)" />
+          <path d={blobPath} transform="translate(40 0) scale(1.08)" />
         </clipPath>
       </svg>
 

@@ -22,7 +22,7 @@ const page = {
 
        {
         name: 'image',
-        title: 'Image',
+        title: 'Image (Landskap)',
         type: 'image',
         options: {hotspot: true},
         fields: [

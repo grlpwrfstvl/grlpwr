@@ -31,7 +31,7 @@ const artist = {
 
     {
       name: 'image',
-      title: 'Image',
+      title: 'Image (Kvadrat)',
       type: 'image',
       options: { hotspot: true},
       fields:[
