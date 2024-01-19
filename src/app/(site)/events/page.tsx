@@ -12,7 +12,7 @@ export default async function Artists() {
     <div className="m-auto flex flex-col md:flex-row  md:mt-24">
       <div className='flex flex-col'>
       {events.map((eventer) => (
-                <Link href={`/events/${eventer.slug}`}>
+                <Link href={`/events/${eventer.slug}`} key={eventer._id}>
 
         <ImageBlob imagelink={eventer.image} id={eventer._id} alt={eventer.name}/>
         </Link>
@@ -20,7 +20,7 @@ export default async function Artists() {
     </div>
     {/* <div className='flex flex-col'>
       {workshops.map((workshop) => (
-        <Link href={`/workshop/${workshop.slug}`}>
+        <Link href={`/workshop/${workshop.slug}`} key={workshop._id}>
         <ImageBlob imagelink={workshop.image} id={workshop._id} alt={workshop.name}/>
         </Link>
         ))}
