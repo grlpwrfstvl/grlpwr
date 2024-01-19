@@ -13,6 +13,12 @@ export default async function Home() {
   const news = await getNews();
   const eventer = await getAllEventer();
 
+  const sortedNews = news.sort((a, b) => {
+    return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime();
+  });
+
+
+  
   console.log({artists})
   console.log({ artistsCount: artists.length })
 
@@ -30,10 +36,10 @@ export default async function Home() {
     </div>
     <div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
       <div>
-        <ImageBlob imagelink={news[0].image} id={news[0]._id} alt={news[0].title}></ImageBlob>  
+        <ImageBlob imagelink={sortedNews[0].image} id={sortedNews[0]._id} alt={sortedNews[0].title}></ImageBlob>  
       </div>
       <div className='p-4 md:p-8'>
-      <PortableText value={news[0].description} />
+      <PortableText value={sortedNews[0].description} />
       </div>
       {eventer.map((eventer) => (
         <Link href={`/workshop/${eventer.slug}`} key={eventer._id} className=''>
