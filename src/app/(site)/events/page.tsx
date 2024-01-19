@@ -25,6 +25,9 @@ export default async function Artists() {
       ))}
     </div>
     <div className='relative'>
+      <div className="w-full flex justify-content">
+      <h2 className="text-3xl text-grlPink font-bold">Workshops</h2>
+      </div>
       {workshops.map((workshop) => (
         <Link href={`/workshop/${workshop.slug}`} key={workshop._id} className=''>
         <div className="relative">
