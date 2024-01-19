@@ -43,6 +43,9 @@ export default async function Page({ params }: Props) {
       <div className="p-4 md:px-10">
         <PortableText value={page.content} />
       </div>
+      <a href='https://checkout.ebillett.no/178/events/130533/purchase/setup?kanal=dxf'>
+      <h2 className="text-grlPink text-2xl font-bold px-10">Kjøp billetter her!</h2>
+      </a>
     </div>
   );
 }

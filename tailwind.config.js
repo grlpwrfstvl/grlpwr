@@ -10,7 +10,7 @@ module.exports = {
       colors: {
         'grlPink': '#e82265',
         'grlGreen': '#039645',
-        '': '',
+        'lightPink': '#f8b9ce',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

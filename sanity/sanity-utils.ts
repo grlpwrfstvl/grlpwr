@@ -122,11 +122,11 @@ export async function getWorkshops(): Promise<Workshop[]> {
       _id,
       _createdAt,
       name,
+      link,
       "slug": slug.current,
       "image": image.asset->url,
       location,
       time,
-      link,
       description
     }`;
 
@@ -149,6 +149,7 @@ export async function getWorkshop(slug: string): Promise<Workshop> {
           _id,
           _createdAt,
           name,
+          link,
           "slug": slug.current,
           "image": image.asset->url,
           location,

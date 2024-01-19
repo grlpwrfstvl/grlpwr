@@ -39,18 +39,20 @@ export default async function RootLayout({
       <div className='flex flex-row'>
       <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>
-      <footer className='pt-64 z-10 relative w-full text-center'>
-        <h2 className='p-2'>
+      <footer className='pt-10 z-10 relative w-full text-center bg-lightPink'>
+        <div className='pb-12 text-md font-semibold text-grlPink'>
+        <h2 className='p-2 text-lg font-bold'>
         GRL PWR FSTVL
         </h2>
-        <h3>Design og foto: Maja Brenna</h3>
-        <h3>Grafikk: Nora</h3>
-        <h3>Web: Håkon Vadstein</h3>
+        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
+        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
+        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
+        </div>
         <Image
       src={leg}
       alt="festive art"
       height={200}
-      className='absolute -left-14 md:left-0  w-36 md:w-min ml-10 -mt-40 transform rotate-180 z-50'
+      className='absolute -left-14 md:left-0  w-36 md:w-min ml-10 -mt-36 md:-mt-48 transform rotate-180 z-50'
       />
       </footer>
       </body>

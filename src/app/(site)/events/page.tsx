@@ -9,22 +9,33 @@ export default async function Artists() {
 
 
   return (
-    <div className="m-auto flex flex-col md:flex-row  md:mt-24">
-      <div className='flex flex-col'>
+    <div 
+    className='flex justify-end flex-col gap-y-20 grid grid-cols-1 md:grid-cols-2 py-20'
+    >   
+      <div className='relative'>
       {events.map((eventer) => (
                 <Link href={`/events/${eventer.slug}`} key={eventer._id}>
+        <h2 className="z-20 transform absolute p-20 my-16 md:mr-32 font-extrabold text-2xl text-white drop-shadow-lg">
+        {eventer.name || ''}
+         </h2>
 
-        <ImageBlob imagelink={eventer.image} id={eventer._id} alt={eventer.name}/>
+        <ImageBlob imagelink={eventer.image} id={eventer._id} alt={eventer.name} title={eventer.name}/>
+
         </Link>
       ))}
     </div>
-    {/* <div className='flex flex-col'>
+    <div className='relative'>
       {workshops.map((workshop) => (
-        <Link href={`/workshop/${workshop.slug}`} key={workshop._id}>
+        <Link href={`/workshop/${workshop.slug}`} key={workshop._id} className=''>
+        <div className="relative">
+        <h2 className="absolute z-20 transform p-20 mx-16 my-16 md:mr-32 font-extrabold text-2xl text-white drop-shadow-lg">
+        {workshop.name || ''}
+         </h2>
         <ImageBlob imagelink={workshop.image} id={workshop._id} alt={workshop.name}/>
+        </div>
         </Link>
         ))}
-    </div> */}
+    </div>
 
     </div>
   )
