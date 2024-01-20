@@ -43,7 +43,7 @@ export default async function Home() {
       </div>
       </div>
       {eventer.map((eventer) => (
-        <Link href={`/workshop/${eventer.slug}`} key={eventer._id} className=''>
+        <Link href={`/events/${eventer.slug}`} key={eventer._id} className=''>
         <div className="relative">
         <h2 className="absolute z-20 transform py-16 m-20 pr-28 font-extrabold text-xl md:text-3xl text-white drop-shadow-lg">
         {eventer.name || ''}
