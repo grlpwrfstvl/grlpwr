@@ -38,7 +38,7 @@ export default async function Home() {
       Fredrikstad 2024</h1>
       <h2 className="text-2xl mx-auto md:text-3xl p-2 text-grlPink font-extrabold">
       19-20 April</h2>
-      <div className='p-2 my-8 text-xl font-semibold flex flex-col justify-center items-center'>
+      <div className='p-2 my-8 text-xl font-semibold flex flex-col justify-center'>
       <PortableText value={sortedNews[0].description} />
       </div>
       </div>
