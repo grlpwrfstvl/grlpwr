@@ -33,27 +33,29 @@ export default async function Home() {
       19-20 April</h2>
 
     <div className='grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6'>
-      <div>
-        
-      <ImageBlob imagelink={sortedNews[0].image} id={sortedNews[0]._id} alt={sortedNews[0].title}></ImageBlob>  
+
+      
+      <div>  
+      <ImageBlob imagelink={home[0].image} id={home[0]._id} alt={home[0].title}></ImageBlob>  
       </div>
       <div className='py-4 md:py-12 text-xl font-semibold flex flex-col'>
-      <div className='p-2 my-8 text-xl font-semibold flex flex-col justify-center'>
-      <PortableText value={sortedNews[0].description} />
+        <h2></h2>
+      <div className='p-2 my-6 text-xl font-semibold flex flex-col'>
+      <PortableText value={home[0].description} />
       </div>
       </div>
+      {sortedNews.map((news) => (
+        <div className='md:py-8'>
+        <ImageBlob imagelink={news.image} id={news._id} alt={news.title}></ImageBlob>  
+        <div className='px-2 -mt-4 md:ml-14 text-xl flex flex-col font-semibold justify-center'>
+        <h2 className='text-2xl font bold py-2'>{news.title}</h2>
+        <PortableText value={news.description} />
+        </div>
+        </div>
+      ))}
 
-      {/* <ImageBlob imagelink={sortedNews[1].image} id={sortedNews[1]._id} alt={sortedNews[1].title}></ImageBlob>  
-      <div className='p-2 my-8 text-xl flex flex-col justify-center'>
-      <h2 className='my-8 text-2xl font-semibold'>{sortedNews[1].title}</h2>
-      <PortableText value={sortedNews[1].description} />
-      </div>
 
-      <ImageBlob imagelink={sortedNews[2].image} id={sortedNews[2]._id} alt={sortedNews[2].title}></ImageBlob>  
-      <div className='p-2 my-8 text-xl flex flex-col justify-center'>
-      <h2 className='my-8 text-2xl font-semibold'> {sortedNews[2].title}</h2>
-      <PortableText value={sortedNews[2].description} />
-      </div> */}
+
 
       {eventer.map((eventer) => (
         <Link href={`/events/${eventer.slug}`} key={eventer._id} className=''>

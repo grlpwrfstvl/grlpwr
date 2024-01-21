@@ -39,12 +39,14 @@ export default async function Page({ params }: Props) {
     <h1 className="text-5xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
         {page.title}
       </h1>
-
-      <div className="p-4 md:px-10">
-        <PortableText value={page.content} />
+      {page.content.map((content) => (
+      <div className="px-4 py-2 md:px-10">
+        <PortableText value={content} />
       </div>
+      ))}
+      
       <a href='https://checkout.ebillett.no/178/events/130533/purchase/setup?kanal=dxf'>
-      <h2 className="text-grlPink text-2xl font-bold px-10">Kjøp billetter her!</h2>
+      <h2 className="text-grlPink pt-4 text-2xl font-bold px-10">Kjøp billetter her!</h2>
       </a>
     </div>
   );
