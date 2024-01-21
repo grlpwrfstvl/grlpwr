@@ -40,7 +40,7 @@ export default async function Page({ params }: Props) {
         {page.title}
       </h1>
       {page.content.map((content) => (
-      <div className="px-4 py-2 md:px-10">
+      <div key={content._key}className="px-4 py-2 md:px-10">
         <PortableText value={content} />
       </div>
       ))}
