@@ -43,7 +43,7 @@ export default async function Home() {
       </div>
       </div>
 
-      <ImageBlob imagelink={sortedNews[1].image} id={sortedNews[1]._id} alt={sortedNews[1].title}></ImageBlob>  
+      {/* <ImageBlob imagelink={sortedNews[1].image} id={sortedNews[1]._id} alt={sortedNews[1].title}></ImageBlob>  
       <div className='p-2 my-8 text-xl flex flex-col justify-center'>
       <h2 className='my-8 text-2xl font-semibold'>{sortedNews[1].title}</h2>
       <PortableText value={sortedNews[1].description} />
@@ -53,7 +53,7 @@ export default async function Home() {
       <div className='p-2 my-8 text-xl flex flex-col justify-center'>
       <h2 className='my-8 text-2xl font-semibold'> {sortedNews[2].title}</h2>
       <PortableText value={sortedNews[2].description} />
-      </div>
+      </div> */}
 
       {eventer.map((eventer) => (
         <Link href={`/events/${eventer.slug}`} key={eventer._id} className=''>
