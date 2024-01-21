@@ -28,7 +28,7 @@ import Image from 'next/image';
         setCurrentImage(currentImage === images.length - 1 ? 0 : currentImage + 1);
     }, 3500);
     return () => clearInterval(intervalId);
-}, [currentImage]);
+}, [images.length, currentImage]);
 
   return (
     <div>
