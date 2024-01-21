@@ -45,7 +45,7 @@ export default async function Home() {
       </div>
       </div>
       {sortedNews.map((news) => (
-        <div className='md:py-8'>
+        <div key={news._id} className='md:py-8'>
         <ImageBlob imagelink={news.image} id={news._id} alt={news.title}></ImageBlob>  
         <div className='px-2 -mt-4 md:ml-14 text-xl flex flex-col font-semibold justify-center'>
         <h2 className='text-2xl font bold py-2'>{news.title}</h2>
