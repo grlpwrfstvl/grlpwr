@@ -6,6 +6,7 @@ import blomstKvinne from '../assets/Blomst_Kvinne_Rosa_ 2.png';
 import logo from '../assets/GRLPWRFST_logo_Png.png';
 import { Page } from '../../../../types/Page';
 
+
 function Menu({pages }: {pages: Page[]}) {
 const [isMenuOpen, setIsMenuOpen] = useState(false);
 

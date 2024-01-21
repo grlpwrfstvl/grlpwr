@@ -5,6 +5,10 @@ import Image from 'next/image'
 import hockey from './assets/Hockey_Sveis_Grønn.png'
 import leg from './assets/Dansefot_Hæl_Rosa.png'
 import { getPages } from '../../../sanity/sanity-utils'
+import instaLogo from './assets/Instagram_Glyph_White.png'
+import faceLogo from './assets/Facebook_Logo_Secondary.png'
+
+
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -41,9 +45,25 @@ export default async function RootLayout({
       </div>
       <footer className='pt-10 z-10 relative w-full text-center bg-lightPink'>
         <div className='pb-12 text-md font-semibold text-grlPink'>
-        <h2 className='p-2 text-lg font-bold'>
+        <h2 className='pt-2 text-xl font-bold'>
         GRL PWR FSTVL
         </h2>
+        <div className='flex justify-center py-4 gap-6 w-full'>
+        <a
+         href='https://www.instagram.com/grlpwr_fstvl/?next=%2Fmyuccia%2Ffeed%2F&hl'
+         target="_blank" 
+         rel="noopener noreferrer">
+        <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+        </a> 
+        <a
+         href='https://www.facebook.com/GRLPWRFSTVL/'
+         target="_blank" 
+         rel="noopener noreferrer">
+        <Image src={faceLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+        </a> 
+
+        </div>
+        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
         <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
         <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
         <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>

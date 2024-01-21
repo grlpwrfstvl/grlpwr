@@ -19,6 +19,11 @@ const page = {
               maxLenght: 96,
           },
        },
+       ({
+        name: 'link',
+        title: 'Link',
+        type: 'string',
+      }),
 
        {
         name: 'image',
