@@ -37,18 +37,22 @@ export default async function Page({ params }: Props) {
         className="mx-auto mt-4 -mb-20 w-11/12 opacity-100 h-full w-full md:w-0 h-0 md:opacity-0"
       />
     </div>
+    <a href={page.link ? `${page.link}` : ''} key={page._id} className={`md:py-8 ${page.link ? '' : 'pointer-events-none cursor-not-allowed'}`}>
     <h1 className="text-5xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
         {page.title}
       </h1>
+      </a>
       {page.content.map((content) => (
       <div key={counter++}className="px-4 py-2 md:px-10">
         <PortableText value={content} />
       </div>
       ))}
-      
-      <a href='https://checkout.ebillett.no/178/events/130533/purchase/setup?kanal=dxf'>
-      <h2 className="text-grlPink pt-4 text-2xl font-bold px-10">Kjøp billetter her!</h2>
+      <a href={page.link ? `${page.link}` : ''} key={page._id} className={`md:py-8 ${page.link ? '' : 'pointer-events-none cursor-not-allowed opacity-0'}`}>
+      <h1 className="text-2xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
+      {page.title}!
+      </h1>
       </a>
+
     </div>
   );
 }

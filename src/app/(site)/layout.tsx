@@ -44,10 +44,14 @@ export default async function RootLayout({
       <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>
       <footer className='pt-10 z-10 relative w-full text-center bg-lightPink'>
-        <div className='pb-12 text-md font-semibold text-grlPink'>
-        <h2 className='pt-2 text-xl font-bold'>
+        <div className='pb-6 text-md font-semibold text-grlPink'>
+        <h2 className='py-2 text-xl font-bold'>
         GRL PWR FSTVL
         </h2>
+        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
+        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
+        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
+        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
         <div className='flex justify-center py-4 gap-6 w-full'>
         <a
          href='https://www.instagram.com/grlpwr_fstvl/?next=%2Fmyuccia%2Ffeed%2F&hl'
@@ -63,11 +67,8 @@ export default async function RootLayout({
         </a> 
 
         </div>
-        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
-        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
-        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
-        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
         </div>
+
         <Image
       src={leg}
       alt="festive art"
