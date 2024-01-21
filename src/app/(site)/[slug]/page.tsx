@@ -9,6 +9,7 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const page = await getPage(params.slug);
+  let counter = 1;
 
   return (
     <div className="max-w-4xl mx-auto mt-16">
@@ -40,7 +41,7 @@ export default async function Page({ params }: Props) {
         {page.title}
       </h1>
       {page.content.map((content) => (
-      <div key={content._key}className="px-4 py-2 md:px-10">
+      <div key={counter++}className="px-4 py-2 md:px-10">
         <PortableText value={content} />
       </div>
       ))}
