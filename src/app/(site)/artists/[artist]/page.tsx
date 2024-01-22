@@ -44,7 +44,7 @@ export default async function Artist({params}: Props) {
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
     <path d={blobPaths[2]} fill="#e82265" transform="scale(1.05)"/>
     </svg>
-    <div className="text-white z-30 w-3/4 absolute pt-8 md:pt-12 top-1 pl-6 left-1 font-semibold font-bold text-base md:text-lg">
+    <div className="text-white z-30 w-3/4 absolute pt-8 md:pt-12 top-1 pl-3 md:pl-6 left-1 font-semibold font-bold text-base md:text-lg">
     <h2 className="text-lg md:text-2xl">{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>

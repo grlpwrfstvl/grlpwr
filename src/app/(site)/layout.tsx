@@ -98,7 +98,7 @@ export default async function RootLayout({
          href='https://www.fredrikstad.kommune.no/'
          target="_blank" 
          rel="noopener noreferrer">
-        <Image src={kommuneLogo} alt="Link to kommunen" className="h-16 w-auto mx-auto transition-transform transform-gpu hover:scale-110" />
+        <Image src={kommuneLogo} alt="Link to kommunen" className="h-20 w-auto mx-auto transition-transform transform-gpu hover:scale-110" />
         </a> 
 
         </div>
