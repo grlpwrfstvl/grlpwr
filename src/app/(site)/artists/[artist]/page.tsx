@@ -76,9 +76,9 @@ export default async function Artist({params}: Props) {
 
   <div className="relative max-w-5xl w-full">
   <svg viewBox="-10 0 400 350" className="absolute opacity-0 md:opacity-100 inset-0 -z-10 -mt-28">
-    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.93, 0.58)" />
+    <path d={blobPaths[2]} fill="#e82265" transform="scale(0.96, 0.76)" />
   </svg>
-  <div className="relative z-10 w-full md:w-3/4 px-4 md:px-0 text-grlPink md:text-white font-semibold pt-10 md:pb-40 mx-auto">
+  <div className="relative z-10 w-full md:w-3/4 px-4 md:px-0 text-grlPink md:text-white font-semibold pt-6 md:pb-40 mx-auto">
       <PortableText value={artist.description} />
   </div>
   </div>
