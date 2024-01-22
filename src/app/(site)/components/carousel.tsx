@@ -41,7 +41,7 @@ import Image from 'next/image';
             height="800"
             width="800"
             onClick={toggleFullScreen}
-            className="my-6 cursor-pointer object-cover h-full w-auto"
+            className="my-6 cursor-pointer object-cover w-full h-auto md:h-full md:w-auto"
           />
           <button className="h-full p-10 text-4xl text-white absolute opacity-10 md:opacity-80 right-1 bottom-0" onClick={handleNext}>&#10095;</button>
           <button onClick={toggleFullScreen} className="text-white absolute top-2 right-2">
