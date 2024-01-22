@@ -18,7 +18,6 @@ export default async function Home() {
 
 
   
-  console.log({artists})
   console.log({ artistsCount: artists.length })
 
   return (
@@ -35,7 +34,7 @@ export default async function Home() {
 
       
       <div>  
-      <ImageBlob imagelink={home[0].image} id={home[0]._id} alt={home[0].title}></ImageBlob>  
+      <ImageBlob imagelink={home[0].image} id={home[0]._id+"home"} alt={home[0].title}></ImageBlob>  
       </div>
       <div className='md:py-12 text-xl font-semibold flex flex-col'>
         <h2></h2>
