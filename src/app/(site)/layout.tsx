@@ -7,6 +7,10 @@ import leg from './assets/Dansefot_Hæl_Rosa.png'
 import { getPages } from '../../../sanity/sanity-utils'
 import instaLogo from './assets/Instagram_Glyph_White.png'
 import faceLogo from './assets/Facebook_Logo_Secondary.png'
+import stcroixLogo from './assets/StCroix_logo_hvit.png'
+import kommuneLogo from './assets/fredrikstad_kommune.png'
+import kulturLogo from './assets/KR_Kulturrådet_hvit.png'
+
 
 
 
@@ -43,27 +47,58 @@ export default async function RootLayout({
       <div className='flex flex-row'>
       <main className="mx-auto flex items-center w-full md:w-5/6 pt-24 pb-20 pl-0 md:pl-16">{children}</main>
       </div>
-      <footer className='pt-10 z-10 relative w-full text-center bg-lightPink'>
-        <div className='pb-6 text-md font-semibold text-grlPink'>
-        <h2 className='py-2 text-xl font-bold'>
+
+      <footer className='pt-10 z-10 relative w-full text-center text-grlPink bg-lightPink'>
+        
+        <div className='flex flex-col justify-center'>
+        <h2 className='py-2  text-2xl md:text-3xl font-bold'>
         GRL PWR FSTVL
         </h2>
-        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
-        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
-        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
-        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
-        <div className='flex justify-center py-4 gap-6 w-full'>
+        <div className='flex justify-center pb-8 gap-6 w-full'>
         <a
          href='https://www.instagram.com/grlpwr_fstvl/?next=%2Fmyuccia%2Ffeed%2F&hl'
          target="_blank" 
          rel="noopener noreferrer">
-        <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+        <Image src={instaLogo} alt="Link to festival instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
         </a> 
         <a
          href='https://www.facebook.com/GRLPWRFSTVL/'
          target="_blank" 
          rel="noopener noreferrer">
-        <Image src={faceLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+        <Image src={faceLogo} alt="Link to festival facebook page" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+        </a> 
+        </div>
+        <div className='pb-6 text-md font-semibold'>
+          
+
+        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
+        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
+        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
+        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
+
+        </div>
+        
+        <div className='flex flex-col md:flex-row justify-center gap-8 md:gap-20 py-8'>
+        <a
+         href='https://www.fredrikstad.kommune.no/tjenester/kulturogfritid/kulturhusene/st.-croix-huset/'
+         target="_blank" 
+         rel="noopener noreferrer">
+        <Image src={stcroixLogo} alt="Link to st Croix" className="h-16 w-auto  mx-auto transition-transform transform-gpu hover:scale-110" />
+        </a> 
+
+
+        <a
+         href='https://www.kulturdirektoratet.no/'
+         target="_blank" 
+         rel="noopener noreferrer">
+        <Image src={kulturLogo} alt="Link to kulturrådet" className="h-16 w-auto mx-auto transition-transform transform-gpu hover:scale-110" />
+        </a> 
+
+        <a
+         href='https://www.fredrikstad.kommune.no/'
+         target="_blank" 
+         rel="noopener noreferrer">
+        <Image src={kommuneLogo} alt="Link to kommunen" className="h-16 w-auto mx-auto transition-transform transform-gpu hover:scale-110" />
         </a> 
 
         </div>
