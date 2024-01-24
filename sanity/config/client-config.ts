@@ -5,7 +5,7 @@ const config = {
 
     dataset: "production",
 
-    apiVersion: "2021-08-31",
+    apiVersion: "2024-01-01",
 
     "useCdn": false,
 
