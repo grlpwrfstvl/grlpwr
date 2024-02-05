@@ -26,6 +26,10 @@ export default async function Artist({params}: Props) {
   const instaLink = artist.instagram;
   const spotiLink = artist.spotify;
 
+  const nameLength = artist.name.length;
+  const nameSize = nameLength>16? "base" : "xl";
+
+  console.log(nameLength, nameSize);
   console.log(instaLink);
 
   return (
@@ -45,11 +49,11 @@ export default async function Artist({params}: Props) {
     <path d={blobPaths[2]} fill="#e82265" transform="scale(1.05)"/>
     </svg>
     <div className="text-white z-30 w-3/4 absolute pt-8 md:pt-12 top-1 pl-3 md:pl-6 left-1 font-semibold font-bold text-base md:text-lg">
-    <h2 className="text-lg md:text-2xl">{artist.name}</h2>
+    <h2 className={`text-${nameSize} md:text-2xl`}>{artist.name}</h2>
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
     <h2>{artist.stage}</h2>
-    <div className="flex justify-center p-3 md:p-6 gap-8">
+    <div className="flex justify-center p-2 md:p-6 gap-8">
     {artist.instagram && (
     <a
     href={instaLink}
