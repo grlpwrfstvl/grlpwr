@@ -53,7 +53,7 @@ export default async function Artist({params}: Props) {
     <h2>{formattedDate}</h2>
     <h2>{formattedTime}</h2>
     <h2>{artist.stage}</h2>
-    <div className="flex justify-center p-2 md:p-6 gap-8">
+    <div className="flex justify-center p-2 md:p-5 gap-8">
     {artist.instagram && (
     <a
     href={instaLink}
