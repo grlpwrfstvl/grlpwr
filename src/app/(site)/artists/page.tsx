@@ -15,7 +15,7 @@ export default async function Artists() {
         <ArtistCard key={artist._id} artist={artist} index={index}/>
       ))}
     </div>
-    <h2 className="p-10 mt-5 text-xl font-bold">Flere artister slippes snart!</h2>
+    {/* <h2 className="p-10 mt-5 text-xl font-bold">Flere artister slippes snart!</h2> */}
     </div>
   )
 }
