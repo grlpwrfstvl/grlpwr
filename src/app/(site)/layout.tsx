@@ -18,9 +18,21 @@ const inter = Inter({ subsets: ['latin'] })
 
 export const metadata = {
   title: 'GRL PWR FSTVL',
-  description: 'Official website for GRL PWR Festival!',
+  description: 'GRL PWR Festivalens offisielle side!',
   titleDate: '23-24 APRIL 2024',
-}
+  meta: {
+    title: 'GRL PWR FSTVL | 23-24 APRIL 2024',
+    description: 'GRL PWR Festivalens offisielle side! En feiring av kvinner, musikk og kreativitet.',
+    keywords: 'GRL PWR, festival, women empowerment, music, art',
+    canonical: 'https://www.grlpwrfstvl.no/',
+    og: {
+      title: 'GRL PWR FSTVL | 23-24 APRIL 2024',
+      description: 'GRL PWR Festivalens offisielle side! En feiring av kvinner, musikk og kreativitet.',
+      type: 'website',
+      url: 'https://www.grlpwrfstvl.no/',
+    }
+  }
+};
 
 export default async function RootLayout({
   children,

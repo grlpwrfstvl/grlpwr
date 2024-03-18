@@ -2,6 +2,7 @@ import { getGalleries } from "../../../../sanity/sanity-utils"
 import imageUrlBuilder from '@sanity/image-url'
 import Carousel from "../components/carousel"
 import clientConfig from "../../../../sanity/config/client-config";
+
 export default async function Contact() {
 
 const galleries = await getGalleries();

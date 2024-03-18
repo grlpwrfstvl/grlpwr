@@ -35,6 +35,22 @@ export default defineType({
       
     }),
     defineField({
+      name: 'gallery',
+      title: 'Gallery',
+      type: 'array',
+      of: [
+          {
+            type: 'image',
+          
+      options: {hotspot: true},
+      fields: [
+          {
+              name: 'alt',
+              title: 'Alt',
+              type: 'string'
+          }
+      ]}]}),
+    defineField({
       name: 'link',
       title: 'Link',
       type: 'string',

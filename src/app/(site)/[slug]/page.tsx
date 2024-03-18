@@ -14,7 +14,7 @@ export default async function Page({ params }: Props) {
   return (
     <div className="max-w-4xl mx-auto mt-16">
       <div>
-      <svg viewBox="0 0 800 800" className="absolute w-3/4 mx-auto inset-0 z-20" fill="#fff">
+      <svg viewBox="0 0 800 800" className="pointer-events-none absolute w-2/4 h-2 mx-auto inset-0 z-20" fill="#fff">
       <clipPath id={page._id}>
       <path d={blobPaths[3]} transform="scale(1.9, 1.25)" />
       </clipPath>
@@ -38,7 +38,7 @@ export default async function Page({ params }: Props) {
       />
     </div>
     <a href={page.link ? `${page.link}` : ''} key={page._id} className={`md:py-8 ${page.link ? '' : 'pointer-events-none cursor-not-allowed'}`}>
-    <h1 className="text-5xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
+    <h1 className="text-5xl pt-8 p-4 md:px-10 md:pt-12 text-grlPink font-extrabold">
         {page.title}
       </h1>
       </a>
@@ -47,7 +47,7 @@ export default async function Page({ params }: Props) {
         <PortableText value={content} />
       </div>
       ))}
-      <a href={page.link ? `${page.link}` : ''} key={page._id} className={`md:py-8 ${page.link ? '' : 'pointer-events-none cursor-not-allowed opacity-0'}`}>
+      <a href={page.link ? `${page.link}` : ''} key={page._id} className={`md:py-8 z-40 ${page.link ? '' : 'pointer-events-none cursor-not-allowed opacity-0'}`}>
       <h1 className="text-2xl pt-8 p-4 md:px-10 text-grlPink font-extrabold">
       {page.title}!
       </h1>

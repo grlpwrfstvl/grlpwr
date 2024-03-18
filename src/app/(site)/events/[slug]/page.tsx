@@ -2,6 +2,9 @@ import { PortableText } from "@portabletext/react";
 import { getEvent } from "../../../../../sanity/sanity-utils"
 import Image from "next/image";
 import { blobPaths } from "../../components/blobpaths";
+import Carousel from "../../components/carousel";
+import imageUrlBuilder from '@sanity/image-url';
+import clientConfig from "../../../../../sanity/config/client-config";
 
 type Props = {
   params: { slug: string };
@@ -9,6 +12,15 @@ type Props = {
 
 export default async function Page({ params }: Props) {
   const event = await getEvent(params.slug);
+
+  const builder = imageUrlBuilder(clientConfig)
+
+  function urlFor(source: any) {
+    return builder.image(source)}  
+  
+    const eventGallery = event && event.gallery ? event.gallery.map(image => urlFor(image).url()) : [];
+  
+
 
   return (
     <div className="max-w-4xl mx-auto mt-16">
@@ -43,6 +55,14 @@ export default async function Page({ params }: Props) {
       <div className="p-4 md:px-10">
         <PortableText value={event.description} />
       </div>
+      <div>
+      {eventGallery.length > 0 && 
+      <Carousel images={eventGallery}></Carousel>}      
+      </div>
+      {event.link &&
+      <a href={event.link}>
+      <h2>Klikk for event på facebook!</h2>
+      </a>}
     </div>
   );
 }

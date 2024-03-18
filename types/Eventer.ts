@@ -1,4 +1,5 @@
 import { PortableTextBlock } from "sanity";
+import { Image } from "sanity";
 
 export type Eventer = {
     _id: string;
@@ -7,6 +8,7 @@ export type Eventer = {
     link?: string;
     slug: string;
     image: string;
+    gallery: Image[];
     location: string;
     time: Date
     description: PortableTextBlock[];

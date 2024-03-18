@@ -200,6 +200,7 @@ export async function getEvent(slug: string): Promise<Eventer> {
           link,
           "slug": slug.current,
           "image": image.asset->url,
+          gallery[],
           location,
           time,
           description
