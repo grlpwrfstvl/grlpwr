@@ -4,10 +4,11 @@ import Link from 'next/link';
 import ImageBlob from './components/imageBlob';
 import { PortableText } from '@portabletext/react';
 
-
+export const revalidate = 0;
 
 export default async function Home() {
 
+  
   const artists = await getArtists();
   const home = await getHome();
   const news = await getNews();

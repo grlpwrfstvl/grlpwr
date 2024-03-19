@@ -3,7 +3,9 @@ import imageUrlBuilder from '@sanity/image-url'
 import Carousel from "../components/carousel"
 import clientConfig from "../../../../sanity/config/client-config";
 
-export default async function Contact() {
+export const revalidate = 0;
+
+export default async function Gallery() {
 
 const galleries = await getGalleries();
 const builder = imageUrlBuilder(clientConfig)

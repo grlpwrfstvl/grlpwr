@@ -7,6 +7,9 @@ type Props = {
   params: { slug: string };
 };
 
+export const revalidate = 0;
+
+
 export default async function Page({ params }: Props) {
   const page = await getPage(params.slug);
   let counter = 1;

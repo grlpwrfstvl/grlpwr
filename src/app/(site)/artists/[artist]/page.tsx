@@ -12,6 +12,9 @@ type Props = {
   params: {artist: string};
 };
 
+export const revalidate = 0;
+
+
 export default async function Artist({params}: Props) {
   const slug = params.artist;
   const artist = await getArtist(slug);
