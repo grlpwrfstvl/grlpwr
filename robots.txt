@@ -1,0 +1,25 @@
+# Prevent all bots from accessing the admin area
+User-agent: *
+Disallow: /admin/
+Disallow: /login/
+Disallow: /private/
+Disallow: /temp/
+Disallow: /studio/
+
+# Allow all bots to crawl the entire site except for the disallowed paths
+User-agent: *
+Allow: /
+
+# Block specific bots (example: a known spam bot)
+User-agent: BadBot
+Disallow: /
+
+# Prevent search engines from indexing certain files (example: .zip and .pdf files)
+User-agent: *
+Disallow: /*.zip$
+Disallow: /*.pdf$
+
+# Allow Googlebot to crawl everything (overrides previous rules for Google)
+User-agent: Googlebot
+Allow: /
+
