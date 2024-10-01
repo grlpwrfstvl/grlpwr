@@ -16,6 +16,7 @@ export async function getHome(): Promise<Home[]> {
           _createdAt,
           name,
           "image": image.asset->url,
+          "logo": image.asset->url,
           description,
       }`
   )

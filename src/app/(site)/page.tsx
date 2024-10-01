@@ -27,9 +27,9 @@ export default async function Home() {
 
     <div className="flex flex-col mx-auto md:my-6">
     <h1 className="text-4xl mx-auto md:text-5xl text-grlPink font-extrabold md:mt-14">
-      Fredrikstad 2024</h1>
+      Fredrikstad 2025</h1>
       <h2 className="text-2xl mx-auto md:text-3xl p-2 text-grlPink font-extrabold">
-      19-20 April</h2>
+      9. - 10. mai</h2>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6'>
 

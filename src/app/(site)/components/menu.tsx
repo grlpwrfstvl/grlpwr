@@ -3,12 +3,18 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 import Image from 'next/image';
 import blomstKvinne from '../assets/Blomst_Kvinne_Rosa_ 2.png';
-import logo from '../assets/GRLPWRFST_logo_Png.png';
 import { Page } from '../../../../types/Page';
+import Logo from '../assets/grlpwrlogo2025-small.png';
 
 
-function Menu({pages }: {pages: Page[]}) {
+interface MenuProps {
+  pages: Page[];
+  logoFromSanity: string;
+}
+
+function Menu({ pages, logoFromSanity }: MenuProps) {
 const [isMenuOpen, setIsMenuOpen] = useState(false);
+
 
     const toggleMenu = () => {
       setIsMenuOpen(!isMenuOpen);
@@ -22,11 +28,11 @@ return (
     <header className='w-full'>  
       <Link className="" href="/"> 
       <Image 
-       src={logo}
+       src={Logo}
        alt="GRL PWR logo"
+       width={400}
        priority={true}
-       height={150}
-       className='fixed md:right-0 z-50 max-w-2xl w-3/4'
+       className='fixed md:right-0 z-50 max-w-2xl'
       /> 
     </Link>
     <button onClick={toggleMenu} className="text-4xl font-semibold text-grlGreen mx-4 fixed right-0 top-4 md:hidden block  z-50"
