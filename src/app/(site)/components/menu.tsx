@@ -32,7 +32,7 @@ return (
        alt="GRL PWR logo"
        width={400}
        priority={true}
-       className='fixed md:right-0 z-50 max-w-2xl'
+       className='fixed md:right-0 z-50 max-w-2xl w-1/2 md:w-auto'
       /> 
     </Link>
     <button onClick={toggleMenu} className="text-4xl font-semibold text-grlGreen mx-4 fixed right-0 top-4 md:hidden block  z-50"
