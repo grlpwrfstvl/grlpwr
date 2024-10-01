@@ -8,6 +8,8 @@ import { Workshop } from "../types/Workshop";
 import { Eventer } from "../types/Eventer";
 import { Gallery } from "../types/Gallery";
 
+
+
 export async function getHome(): Promise<Home[]> {
   return createClient(clientConfig).fetch(
 
