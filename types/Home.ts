@@ -7,5 +7,6 @@ export type Home = {
     logo: string;
     image: string;
     description: PortableTextBlock[];
+    ticketsLink: string;
 
 };

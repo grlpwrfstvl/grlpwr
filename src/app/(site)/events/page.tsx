@@ -7,8 +7,6 @@ export const revalidate = 0;
 export default async function Artists() {
   const events = await getAllEventer();
   const workshops = await getWorkshops();
-  console.log({ Events: events.length })
-
 
   return (
     <div 

@@ -16,8 +16,7 @@ export const revalidate = 0;
 
 
 export default async function Artist({params}: Props) {
-  const slug = params.artist;
-  const artist = await getArtist(slug);
+  const artist = await getArtist(params.artist);
 
 
   const playTime = new Date(artist.time); 
@@ -32,31 +31,29 @@ export default async function Artist({params}: Props) {
   const nameLength = artist.name.length;
   const nameSize = nameLength>16? "base" : "xl";
 
-  console.log(nameLength, nameSize);
-  console.log(instaLink);
-
   return (
     <main className="pl-0 md:pl-12">
-      <div className="relative max-w-5xl w-full flex flex-col md:flex-row">
+      <div className="relative flex flex-col w-full max-w-5xl md:flex-row">
 
-    <div className='z-10 opacity-0 w-0 md:w-max md:opacity-100'>
+    <div className='z-10 w-0 opacity-0 md:w-max md:opacity-100'>
     <ArtistPortrait key={artist._id} artist={artist} />
     </div>
     <div 
-     className='z-10 opacity-100 -mb-10 md:opacity-0 w-100vw md:w-0 object-cover object-center'>
+     className='z-10 object-cover object-center -mb-10 opacity-100 md:opacity-0 w-100vw md:w-0'>
       <ArtistPortraitSmall key={artist._id} artist={artist} index={1}  />
     </div>
 
-    <div className="w-4/6 z-20 md:w-2/6 h-48 mt-0 md:mt-20 relative moving-object">
+    <div className="relative z-20 w-4/6 h-48 mt-0 md:w-2/6 md:mt-20 moving-object">
     <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
     <path d={blobPaths[2]} fill="#e82265" transform="scale(1.05)"/>
     </svg>
-    <div className="text-white z-30 w-3/4 absolute pt-8 md:pt-12 top-1 pl-3 md:pl-6 left-1 font-semibold font-bold text-base md:text-lg">
+    <div className="absolute z-30 w-3/4 pt-8 pl-3 text-base font-semibold font-bold text-white md:pt-12 top-1 md:pl-6 left-1 md:text-lg">
     <h2 className={`text-${nameSize} md:text-2xl`}>{artist.name}</h2>
-    <h2>{formattedDate}</h2>
-    <h2>{formattedTime}</h2>
+    {/* <h2>{formattedDate}</h2>
+    <h2>{formattedTime}</h2> */}
+    <h2>Tidspunkt: tba</h2>
     <h2>{artist.stage}</h2>
-    <div className="flex justify-center p-2 md:p-5 gap-8">
+    <div className="flex justify-center gap-8 p-2 md:p-5">
     {artist.instagram && (
     <a
     href={instaLink}
@@ -81,11 +78,11 @@ export default async function Artist({params}: Props) {
   </div>
 
 
-  <div className="relative max-w-5xl w-full">
-  <svg viewBox="-10 0 400 350" className="absolute opacity-0 md:opacity-100 inset-0 -z-10 -mt-28">
+  <div className="relative w-full max-w-5xl">
+  <svg viewBox="-10 0 400 350" className="absolute inset-0 opacity-0 md:opacity-100 -z-10 -mt-28">
     <path d={blobPaths[2]} fill="#e82265" transform="scale(0.96, 0.76)" />
   </svg>
-  <div className="relative z-10 w-full md:w-3/4 px-4 md:px-0 text-grlPink md:text-white font-semibold pt-6 md:pb-40 mx-auto">
+  <div className="relative z-10 w-full px-4 pt-6 mx-auto font-semibold md:w-3/4 md:px-0 text-grlPink md:text-white md:pb-40">
       <PortableText value={artist.description} />
   </div>
   </div>

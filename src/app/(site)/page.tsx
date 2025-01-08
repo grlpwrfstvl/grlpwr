@@ -1,4 +1,4 @@
-import { getArtists, getHome, getNews, getWorkshops, getAllEventer } from '../../../sanity/sanity-utils'
+import { getHome, getNews } from '../../../sanity/sanity-utils'
 import React from 'react';
 import Link from 'next/link';
 import ImageBlob from './components/imageBlob';
@@ -8,8 +8,6 @@ export const revalidate = 0;
 
 export default async function Home() {
 
-  
-  const artists = await getArtists();
   const home = await getHome();
   const news = await getNews();
 
@@ -18,17 +16,14 @@ export default async function Home() {
   });
 
 
-  
-  console.log({ artistsCount: artists.length })
-
   return (
 
     <main className="w-full mx-auto">
 
     <div className="flex flex-col mx-auto md:my-6">
-    <h1 className="text-4xl mx-auto md:text-5xl text-grlPink font-extrabold md:mt-14">
+    <h1 className="mx-auto text-4xl font-extrabold md:text-5xl text-grlPink md:mt-14">
       Fredrikstad 2025</h1>
-      <h2 className="text-2xl mx-auto md:text-3xl p-2 text-grlPink font-extrabold">
+      <h2 className="p-2 mx-auto text-2xl font-extrabold md:text-3xl text-grlPink">
       9. - 10. mai</h2>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6'>
@@ -37,9 +32,9 @@ export default async function Home() {
       <div>  
       <ImageBlob imagelink={home[0].image} id={home[0]._id+"home"} alt={home[0].title}></ImageBlob>  
       </div>
-      <div className='md:py-12 text-xl font-semibold flex flex-col'>
+      <div className='flex flex-col text-xl font-semibold md:py-12'>
         <h2></h2>
-      <div className='px-2 -mt-6 md:-mt-0 md:my-6 text-xl font-semibold flex flex-col'>
+      <div className='flex flex-col px-2 -mt-6 text-xl font-semibold md:-mt-0 md:my-6'>
       <PortableText value={home[0].description} />
       </div>
       </div>
@@ -48,8 +43,8 @@ export default async function Home() {
       {sortedNews.map((news) => (
         <Link href={news.slug ? `${news.slug}` : ''} key={news._id} className={`md:py-8 ${news.slug ? '' : 'pointer-events-none cursor-not-allowed'}`}>
         <ImageBlob imagelink={news.image} id={news._id} alt={news.title}></ImageBlob>  
-        <div className='px-2 -mt-4 md:ml-14 text-xl flex flex-col font-semibold justify-center'>
-        <h2 className='text-2xl font bold py-2'>{news.title}</h2>
+        <div className='flex flex-col justify-center px-2 -mt-4 text-xl font-semibold md:ml-14'>
+        <h2 className='py-2 text-2xl font bold'>{news.title}</h2>
         <PortableText value={news.description} />
         </div>
         </Link>
@@ -60,8 +55,8 @@ export default async function Home() {
     </div>
 
     </div>
-    <a href='https://checkout.ebillett.no/178/events/130533/purchase/setup?kanal=dxf'>
-      <h2 className="text-grlPink text-3xl font-bold py-6 mx-20">Kjøp billetter her!</h2>
+    <a href='https://checkout.ebillett.no/178/events/139725/purchase/setup?kanal=dxf'>
+      <h2 className="py-6 mx-20 text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
       </a>
     </main>
     )
