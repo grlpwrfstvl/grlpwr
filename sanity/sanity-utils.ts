@@ -20,6 +20,7 @@ export async function getHome(): Promise<Home[]> {
           "image": image.asset->url,
           "logo": image.asset->url,
           description,
+          ticketsLink,
       }`
   )
 }
@@ -48,7 +49,6 @@ export async function getPages(): Promise<Page[]> {
 
   try {
     const pages = await createClientAndFetch(query);
-    console.log('Pages:', pages);
     return pages;
   } catch (error) {
     throw error;

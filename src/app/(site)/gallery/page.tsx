@@ -13,8 +13,8 @@ const builder = imageUrlBuilder(clientConfig)
 function urlFor(source: any) {
   return builder.image(source)}  
 
-  const images22 = galleries && galleries[0].images ? galleries[0].images.map(image => urlFor(image).url()) : [];
-  const images23 = galleries && galleries[1].images ? galleries[1].images.map(image => urlFor(image).url()) : [];
+  const images23 = galleries && galleries[0].images ? galleries[0].images.map(image => urlFor(image).url()) : [];
+  const images22 = galleries && galleries[1].images ? galleries[1].images.map(image => urlFor(image).url()) : [];
   const images24 = galleries && galleries[2].images ? galleries[2].images.map(image => urlFor(image).url()) : [];
 
 
@@ -23,20 +23,20 @@ function urlFor(source: any) {
     return (
         <main className="w-full py-2 md:py-20">
         <div className="flex flex-col justify-center">
-        <h1 className="text-3xl md:text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
-            Bilder fra GRLPWR 24
+        <h1 className="p-4 text-3xl font-extrabold md:text-5xl md:px-10 text-grlPink drop-shadow">
+            {galleries[1].name}
         </h1> 
-        <Carousel images={images24} />
+        <Carousel images={images22} />
 
-        <h1 className="text-3xl md:text-5xl pt-8 p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
-            Bilder fra GRLPWR 23
+        <h1 className="p-4 pt-8 text-3xl font-extrabold md:text-5xl md:px-10 text-grlPink drop-shadow">
+            {galleries[0].name}
         </h1> 
         <Carousel images={images23} />
 
-        <h1 className="text-3xl md:text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
-            Bilder fra GRLPWR 22
+        <h1 className="p-4 text-3xl font-extrabold md:text-5xl md:px-10 text-grlPink drop-shadow">
+            {galleries[2].name}
         </h1> 
-        <Carousel images={images22} />
+        <Carousel images={images24} />
 
 
           

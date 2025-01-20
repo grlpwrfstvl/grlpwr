@@ -24,31 +24,28 @@ export default async function Artists() {
       recentOrFutureArtists.push(artist);
     }
   });
-  
-  console.log('Older than two months:', formerArtists);
-  console.log('Younger or not happened yet:', recentOrFutureArtists);
-  
+    
 
   // const filteredArtists = artists.filter(artist => artist.slug);
 
   return (
-    <div className="m-auto pb-10">
+    <div className="pb-10 m-auto">
 {recentOrFutureArtists.length === 0 ? (
-  <h1 className="text-3xl my-24 md:text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
+  <h1 className="p-4 my-24 text-3xl font-extrabold md:text-5xl md:px-10 text-grlPink drop-shadow">
     Ingen artister for neste festival annonsert ennå! 
   </h1>
 ) : (
-  <div className='justify-end flex-col gap-y-20 grid grid-cols-1 md:grid-cols-2'>
+  <div className='grid flex-col justify-end grid-cols-1 gap-y-20 md:grid-cols-2'>
     {recentOrFutureArtists.map((artist, index) => (
       <ArtistCard key={artist._id} artist={artist} index={index} />
     ))}
   </div>
 )}
 
-    <h1 className="text-3xl md:text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
+    <h1 className="p-4 mt-20 text-3xl font-extrabold md:text-5xl md:px-10 md:mt-32 text-grlPink drop-shadow">
             Tidligere artister:
         </h1>     <div 
-      className='justify-end flex-col gap-y-20 grid grid-cols-1 md:grid-cols-2'
+      className='grid flex-col justify-end grid-cols-1 gap-y-20 md:grid-cols-2'
       >
       {formerArtists.map((artist, index) => (
         <ArtistCard key={artist._id} artist={artist} index={index}/>

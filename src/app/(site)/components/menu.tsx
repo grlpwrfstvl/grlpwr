@@ -32,10 +32,10 @@ return (
        alt="GRL PWR logo"
        width={400}
        priority={true}
-       className='fixed md:right-0 z-50 max-w-2xl w-1/2 md:w-auto'
+       className='fixed z-50 w-1/2 max-w-2xl md:right-0 md:w-auto'
       /> 
     </Link>
-    <button onClick={toggleMenu} className="text-4xl font-semibold text-grlGreen mx-4 fixed right-0 top-4 md:hidden block  z-50"
+    <button onClick={toggleMenu} className="fixed right-0 z-50 block mx-4 text-4xl font-semibold text-grlGreen top-4 md:hidden"
       >{isMenuOpen ? '✕' : '☰'}
     </button>
     </header>
@@ -49,7 +49,7 @@ return (
     className=''
     />
     </div>
-    <div className='flex flex-col gap-2 pl-4 -mt-24 md:-mt-0 items-center md:items-start text-3xl'>
+    <div className='flex flex-col items-center gap-2 pl-4 -mt-24 text-3xl md:-mt-0 md:items-start'>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/artists">Artister</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/events">Events</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/gallery">Galleri</Link>
