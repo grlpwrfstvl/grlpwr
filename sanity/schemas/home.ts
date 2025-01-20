@@ -44,6 +44,11 @@ export default defineType({
       title: 'Tickets Link',
       type: 'string',
     }),
+    defineField({
+      name: 'video',
+      title: 'Video',
+      type: 'string',
+    }),
   ],
   preview: {
     select: {

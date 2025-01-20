@@ -8,15 +8,16 @@ import ArtistPortrait from "../../components/artistPortrait";
 import ArtistPortraitSmall from "../../components/artistPortraitSmall";
 
 
-type Props = {
-  params: {artist: string};
-};
+// type Props = {
+//   readonly params: { artist: string };
+// };
 
 export const revalidate = 0;
 
 
-export default async function Artist({params}: Props) {
-  const artist = await getArtist(params.artist);
+export default async function Artist({ params }: any) {
+  const { artist: artistParam } = await params;
+  const artist = await getArtist(artistParam);
 
 
   const playTime = new Date(artist.time); 
