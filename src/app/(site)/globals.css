@@ -2,7 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes float {
+@keyframes float1 {
 	0% {
 		transform: translatey(0px);
 	}
@@ -15,9 +15,68 @@
 }
 
 .moving-object {
-	animation: float 6s ease-in-out infinite;
+	animation: float1 6s ease-in-out infinite;
 }
 
 .still-object {
-	animation: float 0s;
+	animation: float1 0s;
+}
+@keyframes float2 {
+	0% {
+		transform: translatey(0px);
+	}
+	50% {
+		transform: translatey(-12px);
+	}
+	100% {
+		transform: translatey(0px);
+	}
+}
+
+.moving-object2 {
+	animation: float2 6s ease-in-out infinite;
+}
+
+.still-object2 {
+	animation: float2 0s;
+}
+
+@keyframes float3 {
+	0% {
+		transform: translatey(2px);
+	}
+	50% {
+		transform: translatey(-10px);
+	}
+	100% {
+		transform: translatey(2px);
+	}
+}
+
+.moving-object3 {
+	animation: float3 10s ease-in-out infinite;
+}
+
+.still-object3 {
+	animation: float3 0s;
+}
+
+@keyframes float4 {
+	0% {
+		transform: translatey(4px);
+	}
+	50% {
+		transform: translatey(-10px);
+	}
+	100% {
+		transform: translatey(4px);
+	}
+}
+
+.moving-object4 {
+	animation: float4 8s ease-in-out infinite;
+}
+
+.still-object4 {
+	animation: float4 0s;
 }

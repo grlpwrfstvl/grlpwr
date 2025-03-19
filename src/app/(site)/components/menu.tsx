@@ -49,7 +49,7 @@ return (
     className=''
     />
     </div>
-    <div className='flex flex-col items-center gap-2 pl-4 -mt-24 text-3xl md:-mt-0 md:items-start'>
+    <div className='flex flex-col items-center gap-2 pl-4 -mt-24 text-4xl md:-mt-0 md:items-start'>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/artists">Artister</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/events">Events</Link>
     <Link className="hover:text-grlPink" onClick={closeMenu} href="/gallery">Galleri</Link>
