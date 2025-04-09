@@ -4,18 +4,18 @@
 
 @keyframes float1 {
 	0% {
-		transform: translatey(0px);
+		transform: translatey(-10px);
 	}
 	50% {
-		transform: translatey(-20px);
+		transform: translatey(-120px);
 	}
 	100% {
-		transform: translatey(0px);
+		transform: translatey(-10px);
 	}
 }
 
 .moving-object {
-	animation: float1 6s ease-in-out infinite;
+	animation: float1 9s ease-in-out infinite;
 }
 
 .still-object {
