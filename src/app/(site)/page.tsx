@@ -32,11 +32,8 @@ export default async function Home() {
       <div>  
       <ImageBlob imagelink={home[0].image} id={home[0]._id+"home"} alt={home[0].title}></ImageBlob>  
       </div>
-      <div className='flex flex-col text-xl font-semibold md:py-12'>
-        <h2></h2>
-      <div className='flex flex-col px-2 -mt-6 text-xl font-semibold md:-mt-0 md:my-6'>
+      <div className='flex flex-col justify-center px-2 -mt-6 text-xl font-semibold md:text-2xl md:-mt-0 md:my-6'>
       <PortableText value={home[0].description} />
-      </div>
       </div>
 
 

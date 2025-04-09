@@ -60,7 +60,7 @@ export default async function RootLayout({
 
       <Menu pages={filteredPages} logoFromSanity={home[0].logo}/>
       <div className='flex flex-row'>
-      <main className="flex items-center w-full pt-24 pb-20 pl-0 mx-auto md:w-5/6 md:pl-16">{children}</main>
+      <main className="flex items-center w-full px-2 pt-24 pb-20 mx-auto md:w-5/6 md:pl-16">{children}</main>
       </div>
 
       <footer className='relative z-10 w-full pt-10 text-center text-grlPink bg-lightPink'>
