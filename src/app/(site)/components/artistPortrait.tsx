@@ -12,20 +12,22 @@ const ArtistPortrait: React.FC<ArtistPortraitProps> = ({ artist }) => {
 
 
 return (
-<div className="w-full">
-<svg width="100%" height="100%" viewBox="5 0 500 500" className="absolute h-0 md:h-max inset-0 z-20" fill="#fff">
+<div className="relative w-full">
+<svg viewBox="5 0 500 500" className="inset-0 z-20 w-full" fill="#fff">
+<defs>
       <clipPath id={artist._id}>
       <path d={blobPath}  transform="translate(24 0) scale(1.14)" />
       </clipPath>
-      </svg>
-    <Image
-    src={artist.image}
-    alt={artist.name}
+    </defs>
+    <image
+    href={artist.image}
     width={500}
     height={500}
     className='z-40'
-    style={{ clipPath: `url(#${artist._id})` }}
+    clipPath={`url(#${artist._id})`}
     />
+      </svg>
+
 </div>
 
 );

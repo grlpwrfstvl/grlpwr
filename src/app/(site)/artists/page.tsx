@@ -29,13 +29,13 @@ export default async function Artists() {
   // const filteredArtists = artists.filter(artist => artist.slug);
 
   return (
-    <div className="pb-10 m-auto">
+    <div className="w-full pb-10 m-auto">
 {recentOrFutureArtists.length === 0 ? (
   <h1 className="p-4 my-24 text-3xl font-extrabold md:text-5xl md:px-10 text-grlPink drop-shadow">
     Ingen artister for neste festival annonsert ennå! 
   </h1>
 ) : (
-  <div className='grid flex-col justify-end grid-cols-1 gap-y-20 md:grid-cols-2'>
+  <div className='grid flex-col w-full grid-cols-1 md:grid-cols-2'>
     {recentOrFutureArtists.map((artist, index) => (
       <ArtistCard key={artist._id} artist={artist} index={index} />
     ))}
