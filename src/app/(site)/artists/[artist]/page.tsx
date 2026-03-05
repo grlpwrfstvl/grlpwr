@@ -5,9 +5,8 @@ import { PortableText } from '@portabletext/react';
 import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
 import ArtistPortrait from "../../components/artistPortrait";
-import ArtistPortraitSmall from "../../components/artistPortraitSmall";
 
-export const revalidate = 0;
+export const revalidate = 600;
 
 
 export default async function Artist({ params }: any) {
