@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ImageBlob from './components/imageBlob';
 import { PortableText } from '@portabletext/react';
 
-export const revalidate = 0;
+export const revalidate = 600;
 
 export default async function Home() {
 
@@ -22,9 +22,9 @@ export default async function Home() {
 
     <div className="flex flex-col mx-auto md:my-6">
     <h1 className="mx-auto text-4xl font-extrabold md:text-5xl text-grlPink md:mt-14">
-      Fredrikstad 2025</h1>
+      Fredrikstad 2026</h1>
       <h2 className="p-2 mx-auto text-2xl font-extrabold md:text-3xl text-grlPink">
-      9. - 10. mai</h2>
+      8. - 9. mai</h2>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6'>
 
