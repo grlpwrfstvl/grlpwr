@@ -52,7 +52,7 @@ export default async function Home() {
     </div>
 
     </div>
-    <a href='https://checkout.ebillett.no/178/events/139725/purchase/setup?kanal=dxf'>
+    <a href='https://checkout.ebillett.no/178/events/151120/purchase/setup'>
       <h2 className="py-6 mx-20 text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
       </a>
     </main>
