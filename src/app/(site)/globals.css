@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-grlPink: #e82265;
+  --color-grlGreen: #039645;
+  --color-lightPink: #f8b9ce;
+}
 
 @keyframes float1 {
 	0% {
