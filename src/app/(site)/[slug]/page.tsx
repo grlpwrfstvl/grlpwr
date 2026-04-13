@@ -56,6 +56,11 @@ export default async function Page({ params }: any) {
       {page.title}!
       </h1>
       </a>
+      <div className="flex items-center justify-center w-full py-10">
+      <a href='https://checkout.ebillett.no/178/events/151120/purchase/setup'>
+      <h2 className="text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
+      </a>
+      </div>
 
     </div>
   );
