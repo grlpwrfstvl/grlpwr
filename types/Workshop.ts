@@ -4,6 +4,7 @@ export type Workshop = {
     _id: string;
     _createdAt: Date;
     name: string;
+    hideTitle: boolean;
     slug: string;
     link?: string;
     image: string;

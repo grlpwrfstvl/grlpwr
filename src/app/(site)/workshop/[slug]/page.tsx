@@ -10,7 +10,8 @@ type Props = {
 export const revalidate = 0;
 
 export default async function Page({ params }: any) {
-  const workshop = await getWorkshop(params.slug);
+  const resolvedParams = await params;
+  const workshop = await getWorkshop(resolvedParams.slug);
 
   return (
     <div className="max-w-4xl mx-auto mt-8 md:mt-16">

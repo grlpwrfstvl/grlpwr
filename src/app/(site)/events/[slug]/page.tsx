@@ -10,11 +10,12 @@ import clientConfig from "../../../../../sanity/config/client-config";
 //   params: { slug: string };
 // };
 
-export const revalidate = 0;
+export const revalidate = 60;
 
 
 export default async function Page({ params }: any) {
-  const event = await getEvent(params.slug);
+  const resolvedParams = await params;
+  const event = await getEvent(resolvedParams.slug);
 
   const builder = imageUrlBuilder(clientConfig)
 
