@@ -10,6 +10,11 @@ export default defineType({
       title: 'Name',
       type: 'string',
     }),
+        defineField({
+      name: 'hideTitle',
+      title: 'Hide Title in Card?',
+      type: 'boolean',
+    }),
     defineField({
       name: 'slug',
       title: 'Slug',

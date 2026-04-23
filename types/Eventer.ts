@@ -5,6 +5,7 @@ export type Eventer = {
     _id: string;
     _createdAt: Date;
     name: string;
+    hideTitle: boolean;
     link?: string;
     slug: string;
     image: string;
