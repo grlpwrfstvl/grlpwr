@@ -30,7 +30,7 @@ export default async function Home() {
 
       
       <div>  
-      <ImageBlob imagelink={home[0].image} id={home[0]._id+"home"} alt={home[0].title}></ImageBlob>  
+      <ImageBlob imagelink={home[0].image} id={home[0]._id+"home"}></ImageBlob>  
       </div>
       <div className='flex flex-col justify-center px-2 -mt-6 text-xl font-semibold md:text-2xl md:-mt-0 md:my-6'>
       <PortableText value={home[0].description} />
@@ -39,7 +39,7 @@ export default async function Home() {
 
       {sortedNews.map((news) => (
         <Link href={news.slug ? `${news.slug}` : ''} key={news._id} className={`md:py-8 ${news.slug ? '' : 'pointer-events-none cursor-not-allowed'}`}>
-        <ImageBlob imagelink={news.image} id={news._id} alt={news.title}></ImageBlob>  
+        <ImageBlob imagelink={news.image} id={news._id}></ImageBlob>  
         <div className='flex flex-col justify-center px-2 -mt-4 text-xl font-semibold md:ml-14'>
         <h2 className='py-2 text-2xl font bold'>{news.title}</h2>
         <PortableText value={news.description} />
