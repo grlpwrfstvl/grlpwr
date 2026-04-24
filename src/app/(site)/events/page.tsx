@@ -20,10 +20,10 @@ export default async function Artists() {
       {events.map((eventer) => (
                 <Link href={`/events/${eventer.slug}`} key={eventer._id}>
         <h2 className="absolute z-20 p-20 my-16 text-2xl font-extrabold text-white transform md:mr-32 drop-shadow-lg">
-        {eventer.name || ''}
+        {eventer.hideTitle ? '' : eventer.name}
          </h2>
 
-        <ImageBlob imagelink={eventer.image} id={eventer._id} alt={eventer.name} title={eventer.hideTitle ? '' : eventer.name}/>
+        <ImageBlob imagelink={eventer.image} id={eventer._id}/>
 
         </Link>
       ))}
@@ -38,7 +38,7 @@ export default async function Artists() {
         <h2 className="absolute z-20 p-20 mx-16 my-16 text-2xl font-extrabold text-white transform md:mr-32 drop-shadow-lg">
         {workshop.name || ''}
          </h2>
-        <ImageBlob imagelink={workshop.image} id={workshop._id} alt={workshop.name} title={workshop.hideTitle ? '' : workshop.name}/>
+        <ImageBlob imagelink={workshop.image} id={workshop._id}/>
         </div>
         </Link>
         ))}
