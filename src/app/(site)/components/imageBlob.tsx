@@ -3,8 +3,6 @@ import { blobPaths } from './blobpaths';
 interface ImageBlobProps {
   imagelink: string;
   id: string;
-  alt: string;
-  title?: string;
 }
 
 const getRandomBlobPath = () => {
@@ -12,7 +10,7 @@ const getRandomBlobPath = () => {
   return blobPaths[randomIndex % blobPaths.length];
 };
 
-const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id, alt, title }) => {
+const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id}) => {
   const blobPath = getRandomBlobPath();
 
   return (
