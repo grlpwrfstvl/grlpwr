@@ -6,7 +6,7 @@ import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
 import ArtistPortrait from "../../components/artistPortrait";
 
-export const revalidate = 600;
+export const revalidate = 36000;
 
 
 export default async function Artist({ params }: any) {

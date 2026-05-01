@@ -1,4 +1,5 @@
 import { blobPaths } from './blobpaths';
+import { transformedSanityUrl } from '../utils/sanityImage';
 
 interface ImageBlobProps {
   imagelink: string;
@@ -12,6 +13,7 @@ const getRandomBlobPath = () => {
 
 const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id}) => {
   const blobPath = getRandomBlobPath();
+  const optimizedImageLink = transformedSanityUrl(imagelink, 900, 70);
 
   return (
     <div>
@@ -21,7 +23,7 @@ const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id}) => {
         <path d={blobPath} transform="translate(10 10) scale(1.1 1.1)" />
       </clipPath>
     </defs>
-    <image href={imagelink} width={500} height={500} clipPath={`url(#${id})`} />
+    <image href={optimizedImageLink} width={500} height={500} clipPath={`url(#${id})`} />
   </svg>
   </div>
   );

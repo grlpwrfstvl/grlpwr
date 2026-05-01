@@ -2,7 +2,7 @@ import ArtistCard from "../components/artistCard";
 import { getArtists } from "../../../../sanity/sanity-utils";
 import type { Artist } from "../../../../types/Artist";
 
-export const revalidate = 600;
+export const revalidate = 36000;
 
 export default async function Artists() {
   const artists : Artist[] = await getArtists();

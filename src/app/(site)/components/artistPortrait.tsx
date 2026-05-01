@@ -1,6 +1,6 @@
 "use client"
-import Image from 'next/image';
 import { blobPaths } from './blobpaths';
+import { transformedSanityUrl } from '../utils/sanityImage';
 
 interface ArtistPortraitProps {
     artist: { slug: string; image: string; name: string; _id: string };
@@ -9,6 +9,7 @@ interface ArtistPortraitProps {
 const ArtistPortrait: React.FC<ArtistPortraitProps> = ({ artist }) => {
   const randomIndex = Math.floor(Math.random() * blobPaths.length);
   const blobPath = blobPaths[randomIndex % blobPaths.length];
+  const optimizedImageLink = transformedSanityUrl(artist.image, 900, 70);
 
 
 return (
@@ -20,7 +21,7 @@ return (
       </clipPath>
     </defs>
     <image
-    href={artist.image}
+    href={optimizedImageLink}
     width={500}
     height={500}
     className='z-40'

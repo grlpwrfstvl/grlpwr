@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { blobPaths } from './blobpaths';
+import { transformedSanityUrl } from '../utils/sanityImage';
 
 
 interface ArtistCardProps {
@@ -14,6 +14,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 500, index }) =>
   const randomIndex = Math.floor(Math.random() * blobPaths.length);
   const blobPath = blobPaths[randomIndex % blobPaths.length];
   const clipPathId = `blob-clip-${index}`;
+  const optimizedImageLink = transformedSanityUrl(artist.image, 900, 70);
   const firstInRow = index % 2 === 1;
   const firstBounce = index === 1 || index === 4 || index === 7 || index === 10;
   const secondBounce = index === 2 || index === 5 || index === 8 || index === 11;
@@ -29,7 +30,7 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 500, index }) =>
         <path d={blobPath} transform="translate(10 10) scale(1.1 1.1)" />
       </clipPath>
     </defs>
-    <image href={artist.image} width={size} height={size} clipPath={`url(#${clipPathId})`} />
+    <image href={optimizedImageLink} width={size} height={size} clipPath={`url(#${clipPathId})`} />
   </svg>
 </Link>
   );

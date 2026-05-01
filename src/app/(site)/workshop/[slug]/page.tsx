@@ -2,16 +2,19 @@ import { PortableText } from "@portabletext/react";
 import { getWorkshop } from "../../../../../sanity/sanity-utils"
 import Image from "next/image";
 import { blobPaths } from "../../components/blobpaths";
+import { transformedSanityUrl } from "../../utils/sanityImage";
 
 type Props = {
   params: { slug: string };
 };
 
-export const revalidate = 0;
+export const revalidate = 36000;
 
 export default async function Page({ params }: any) {
   const resolvedParams = await params;
   const workshop = await getWorkshop(resolvedParams.slug);
+  const desktopHeroImage = transformedSanityUrl(workshop.image, 1400, 70);
+  const mobileHeroImage = transformedSanityUrl(workshop.image, 900, 68);
 
   return (
     <div className="max-w-4xl mx-auto mt-8 md:mt-16">
@@ -22,20 +25,23 @@ export default async function Page({ params }: any) {
       </clipPath>
       </svg>
       <Image
-        src={workshop.image}
+        src={desktopHeroImage}
         alt="GRL PWR Festival!"
         priority={true}
         height={600}
         width={600}
+        sizes="(max-width: 768px) 0px, 92vw"
         className="w-0 w-11/12 h-0 mx-auto mt-4 -mb-20 opacity-0 md:w-max md:h-max md:opacity-100"
         style={{ clipPath: `url(#${workshop._id})` }}
       />
       <Image
-        src={workshop.image}
+        src={mobileHeroImage}
         alt="GRL PWR Festival!"
-        priority={true}
+        priority={false}
         height={400}
         width={400}
+        sizes="(max-width: 768px) 100vw, 0px"
+        loading="lazy"
         className="w-11/12 w-full h-0 h-full mx-auto mt-4 -mb-20 opacity-100 md:w-0 md:opacity-0"
       />
     </div>

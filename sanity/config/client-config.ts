@@ -7,7 +7,7 @@ const config = {
 
     apiVersion: "2024-02-20",
 
-    "useCdn": false,
+    "useCdn": true,
 
 };
 

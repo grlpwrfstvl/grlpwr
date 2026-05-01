@@ -4,7 +4,7 @@ import Link from 'next/link';
 import ImageBlob from './components/imageBlob';
 import { PortableText } from '@portabletext/react';
 
-export const revalidate = 600;
+export const revalidate = 36000;
 
 export default async function Home() {
 

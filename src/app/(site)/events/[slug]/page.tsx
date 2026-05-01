@@ -3,21 +3,16 @@ import { getEvent } from "../../../../../sanity/sanity-utils"
 import Image from "next/image";
 import { blobPaths } from "../../components/blobpaths";
 import Carousel from "../../components/carousel";
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from "@sanity/image-url";
 import clientConfig from "../../../../../sanity/config/client-config";
 
-// type Props = {
-//   params: { slug: string };
-// };
-
-export const revalidate = 60;
-
+export const revalidate = 36000;
 
 export default async function Page({ params }: any) {
   const resolvedParams = await params;
   const event = await getEvent(resolvedParams.slug);
 
-  const builder = imageUrlBuilder(clientConfig)
+  const builder = createImageUrlBuilder(clientConfig);
 
   function urlFor(source: any) {
     return builder.image(source)}  

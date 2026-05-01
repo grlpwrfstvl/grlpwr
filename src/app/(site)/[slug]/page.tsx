@@ -3,7 +3,7 @@ import { getPage } from "../../../../sanity/sanity-utils";
 import Image from "next/image";
 import { blobPaths } from "../components/blobpaths";
 
-export const revalidate = 0;
+export const revalidate = 36000;
 
 export default async function Page({ params }: any) {
   const resolvedParams = await params;

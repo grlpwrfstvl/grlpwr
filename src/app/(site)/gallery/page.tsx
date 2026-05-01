@@ -3,7 +3,7 @@ import { createImageUrlBuilder } from '@sanity/image-url'
 import Carousel from "../components/carousel"
 import clientConfig from "../../../../sanity/config/client-config";
 
-export const revalidate = 0;
+export const revalidate = 36000;
 
 export default async function Gallery() {
 

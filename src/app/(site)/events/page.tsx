@@ -2,7 +2,7 @@ import { getAllEventer, getWorkshops } from "../../../../sanity/sanity-utils";
 import ImageBlob from "../components/imageBlob";
 import Link from "next/link";
 
-export const revalidate = 60;
+export const revalidate = 36000;
 
 export default async function Artists() {
   const events = await getAllEventer();
