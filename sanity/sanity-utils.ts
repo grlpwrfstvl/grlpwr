@@ -55,7 +55,7 @@ export async function getPages(): Promise<Page[]> {
   }
 }
 
-export async function getPage(slug: string): Promise<Page> {
+export async function getPage(slug: string): Promise<Page | null> {
   return createClient(clientConfig).fetch(
       groq`*[_type == "page" && slug.current == $slug][0]{
           _id,
@@ -101,7 +101,7 @@ export async function getArtists(): Promise<Artist[]> {
   }
 }
 
-export async function getArtist(slug: string): Promise<Artist> {
+export async function getArtist(slug: string): Promise<Artist | null> {
   return createClient(clientConfig).fetch(
       groq`*[_type == "artist" && slug.current == $slug][0]{
           _id,
@@ -148,7 +148,7 @@ export async function getWorkshops(): Promise<Workshop[]> {
   }
 }
 
-export async function getWorkshop(slug: string): Promise<Workshop> {
+export async function getWorkshop(slug: string): Promise<Workshop | null> {
   return createClient(clientConfig).fetch(
       groq`*[_type == "workshop" && slug.current == $slug][0]{
           _id,
@@ -196,7 +196,7 @@ export async function getAllEventer(): Promise<Eventer[]> {
   }
 }
 
-export async function getEvent(slug: string): Promise<Eventer> {
+export async function getEvent(slug: string): Promise<Eventer | null> {
   return createClient(clientConfig).fetch(
       groq`*[_type == "event" && slug.current == $slug][0]{
           _id,

@@ -2,17 +2,20 @@ import { PortableText } from "@portabletext/react";
 import { getPage } from "../../../../sanity/sanity-utils";
 import Image from "next/image";
 import { blobPaths } from "../components/blobpaths";
+import { notFound } from "next/navigation";
 
 export const revalidate = 36000;
 
 export default async function Page({ params }: any) {
   const resolvedParams = await params;
-  console.log('resolvedParams:', resolvedParams); // Add this line to log resolvedParams
   const { slug: pageParam } = resolvedParams;
   if (!pageParam) {
-    throw new Error('Page parameter is missing');
+    notFound();
   }
   const page = await getPage(pageParam as string);
+  if (!page) {
+    notFound();
+  }
   let counter = 1;
 
   return (

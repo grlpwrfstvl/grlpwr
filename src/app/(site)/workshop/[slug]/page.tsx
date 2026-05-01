@@ -3,6 +3,7 @@ import { getWorkshop } from "../../../../../sanity/sanity-utils"
 import Image from "next/image";
 import { blobPaths } from "../../components/blobpaths";
 import { transformedSanityUrl } from "../../utils/sanityImage";
+import { notFound } from "next/navigation";
 
 type Props = {
   params: { slug: string };
@@ -13,6 +14,9 @@ export const revalidate = 36000;
 export default async function Page({ params }: any) {
   const resolvedParams = await params;
   const workshop = await getWorkshop(resolvedParams.slug);
+  if (!workshop) {
+    notFound();
+  }
   const desktopHeroImage = transformedSanityUrl(workshop.image, 1400, 70);
   const mobileHeroImage = transformedSanityUrl(workshop.image, 900, 68);
 

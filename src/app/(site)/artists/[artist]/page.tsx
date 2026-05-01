@@ -5,6 +5,7 @@ import { PortableText } from '@portabletext/react';
 import instaLogo from '../../assets/Instagram_Glyph_White.png'
 import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
 import ArtistPortrait from "../../components/artistPortrait";
+import { notFound } from "next/navigation";
 
 export const revalidate = 36000;
 
@@ -12,6 +13,9 @@ export const revalidate = 36000;
 export default async function Artist({ params }: any) {
   const { artist: artistParam } = await params;
   const artist = await getArtist(artistParam);
+  if (!artist) {
+    notFound();
+  }
 
 
   const playTime = new Date(artist.time); 

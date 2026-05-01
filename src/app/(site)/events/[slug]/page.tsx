@@ -5,12 +5,16 @@ import { blobPaths } from "../../components/blobpaths";
 import Carousel from "../../components/carousel";
 import { createImageUrlBuilder } from "@sanity/image-url";
 import clientConfig from "../../../../../sanity/config/client-config";
+import { notFound } from "next/navigation";
 
 export const revalidate = 36000;
 
 export default async function Page({ params }: any) {
   const resolvedParams = await params;
   const event = await getEvent(resolvedParams.slug);
+  if (!event) {
+    notFound();
+  }
 
   const builder = createImageUrlBuilder(clientConfig);
 
@@ -59,8 +63,8 @@ export default async function Page({ params }: any) {
       <Carousel images={eventGallery}></Carousel>}      
       </div>
       {event.link &&
-      <a href={event.link}>
-      <h2>Klikk for event på facebook!</h2>
+      <a href={event.link} className="z-50">
+      <h2 className="font-bold">Klikk for mer info!</h2>
       </a>}
     </div>
   );
