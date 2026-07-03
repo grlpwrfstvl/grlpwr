@@ -25,15 +25,15 @@ const [isMenuOpen, setIsMenuOpen] = useState(false);
 
 return (
   <div>
-    <header className='w-full'>  
-      <Link className="" href="/"> 
-      <Image 
+    <header className='w-full'>
+      <Link className="" href="/">
+      <Image
        src={Logo}
        alt="GRL PWR logo"
        width={400}
        priority={true}
        className='fixed z-50 w-1/2 max-w-2xl md:right-0 md:w-auto'
-      /> 
+      />
     </Link>
     <button onClick={toggleMenu} className="fixed right-0 z-50 block mx-4 text-4xl font-semibold text-grlGreen top-4 md:hidden"
       >{isMenuOpen ? '✕' : '☰'}
@@ -41,7 +41,7 @@ return (
     </header>
     <nav className={`h-full pt-20 md:pt-2 md:w-1xl text-grlGreen font-bold text-2xl fixed z-40 transition-left ease-in duration-500  ${isMenuOpen ? 'left-0 bg-white w-full' : 'md:left-0 -left-[350px]'}`}>
     <div className=''>
-    <Image 
+    <Image
     src={blomstKvinne}
     alt="GRL PWR logo"
     priority={true}
@@ -58,7 +58,7 @@ return (
 
     {pages.map((page)=> (
               <Link key={page._id}
-              onClick={closeMenu} 
+              onClick={closeMenu}
               href={`/${page.slug}`} className="hover:text-grlPink">
                 {page.title}
               </Link>

@@ -1,4 +1,4 @@
-import ContactForm from "../components/contactForm"
+import ContactForm from "./_components/ContactForm"
 
 export default async function Contact() {
 

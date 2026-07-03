@@ -1,5 +1,5 @@
-import ArtistCard from "../components/artistCard";
-import { getArtists } from "../../../../sanity/sanity-utils";
+import ArtistCard from "./_components/ArtistCard";
+import { getArtists } from "@/lib/sanity/queries";
 import type { Artist } from "../../../../types/Artist";
 
 export const revalidate = 36000;

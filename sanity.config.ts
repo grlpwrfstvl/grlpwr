@@ -12,7 +12,7 @@ const config = defineConfig({
 
     title: "GRL PWR",
 
-    apiVersion: "2021-08-31",
+    apiVersion: "2024-02-20",
 
     basePath: "/admin",
 

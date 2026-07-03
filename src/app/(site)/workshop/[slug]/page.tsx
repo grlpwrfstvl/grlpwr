@@ -1,19 +1,15 @@
 import { PortableText } from "@portabletext/react";
-import { getWorkshop } from "../../../../../sanity/sanity-utils"
+import { getWorkshop } from "@/lib/sanity/queries";
 import Image from "next/image";
-import { blobPaths } from "../../components/blobpaths";
-import { transformedSanityUrl } from "../../utils/sanityImage";
+import { blobPaths } from "@/lib/utils/blob";
+import { transformedSanityUrl } from "@/lib/sanity/image";
 import { notFound } from "next/navigation";
-
-type Props = {
-  params: { slug: string };
-};
 
 export const revalidate = 36000;
 
-export default async function Page({ params }: any) {
-  const resolvedParams = await params;
-  const workshop = await getWorkshop(resolvedParams.slug);
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const workshop = await getWorkshop(slug);
   if (!workshop) {
     notFound();
   }
