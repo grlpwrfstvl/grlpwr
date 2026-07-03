@@ -1,7 +1,8 @@
 import { createImageUrlBuilder } from "@sanity/image-url";
-import clientConfig from "../../../../sanity/config/client-config";
+import type { SanityImageSource } from "@sanity/image-url";
+import { clientConfig } from "./client";
 
-const builder = createImageUrlBuilder(clientConfig);
+export const imageUrlBuilder = createImageUrlBuilder(clientConfig);
 
 export function transformedSanityUrl(url: string, width: number, quality = 70): string {
   if (!url) {
@@ -20,13 +21,13 @@ export function transformedSanityUrl(url: string, width: number, quality = 70): 
   }
 }
 
-export function transformedSanitySourceUrl(source: any, width: number, quality = 70): string {
+export function transformedSanitySourceUrl(source: SanityImageSource, width: number, quality = 70): string {
   if (!source) {
     return "";
   }
 
   try {
-    return builder.image(source).width(width).quality(quality).auto("format").fit("max").url();
+    return imageUrlBuilder.image(source).width(width).quality(quality).auto("format").fit("max").url();
   } catch {
     return "";
   }

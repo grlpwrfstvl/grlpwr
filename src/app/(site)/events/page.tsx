@@ -1,11 +1,11 @@
-import { getAllEventer, getWorkshops } from "../../../../sanity/sanity-utils";
-import ImageBlob from "../components/imageBlob";
+import { getEvents, getWorkshops } from "@/lib/sanity/queries";
+import ImageBlob from "../_components/ImageBlob";
 import Link from "next/link";
 
 export const revalidate = 36000;
 
 export default async function Artists() {
-  const events = await getAllEventer();
+  const events = await getEvents();
   const workshops = await getWorkshops();
 
   return (

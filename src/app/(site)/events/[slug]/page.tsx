@@ -1,29 +1,23 @@
 import { PortableText } from "@portabletext/react";
-import { getEvent } from "../../../../../sanity/sanity-utils"
+import { getEvent } from "@/lib/sanity/queries";
 import Image from "next/image";
-import { blobPaths } from "../../components/blobpaths";
-import Carousel from "../../components/carousel";
-import { createImageUrlBuilder } from "@sanity/image-url";
-import clientConfig from "../../../../../sanity/config/client-config";
+import { blobPaths } from "@/lib/utils/blob";
+import { imageUrlBuilder } from "@/lib/sanity/image";
+import Carousel from "../../gallery/_components/Carousel";
 import { notFound } from "next/navigation";
 
 export const revalidate = 36000;
 
-export default async function Page({ params }: any) {
-  const resolvedParams = await params;
-  const event = await getEvent(resolvedParams.slug);
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  const event = await getEvent(slug);
   if (!event) {
     notFound();
   }
 
-  const builder = createImageUrlBuilder(clientConfig);
-
-  function urlFor(source: any) {
-    return builder.image(source)}  
-  
-    const eventGallery = event && event.gallery ? event.gallery.map(image => urlFor(image).url()) : [];
-  
-
+  const eventGallery = event.gallery
+    ? event.gallery.map((image) => imageUrlBuilder.image(image).url())
+    : [];
 
   return (
     <div className="max-w-4xl mx-auto mt-16">
@@ -59,8 +53,8 @@ export default async function Page({ params }: any) {
         <PortableText value={event.description} />
       </div>
       <div>
-      {eventGallery.length > 0 && 
-      <Carousel images={eventGallery}></Carousel>}      
+      {eventGallery.length > 0 &&
+      <Carousel images={eventGallery}></Carousel>}
       </div>
       {event.link &&
       <a href={event.link} className="z-50">

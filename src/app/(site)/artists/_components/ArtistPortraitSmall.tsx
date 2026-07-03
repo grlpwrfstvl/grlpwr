@@ -1,13 +1,13 @@
 import React from 'react';
 import Image from 'next/image';
-import { blobPaths } from './blobpaths';
-import { transformedSanityUrl } from '../utils/sanityImage';
+import { blobPaths } from '@/lib/utils/blob';
+import { transformedSanityUrl } from '@/lib/sanity/image';
 
 
 interface ArtistCardProps {
   artist: { slug: string; image: string; name: string; _id: string };
   size?:  number;
-  index: number; 
+  index: number;
 }
 
 const ArtistPortraitSmall: React.FC<ArtistCardProps> = ({ artist, size = 500, index }) => {

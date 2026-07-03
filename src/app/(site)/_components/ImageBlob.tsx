@@ -1,5 +1,5 @@
-import { blobPaths } from './blobpaths';
-import { transformedSanityUrl } from '../utils/sanityImage';
+import { blobPaths } from '@/lib/utils/blob';
+import { transformedSanityUrl } from '@/lib/sanity/image';
 
 interface ImageBlobProps {
   imagelink: string;
@@ -30,5 +30,3 @@ const ImageBlob: React.FC<ImageBlobProps> = ({ imagelink, id}) => {
 };
 
 export default ImageBlob;
-
-

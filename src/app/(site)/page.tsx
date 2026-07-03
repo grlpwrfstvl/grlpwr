@@ -1,20 +1,24 @@
-import { getHome, getNews } from '../../../sanity/sanity-utils'
+import { getHome, getNews } from '@/lib/sanity/queries'
 import React from 'react';
 import Link from 'next/link';
-import ImageBlob from './components/imageBlob';
+import ImageBlob from './_components/ImageBlob';
 import { PortableText } from '@portabletext/react';
 
 export const revalidate = 36000;
 
 export default async function Home() {
 
-  const home = await getHome();
-  const news = await getNews();
+  const [home, news] = await Promise.all([getHome(), getNews()]);
 
   const sortedNews = news.sort((a, b) => {
     return new Date(b._createdAt).getTime() - new Date(a._createdAt).getTime();
   });
 
+  const homeData = home[0];
+  const eventLocation = homeData.eventLocation ?? 'Fredrikstad';
+  const eventYear = homeData.eventYear ?? 2026;
+  const eventDates = homeData.eventDates ?? '8. - 9. mai';
+  const ticketsLink = homeData.ticketsLink ?? 'https://checkout.ebillett.no/178/events/151120/purchase/setup';
 
   return (
 
@@ -22,9 +26,9 @@ export default async function Home() {
 
     <div className="flex flex-col mx-auto md:my-6">
     <h1 className="mx-auto text-4xl font-extrabold md:text-5xl text-grlPink md:mt-14">
-      Fredrikstad 2026</h1>
+      {eventLocation} {eventYear}</h1>
       <h2 className="p-2 mx-auto text-2xl font-extrabold md:text-3xl text-grlPink">
-      8. - 9. mai</h2>
+      {eventDates}</h2>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-x-2 gap-y-6'>
 
@@ -52,7 +56,7 @@ export default async function Home() {
     </div>
 
     </div>
-    <a href='https://checkout.ebillett.no/178/events/151120/purchase/setup'>
+    <a href={ticketsLink}>
       <h2 className="py-6 mx-20 text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
       </a>
     </main>

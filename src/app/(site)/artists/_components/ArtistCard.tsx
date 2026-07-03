@@ -1,13 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
-import { blobPaths } from './blobpaths';
-import { transformedSanityUrl } from '../utils/sanityImage';
+import { blobPaths } from '@/lib/utils/blob';
+import { transformedSanityUrl } from '@/lib/sanity/image';
 
 
 interface ArtistCardProps {
   artist: { slug: string; image: string; name: string; _id: string };
   size?:  number;
-  index: number; 
+  index: number;
 }
 
 const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 500, index }) => {
@@ -37,5 +37,3 @@ const ArtistCard: React.FC<ArtistCardProps> = ({ artist, size = 500, index }) =>
 };
 
 export default ArtistCard;
-
-

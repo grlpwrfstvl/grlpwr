@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { getAllEventer, getArtists } from '../../../../sanity/sanity-utils';
+import { getEvents, getArtists, getHome } from '@/lib/sanity/queries';
+import { getOsloDateParts } from '@/lib/utils/date';
 import type { Artist } from '../../../../types/Artist';
 import type { Eventer } from '../../../../types/Eventer';
 
@@ -14,49 +15,9 @@ type ProgramItem = {
 type ProgramDay = {
   day: string;
   date: string;
-  dayOfMonth: 8 | 9;
+  dayOfMonth: number;
   items: ProgramItem[];
 };
-
-const OSLO_TIMEZONE = 'Europe/Oslo';
-
-const FESTIVAL_DAYS: Array<Omit<ProgramDay, 'items'>> = [
-  {
-    day: 'Fredag',
-    date: '8. mai',
-    dayOfMonth: 8,
-  },
-  {
-    day: 'Lørdag',
-    date: '9. mai',
-    dayOfMonth: 9,
-  },
-];
-
-function getOsloDateParts(date: Date) {
-  const parts = new Intl.DateTimeFormat('en-GB', {
-    timeZone: OSLO_TIMEZONE,
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-    hour: '2-digit',
-    minute: '2-digit',
-    hour12: false,
-  }).formatToParts(date);
-
-  const get = (type: Intl.DateTimeFormatPartTypes) => {
-    const value = parts.find((part) => part.type === type)?.value;
-    return value ? Number(value) : NaN;
-  };
-
-  return {
-    year: get('year'),
-    month: get('month'),
-    day: get('day'),
-    hour: get('hour'),
-    minute: get('minute'),
-  };
-}
 
 function buildArtistProgramItem(artist: Artist, festivalYear: number): (ProgramItem & { day: number }) | null {
   if (!artist.time) {
@@ -71,8 +32,7 @@ function buildArtistProgramItem(artist: Artist, festivalYear: number): (ProgramI
   const parts = getOsloDateParts(date);
   const isFestivalDate =
     parts.year === festivalYear &&
-    parts.month === 5 &&
-    (parts.day === 8 || parts.day === 9);
+    parts.month === 5;
 
   if (!isFestivalDate) {
     return null;
@@ -103,8 +63,7 @@ function buildEventProgramItem(eventer: Eventer, festivalYear: number): (Program
   const parts = getOsloDateParts(date);
   const isFestivalDate =
     parts.year === festivalYear &&
-    parts.month === 5 &&
-    (parts.day === 8 || parts.day === 9);
+    parts.month === 5;
 
   if (!isFestivalDate) {
     return null;
@@ -123,31 +82,42 @@ function buildEventProgramItem(eventer: Eventer, festivalYear: number): (Program
 }
 
 export default async function ProgramPage() {
-  const festivalYear = new Date().getFullYear();
-  const [artists, events] = await Promise.all([getArtists(), getAllEventer()]);
+  const [homeResult, artists, events] = await Promise.all([getHome(), getArtists(), getEvents()]);
+  const homeData = homeResult[0];
 
-  const itemsByDay: Record<8 | 9, ProgramItem[]> = {
-    8: [],
-    9: [],
-  };
+  const festivalYear = homeData.eventYear ?? new Date().getFullYear();
+  const ticketsLink = homeData.ticketsLink ?? 'https://checkout.ebillett.no/178/events/151120/purchase/setup';
+
+  const FESTIVAL_DAYS: Array<Omit<ProgramDay, 'items'>> = homeData.festivalDays?.length
+    ? homeData.festivalDays.map((d) => ({ day: d.dayName, date: d.displayDate, dayOfMonth: d.dayOfMonth }))
+    : [
+        { day: 'Fredag', date: '8. mai', dayOfMonth: 8 },
+        { day: 'Lørdag', date: '9. mai', dayOfMonth: 9 },
+      ];
+
+  const validDays = new Set(FESTIVAL_DAYS.map((d) => d.dayOfMonth));
+  const itemsByDay: Record<number, ProgramItem[]> = {};
+  for (const d of FESTIVAL_DAYS) {
+    itemsByDay[d.dayOfMonth] = [];
+  }
 
   artists.forEach((artist) => {
     const item = buildArtistProgramItem(artist, festivalYear);
-    if (item && (item.day === 8 || item.day === 9)) {
+    if (item && validDays.has(item.day)) {
       itemsByDay[item.day].push(item);
     }
   });
 
   events.forEach((eventer) => {
     const item = buildEventProgramItem(eventer, festivalYear);
-    if (item && (item.day === 8 || item.day === 9)) {
+    if (item && validDays.has(item.day)) {
       itemsByDay[item.day].push(item);
     }
   });
 
   const festivalProgram: ProgramDay[] = FESTIVAL_DAYS.map((day) => ({
     ...day,
-    items: [...itemsByDay[day.dayOfMonth]].sort((a, b) => a.sortMinutes - b.sortMinutes),
+    items: [...(itemsByDay[day.dayOfMonth] ?? [])].sort((a, b) => a.sortMinutes - b.sortMinutes),
   }));
 
   return (
@@ -199,7 +169,7 @@ export default async function ProgramPage() {
       </div>
 
       <div className="flex justify-center w-full mt-10">
-        <a href="https://checkout.ebillett.no/178/events/151120/purchase/setup">
+        <a href={ticketsLink}>
           <h2 className="text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
         </a>
       </div>

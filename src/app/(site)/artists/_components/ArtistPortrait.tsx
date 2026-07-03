@@ -1,6 +1,5 @@
-"use client"
-import { blobPaths } from './blobpaths';
-import { transformedSanityUrl } from '../utils/sanityImage';
+import { blobPaths } from '@/lib/utils/blob';
+import { transformedSanityUrl } from '@/lib/sanity/image';
 
 interface ArtistPortraitProps {
     artist: { slug: string; image: string; name: string; _id: string };

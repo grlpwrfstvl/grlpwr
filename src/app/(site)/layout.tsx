@@ -1,17 +1,16 @@
 import './globals.css'
 import { Inter } from 'next/font/google'
-import Menu from './components/menu'
+import Menu from './_components/Menu'
 import Image from 'next/image'
 import hockey from './assets/Hockey_Sveis_Grønn.png'
 import leg from './assets/Dansefot_Hæl_Rosa.png'
-import { getPages } from '../../../sanity/sanity-utils'
+import { getPages, getHome } from '@/lib/sanity/queries'
 import instaLogo from './assets/Instagram_Glyph_White.png'
 import faceLogo from './assets/Facebook_Logo_Secondary.png'
 import stcroixLogo from './assets/StCroix_logo_hvit.png'
 import kommuneLogo from './assets/fredrikstad_kommune.png'
 import kulturLogo from './assets/KR_Kulturrådet_hvit.png'
 import ostfoldLogo from './assets/ostfold.fk.png'
-import { getHome } from '../../../sanity/sanity-utils'
 
 
 
@@ -40,16 +39,18 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  const pages = await getPages();
-
+  const [pages, home] = await Promise.all([getPages(), getHome()]);
   const filteredPages = pages.filter(page => page.slug !== 'kontaktinfo');
 
-  const home = await getHome();
-
-
+  const homeData = home[0];
+  const colorStyle = {
+    ...(homeData.primaryColor ? { '--color-grlPink': homeData.primaryColor } : {}),
+    ...(homeData.secondaryColor ? { '--color-grlGreen': homeData.secondaryColor } : {}),
+    ...(homeData.accentColor ? { '--color-lightPink': homeData.accentColor } : {}),
+  } as React.CSSProperties;
 
   return (
-    <html lang="en" className={inter.className}>
+    <html lang="en" className={inter.className} style={colorStyle}>
       <body className="flex flex-col w-full min-h-screen mx-auto bg-white">
       <Image
       src={hockey}

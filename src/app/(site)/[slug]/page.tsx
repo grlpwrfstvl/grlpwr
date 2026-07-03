@@ -1,22 +1,21 @@
 import { PortableText } from "@portabletext/react";
-import { getPage } from "../../../../sanity/sanity-utils";
+import { getPage, getHome } from "@/lib/sanity/queries";
 import Image from "next/image";
-import { blobPaths } from "../components/blobpaths";
+import { blobPaths } from "@/lib/utils/blob";
 import { notFound } from "next/navigation";
 
 export const revalidate = 36000;
 
-export default async function Page({ params }: any) {
-  const resolvedParams = await params;
-  const { slug: pageParam } = resolvedParams;
-  if (!pageParam) {
+export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params;
+  if (!slug) {
     notFound();
   }
-  const page = await getPage(pageParam as string);
+  const [page, homeResult] = await Promise.all([getPage(slug), getHome()]);
   if (!page) {
     notFound();
   }
-  let counter = 1;
+  const ticketsLink = homeResult[0]?.ticketsLink ?? 'https://checkout.ebillett.no/178/events/151120/purchase/setup';
 
   return (
     <div className="max-w-4xl mx-auto mt-16">
@@ -50,7 +49,7 @@ export default async function Page({ params }: any) {
       </h1>
       </a>
       {page.content.map((content) => (
-      <div key={counter++}className="px-4 py-2 md:px-10">
+      <div key={content._key} className="px-4 py-2 md:px-10">
         <PortableText value={content} />
       </div>
       ))}
@@ -60,7 +59,7 @@ export default async function Page({ params }: any) {
       </h1>
       </a>
       <div className="flex items-center justify-center w-full py-10">
-      <a href='https://checkout.ebillett.no/178/events/151120/purchase/setup'>
+      <a href={ticketsLink}>
       <h2 className="text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
       </a>
       </div>
@@ -68,4 +67,3 @@ export default async function Page({ params }: any) {
     </div>
   );
 }
-
