@@ -1,25 +1,15 @@
 import {defineConfig} from 'sanity'
-import {deskTool} from 'sanity/desk';
+import {structureTool} from 'sanity/structure'
 import schemas from './sanity/schemas'
+import {apiVersion, dataset, projectId, studioUrl} from './sanity/env'
 
-const config = defineConfig({
-
-    projectId: "59jzk62a",
-
-    dataset: "production",
-
-    "useCdn": false,
-
-    title: "GRL PWR",
-
-    apiVersion: "2024-02-20",
-
-    basePath: "/admin",
-
-    plugins: [deskTool()],
-
-    schema: {types: schemas}
-
+export default defineConfig({
+  projectId,
+  dataset,
+  title: 'GRL PWR',
+  basePath: studioUrl,
+  plugins: [structureTool()],
+  schema: {types: schemas},
 })
 
-export default config;
+export {apiVersion}
