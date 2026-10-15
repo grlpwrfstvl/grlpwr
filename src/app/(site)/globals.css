@@ -4,83 +4,70 @@
   --color-grlPink: #e82265;
   --color-grlGreen: #039645;
   --color-lightPink: #f8b9ce;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  ::selection {
+    background: var(--color-grlPink);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--color-grlGreen);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* The gentle bobbing that gives the site its playful feel */
 @keyframes float1 {
-	0% {
-		transform: translatey(-10px);
-	}
-	50% {
-		transform: translatey(-120px);
-	}
-	100% {
-		transform: translatey(-10px);
-	}
-}
-
-.moving-object {
-	animation: float1 9s ease-in-out infinite;
-}
-
-.still-object {
-	animation: float1 0s;
+  0%, 100% { transform: translateY(-10px); }
+  50% { transform: translateY(-120px); }
 }
 @keyframes float2 {
-	0% {
-		transform: translatey(0px);
-	}
-	50% {
-		transform: translatey(-12px);
-	}
-	100% {
-		transform: translatey(0px);
-	}
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
 }
-
-.moving-object2 {
-	animation: float2 6s ease-in-out infinite;
-}
-
-.still-object2 {
-	animation: float2 0s;
-}
-
 @keyframes float3 {
-	0% {
-		transform: translatey(2px);
-	}
-	50% {
-		transform: translatey(-10px);
-	}
-	100% {
-		transform: translatey(2px);
-	}
+  0%, 100% { transform: translateY(2px); }
+  50% { transform: translateY(-10px); }
 }
-
-.moving-object3 {
-	animation: float3 10s ease-in-out infinite;
-}
-
-.still-object3 {
-	animation: float3 0s;
-}
-
 @keyframes float4 {
-	0% {
-		transform: translatey(4px);
-	}
-	50% {
-		transform: translatey(-10px);
-	}
-	100% {
-		transform: translatey(4px);
-	}
+  0%, 100% { transform: translateY(4px); }
+  50% { transform: translateY(-10px); }
 }
 
-.moving-object4 {
-	animation: float4 8s ease-in-out infinite;
+/* Desktop only: on phones the bobbing fights with scrolling */
+@media (min-width: 48rem) {
+  .moving-object { animation: float1 9s ease-in-out infinite; }
+  .moving-object2 { animation: float2 6s ease-in-out infinite; }
+  .moving-object3 { animation: float3 10s ease-in-out infinite; }
+  .moving-object4 { animation: float4 8s ease-in-out infinite; }
 }
 
-.still-object4 {
-	animation: float4 0s;
+/* Hide scrollbars on swipeable rows while keeping them scrollable */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
 }

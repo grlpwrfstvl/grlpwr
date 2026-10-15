@@ -1,65 +1,72 @@
-import { PortableText } from "@portabletext/react";
-import { getEvent } from "@/lib/sanity/queries";
-import Image from "next/image";
-import { blobPaths } from "@/lib/utils/blob";
-import { imageUrlBuilder } from "@/lib/sanity/image";
-import Carousel from "../../gallery/_components/Carousel";
+import type { Metadata } from "next";
+import { toPlainText } from "next-sanity";
 import { notFound } from "next/navigation";
+import { fetchSanity, fetchSanityStatic } from "@/lib/sanity/fetch";
+import { hasAsset, sanityImageUrl } from "@/lib/sanity/image";
+import { EVENT_QUERY, EVENT_SLUGS_QUERY } from "@/lib/sanity/queries";
+import { formatDay, formatTime } from "@/lib/utils/date";
+import BlobImage from "../../_components/BlobImage";
+import Button from "../../_components/Button";
+import { CalendarIcon } from "../../_components/Icons";
+import RichText from "../../_components/RichText";
+import Gallery from "../../gallery/Gallery";
 
-export const revalidate = 36000;
+type Props = { params: Promise<{ slug: string }> };
 
-export default async function Page({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
-  const event = await getEvent(slug);
-  if (!event) {
-    notFound();
-  }
+export async function generateStaticParams() {
+  return fetchSanityStatic(EVENT_SLUGS_QUERY);
+}
 
-  const eventGallery = event.gallery
-    ? event.gallery.map((image) => imageUrlBuilder.image(image).url())
-    : [];
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const event = await fetchSanity(EVENT_QUERY, { slug: (await params).slug });
+  if (!event) return {};
+  return {
+    title: event.name,
+    description: event.description ? toPlainText(event.description).slice(0, 160) : undefined,
+    openGraph: hasAsset(event.image) ? { images: [{ url: sanityImageUrl(event.image, 1200, 1200 / 630), width: 1200, height: 630 }] } : undefined,
+  };
+}
+
+export default async function EventPage({ params }: Props) {
+  const event = await fetchSanity(EVENT_QUERY, { slug: (await params).slug });
+  if (!event) notFound();
 
   return (
-    <div className="max-w-4xl mx-auto mt-16">
+    <article className="grid gap-8 md:grid-cols-2 md:gap-14">
+      {hasAsset(event.image) && (
+        <BlobImage image={event.image} id={event._id} priority sizes="(min-width: 768px) 45vw, 92vw" className="md:sticky md:top-28 md:self-start" />
+      )}
       <div>
-      <svg viewBox="0 0 500 500" className="absolute inset-0 z-20 w-3/4 mx-auto" fill="#fff">
-      <clipPath id={event._id}>
-      <path d={blobPaths[3]} transform="scale(1.3, 1)" />
-      </clipPath>
-      </svg>
-      <Image
-        src={event.image}
-        alt="GRL PWR Festival!"
-        priority={true}
-        height={500}
-        width={500}
-        className="w-0 w-11/12 h-0 mx-auto mt-4 -mb-20 opacity-0 md:w-max md:h-max md:opacity-100"
-        style={{ clipPath: `url(#${event._id})` }}
-      />
-      <Image
-        src={event.image}
-        alt="GRL PWR Festival!"
-        priority={true}
-        height={800}
-        width={800}
-        className="w-11/12 w-full h-0 h-full mx-auto mt-4 -mb-20 opacity-100 md:w-0 md:opacity-0"
-      />
-    </div>
-    <h1 className="p-4 pt-8 text-5xl font-extrabold md:px-10 text-grlPink">
-        {event.name}
-      </h1>
-
-      <div className="p-4 md:px-10">
-        <PortableText value={event.description} />
+        <h1 className="text-4xl font-extrabold leading-none tracking-tight text-grlPink md:text-6xl">{event.name}</h1>
+        {(event.time || event.location) && (
+          <p className="mt-4 text-xl font-extrabold text-grlGreen">
+            {event.time && (
+              <span className="inline-block first-letter:uppercase">
+                {formatDay(event.time)} kl. {formatTime(event.time)}
+                {event.endTime && `–${formatTime(event.endTime)}`}
+              </span>
+            )}
+            {event.location && <span className="block">{event.location}</span>}
+          </p>
+        )}
+        <RichText value={event.description} className="mt-6 text-xl font-semibold leading-relaxed" />
+        <div className="mt-8 flex flex-wrap items-center gap-3">
+          {event.link && <Button href={event.link}>{event.linkLabel || "Mer info"}</Button>}
+          {event.time && event.slug && (
+            <a
+              href={`/api/calendar/event/${event.slug}`}
+              className="inline-flex items-center gap-2 rounded-full border-[3px] border-grlGreen px-5 py-2.5 font-extrabold text-grlGreen transition hover:bg-grlGreen hover:text-white"
+            >
+              <CalendarIcon className="size-5" /> Legg i kalender
+            </a>
+          )}
+        </div>
       </div>
-      <div>
-      {eventGallery.length > 0 &&
-      <Carousel images={eventGallery}></Carousel>}
-      </div>
-      {event.link &&
-      <a href={event.link} className="z-50">
-      <h2 className="font-bold">Klikk for mer info!</h2>
-      </a>}
-    </div>
+      {event.gallery?.length ? (
+        <div className="md:col-span-2">
+          <Gallery images={event.gallery} title={event.name ?? ""} />
+        </div>
+      ) : null}
+    </article>
   );
 }

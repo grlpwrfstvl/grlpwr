@@ -1,71 +1,106 @@
-"use client"
-import Link from 'next/link';
-import React, { useState } from 'react';
-import Image from 'next/image';
-import blomstKvinne from '../assets/Blomst_Kvinne_Rosa_ 2.png';
-import { Page } from '../../../../types/Page';
-import Logo from '../assets/grlpwrlogo2025-small.png';
+"use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
+import blomstKvinne from "../assets/Blomst_Kvinne_Rosa_ 2.png";
+import Logo from "../assets/grlpwrlogo2025-small.png";
 
-interface MenuProps {
-  pages: Page[];
-  logoFromSanity: string;
-}
+export type NavItem = { label: string; href: string };
 
-function Menu({ pages, logoFromSanity }: MenuProps) {
-const [isMenuOpen, setIsMenuOpen] = useState(false);
+type Props = {
+  items: NavItem[];
+  ticketHref: string | null;
+};
 
+export default function Menu({ items, ticketHref }: Props) {
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+  const [openedAt, setOpenedAt] = useState(pathname);
 
-    const toggleMenu = () => {
-      setIsMenuOpen(!isMenuOpen);
+  // Close when navigating (adjusting state during render instead of in an effect)
+  if (open && openedAt !== pathname) {
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (!open) return;
+    document.documentElement.style.overflow = "hidden";
+    const onKeyDown = (event: KeyboardEvent) => event.key === "Escape" && setOpen(false);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.documentElement.style.overflow = "";
+      window.removeEventListener("keydown", onKeyDown);
     };
-    const closeMenu = () => {
-      setIsMenuOpen(false);
-    };
+  }, [open]);
 
-return (
-  <div>
-    <header className='w-full'>
-      <Link className="" href="/">
-      <Image
-       src={Logo}
-       alt="GRL PWR logo"
-       width={400}
-       priority={true}
-       className='fixed z-50 w-1/2 max-w-2xl md:right-0 md:w-auto'
-      />
-    </Link>
-    <button onClick={toggleMenu} className="fixed right-0 z-50 block mx-4 text-4xl font-semibold text-grlGreen top-4 md:hidden"
-      >{isMenuOpen ? '✕' : '☰'}
-    </button>
-    </header>
-    <nav className={`h-full pt-20 md:pt-2 md:w-1xl text-grlGreen font-bold text-2xl fixed z-40 transition-left ease-in duration-500  ${isMenuOpen ? 'left-0 bg-white w-full' : 'md:left-0 -left-[350px]'}`}>
-    <div className=''>
-    <Image
-    src={blomstKvinne}
-    alt="GRL PWR logo"
-    priority={true}
-    height={220}
-    className=''
-    />
-    </div>
-    <div className='flex flex-col items-center gap-2 pl-4 -mt-24 text-4xl md:-mt-0 md:items-start'>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/artists">Artister</Link>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/events">Events</Link>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/program">Program</Link>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/gallery">Galleri</Link>
-    <Link className="hover:text-grlPink" onClick={closeMenu} href="/contact">Kontakt</Link>
+  const isActive = (href: string) => (href === "/" ? pathname === "/" : pathname.startsWith(href));
 
-    {pages.map((page)=> (
-              <Link key={page._id}
-              onClick={closeMenu}
-              href={`/${page.slug}`} className="hover:text-grlPink">
-                {page.title}
+  return (
+    <>
+      {/* Mobile: solid bar so content never scrolls under a floating logo */}
+      <header className="sticky top-0 z-40 flex h-16 items-center justify-between bg-white/95 px-4 backdrop-blur md:hidden">
+        <Link href="/" aria-label="GRL PWR FSTVL – forside">
+          <Image src={Logo} alt="GRL PWR FSTVL" priority sizes="180px" className="h-11 w-auto" />
+        </Link>
+        <button
+          type="button"
+          onClick={() => {
+            setOpenedAt(pathname);
+            setOpen(!open);
+          }}
+          aria-expanded={open}
+          aria-controls="site-nav"
+          aria-label={open ? "Lukk meny" : "Åpne meny"}
+          className="relative z-50 -mr-2 grid size-12 place-items-center rounded-full text-grlGreen"
+        >
+          <span className="sr-only">Meny</span>
+          <span aria-hidden="true" className="relative block h-[3px] w-7">
+            <span className={`absolute left-0 h-[3px] w-7 rounded bg-current transition ${open ? "top-0 rotate-45" : "-top-2"}`} />
+            <span className={`absolute left-0 top-0 h-[3px] w-7 rounded bg-current transition ${open ? "opacity-0" : ""}`} />
+            <span className={`absolute left-0 h-[3px] w-7 rounded bg-current transition ${open ? "top-0 -rotate-45" : "top-2"}`} />
+          </span>
+        </button>
+      </header>
+
+      {/* Desktop: floating logo top right, as before */}
+      <Link href="/" className="fixed right-0 top-0 z-40 hidden w-[min(400px,30vw)] md:block" aria-label="GRL PWR FSTVL – forside">
+        <Image src={Logo} alt="GRL PWR FSTVL" priority sizes="30vw" className="h-auto w-full" />
+      </Link>
+
+      <nav
+        id="site-nav"
+        aria-label="Hovedmeny"
+        className={`fixed inset-0 z-30 flex flex-col overflow-y-auto bg-white pt-16 transition-[transform,visibility] duration-300 ease-out md:inset-auto md:left-0 md:top-0 md:h-dvh md:w-56 md:translate-x-0 md:bg-transparent md:pt-0 ${
+          open ? "translate-x-0" : "-translate-x-full max-md:invisible"
+        }`}
+      >
+        <Image src={blomstKvinne} alt="" sizes="(min-width: 768px) 224px, 60vw" className="mx-auto h-auto w-3/5 md:w-full" />
+        <ul className="-mt-10 flex flex-col items-center gap-1 px-4 pb-10 text-4xl font-extrabold md:mt-0 md:items-start md:text-3xl lg:text-4xl">
+          {items.map((item) => (
+            <li key={item.href}>
+              <Link
+                href={item.href}
+                onClick={() => setOpen(false)}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                className={`block py-1 transition hover:translate-x-1 hover:text-grlPink ${
+                  isActive(item.href) ? "text-grlPink" : "text-grlGreen"
+                }`}
+              >
+                {item.label}
               </Link>
-            ))}
-    </div>
-</nav>
-</div>
-);
+            </li>
+          ))}
+          {ticketHref && (
+            <li className="mt-6 md:hidden">
+              <a href={ticketHref} target="_blank" rel="noopener noreferrer" className="rounded-full bg-grlPink px-8 py-3 text-2xl text-white">
+                Kjøp billetter
+              </a>
+            </li>
+          )}
+        </ul>
+      </nav>
+    </>
+  );
 }
-export default Menu;

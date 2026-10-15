@@ -1,51 +1,46 @@
-import { getEvents, getWorkshops } from "@/lib/sanity/queries";
-import ImageBlob from "../_components/ImageBlob";
-import Link from "next/link";
+import type { Metadata } from "next";
+import { fetchSanity, getSettings } from "@/lib/sanity/fetch";
+import { EVENTS_QUERY } from "@/lib/sanity/queries";
+import { PageTitle, SectionTitle } from "../_components/Heading";
+import EventCard from "./EventCard";
 
-export const revalidate = 36000;
+export const metadata: Metadata = { title: "Events" };
 
-export default async function Artists() {
-  const events = await getEvents();
-  const workshops = await getWorkshops();
+export default async function Events() {
+  const [settings, { current, past }] = await Promise.all([getSettings(), fetchSanity(EVENTS_QUERY)]);
 
   return (
-    <div 
-    className='flex grid flex-col justify-end w-full grid-cols-1 py-20 gap-y-20 md:grid-cols-2'
-    >   
-      <div className='relative'>
-      <div className="flex w-full justify-content">
-      <h2 className="p-4 text-4xl font-bold text-grlPink md:mx-10">Arrangementer</h2>
-      </div>
+    <>
+      <PageTitle kicker={settings?.festival?.title}>Events og workshops</PageTitle>
 
-      {events.map((eventer) => (
-                <Link href={`/events/${eventer.slug}`} key={eventer._id}>
-        <h2 className="absolute z-20 p-20 my-16 text-2xl font-extrabold text-white transform md:mr-32 drop-shadow-lg">
-        {eventer.hideTitle ? '' : eventer.name}
-         </h2>
+      {current.length > 0 ? (
+        <ul className="grid gap-12 sm:grid-cols-2 md:gap-x-12 lg:grid-cols-3">
+          {current.map((event) => (
+            <li key={event._id}>
+              <EventCard event={event} />
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-3xl font-extrabold text-grlPink">Årets events kommer snart!</p>
+      )}
 
-        <ImageBlob imagelink={eventer.image} id={eventer._id}/>
-
-        </Link>
-      ))}
-    </div>
-    <div className='relative'>
-      <div className="flex w-full justify-content">
-      <h2 className="p-4 text-4xl font-bold text-grlPink md:mx-10">Workshops</h2>
-      </div>
-      {workshops.map((workshop) => (
-        <Link href={`/workshop/${workshop.slug}`} key={workshop._id} className=''>
-        <div className="relative">
-        <h2 className="absolute z-20 p-20 mx-16 my-16 text-2xl font-extrabold text-white transform md:mr-32 drop-shadow-lg">
-        {workshop.name || ''}
-         </h2>
-        <ImageBlob imagelink={workshop.image} id={workshop._id}/>
-        </div>
-        </Link>
-        ))}
-    </div>
-
-    </div>
-  )
+      {past.length > 0 && (
+        <details className="group mt-24">
+          <summary className="cursor-pointer list-none marker:hidden">
+            <SectionTitle action={<span className="text-lg font-extrabold text-grlGreen group-open:hidden">Vis {past.length} ▾</span>}>
+              Tidligere events
+            </SectionTitle>
+          </summary>
+          <ul className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4">
+            {past.map((event) => (
+              <li key={event._id}>
+                <EventCard event={event} sizes="(min-width: 768px) 20vw, 46vw" />
+              </li>
+            ))}
+          </ul>
+        </details>
+      )}
+    </>
+  );
 }
-
-

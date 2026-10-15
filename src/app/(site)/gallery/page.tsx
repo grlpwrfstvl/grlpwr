@@ -1,23 +1,25 @@
-import { getGalleries } from "@/lib/sanity/queries";
-import { imageUrlBuilder } from "@/lib/sanity/image";
-import Carousel from "./_components/Carousel";
+import type { Metadata } from "next";
+import { fetchSanity } from "@/lib/sanity/fetch";
+import { GALLERIES_QUERY } from "@/lib/sanity/queries";
+import { PageTitle } from "../_components/Heading";
+import Gallery from "./Gallery";
 
-export const revalidate = 36000;
+export const metadata: Metadata = { title: "Galleri" };
 
-export default async function Gallery() {
-  const galleries = await getGalleries();
-
-  galleries.sort((a, b) => b.name.localeCompare(a.name));
+export default async function GalleryPage() {
+  const galleries = await fetchSanity(GALLERIES_QUERY);
 
   return (
-    <main className="items-center justify-center w-full mx-auto text-center">
-      <h1 className="p-4 pt-8 text-4xl font-extrabold md:text-6xl md:px-10 md:pt-12 text-grlPink">Galleri</h1>
-      {galleries.map((gallery) => (
-        <div key={gallery._id} className="flex flex-col items-center justify-center w-full py-10">
-          <h2 className="text-xl font-bold md:mb-6 md:text-3xl text-grlPink">{gallery.name}</h2>
-          <Carousel images={gallery.images.map((image) => imageUrlBuilder.image(image).url())} />
-        </div>
-      ))}
-    </main>
+    <>
+      <PageTitle>Galleri</PageTitle>
+      <div className="space-y-16">
+        {galleries.map((gallery) => (
+          <section key={gallery._id}>
+            <h2 className="mb-4 text-3xl font-extrabold text-grlPink md:text-4xl">{gallery.name}</h2>
+            <Gallery images={gallery.images ?? []} title={gallery.name ?? "Galleri"} />
+          </section>
+        ))}
+      </div>
+    </>
   );
 }

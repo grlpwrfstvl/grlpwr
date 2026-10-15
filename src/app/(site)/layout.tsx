@@ -1,139 +1,119 @@
-import './globals.css'
-import { Inter } from 'next/font/google'
-import Menu from './_components/Menu'
-import Image from 'next/image'
-import hockey from './assets/Hockey_Sveis_Grønn.png'
-import leg from './assets/Dansefot_Hæl_Rosa.png'
-import { getPages, getHome } from '@/lib/sanity/queries'
-import instaLogo from './assets/Instagram_Glyph_White.png'
-import faceLogo from './assets/Facebook_Logo_Secondary.png'
-import stcroixLogo from './assets/StCroix_logo_hvit.png'
-import kommuneLogo from './assets/fredrikstad_kommune.png'
-import kulturLogo from './assets/KR_Kulturrådet_hvit.png'
-import ostfoldLogo from './assets/ostfold.fk.png'
+import "./globals.css";
+import type { Metadata, Viewport } from "next";
+import { VisualEditing } from "next-sanity/visual-editing";
+import { Inter } from "next/font/google";
+import { draftMode } from "next/headers";
+import Image from "next/image";
+import Link from "next/link";
+import { getSettings } from "@/lib/sanity/fetch";
+import { hasAsset, sanityImageUrl } from "@/lib/sanity/image";
+import { SanityLive } from "@/lib/sanity/live";
+import hockey from "./assets/Hockey_Sveis_Grønn.png";
+import Footer from "./_components/Footer";
+import Menu, { type NavItem } from "./_components/Menu";
+import { ticketHref } from "./_components/TicketButton";
 
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+const SITE_URL = "https://www.grlpwrfstvl.no";
 
-const inter = Inter({ subsets: ['latin'] })
+const DEFAULT_NAV: NavItem[] = [
+  { label: "Artister", href: "/artists" },
+  { label: "Program", href: "/program" },
+  { label: "Events", href: "/events" },
+  { label: "Galleri", href: "/gallery" },
+  { label: "Kontakt", href: "/contact" },
+];
 
-export const metadata = {
-  title: 'GRL PWR FSTVL',
-  description: 'GRL PWR Festivalens offisielle side!',
-  titleDate: '23-24 APRIL 2024',
-  meta: {
-    title: 'GRL PWR FSTVL | 23-24 APRIL 2024',
-    description: 'GRL PWR Festivalens offisielle side! En feiring av kvinner, musikk og kreativitet.',
-    keywords: 'GRL PWR, festival, women empowerment, music, art',
-    canonical: 'https://www.grlpwrfstvl.no/',
-    og: {
-      title: 'GRL PWR FSTVL | 23-24 APRIL 2024',
-      description: 'GRL PWR Festivalens offisielle side! En feiring av kvinner, musikk og kreativitet.',
-      type: 'website',
-      url: 'https://www.grlpwrfstvl.no/',
-    }
-  }
+// Re-render daily so date logic (ticket button, "festival is over") stays current; data is cached by tag
+export const revalidate = 86400;
+
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSettings();
+  const title = settings?.seo?.title || settings?.title || "GRL PWR FSTVL";
+  const description = settings?.seo?.description || "GRL PWR Festivalens offisielle side!";
+  const image = hasAsset(settings?.seo?.image) ? settings.seo.image : hasAsset(settings?.image) ? settings.image : null;
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: { default: title, template: `%s | ${settings?.title || "GRL PWR FSTVL"}` },
+    description,
+    openGraph: {
+      type: "website",
+      siteName: settings?.title || "GRL PWR FSTVL",
+      locale: "nb_NO",
+      images: image ? [{ url: sanityImageUrl(image, 1200, 1200 / 630), width: 1200, height: 630 }] : undefined,
+    },
+  };
+}
+
+export const viewport: Viewport = {
+  themeColor: "#e82265",
 };
 
-export default async function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  const [pages, home] = await Promise.all([getPages(), getHome()]);
-  const filteredPages = pages.filter(page => page.slug !== 'kontaktinfo');
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const [settings, { isEnabled: isDraftMode }] = await Promise.all([getSettings(), draftMode()]);
 
-  const homeData = home[0];
-  const colorStyle = {
-    ...(homeData.primaryColor ? { '--color-grlPink': homeData.primaryColor } : {}),
-    ...(homeData.secondaryColor ? { '--color-grlGreen': homeData.secondaryColor } : {}),
-    ...(homeData.accentColor ? { '--color-lightPink': homeData.accentColor } : {}),
+  const colors = {
+    ...(settings?.primaryColor ? { "--color-grlPink": settings.primaryColor } : {}),
+    ...(settings?.secondaryColor ? { "--color-grlGreen": settings.secondaryColor } : {}),
+    ...(settings?.accentColor ? { "--color-lightPink": settings.accentColor } : {}),
   } as React.CSSProperties;
 
+  const navItems = settings?.navigation?.length
+    ? settings.navigation.flatMap((item) => (item.label && item.href ? [{ label: item.label, href: item.href }] : []))
+    : DEFAULT_NAV;
+  const tickets = ticketHref(settings?.festival);
+  const announcement = settings?.announcement;
+
   return (
-    <html lang="en" className={inter.className} style={colorStyle}>
-      <body className="flex flex-col w-full min-h-screen mx-auto bg-white">
-      <Image
-      src={hockey}
-      alt="festive art"
-      height={400}
-      className='fixed bottom-0 right-0 z-50 w-auto h-52 md:h-1/2'
-      />
+    <html lang="nb" className={inter.variable} style={colors}>
+      <body className="flex min-h-dvh flex-col bg-white font-sans text-gray-900 antialiased">
+        <a href="#main" className="sr-only z-50 bg-grlPink p-3 text-white focus:not-sr-only focus:fixed focus:left-2 focus:top-2">
+          Hopp til innhold
+        </a>
 
-      <Menu pages={filteredPages} logoFromSanity={home[0].logo}/>
-      <div className='flex flex-row'>
-      <main className="flex items-center w-full px-2 pt-24 pb-20 mx-auto md:w-5/6 md:pl-16">{children}</main>
-      </div>
+        {announcement?.text && (
+          <div className="relative z-50 bg-grlGreen px-4 py-2 text-center text-sm font-bold text-white md:ml-56 md:text-base">
+            {announcement.href ? (
+              <Link href={announcement.href} className="underline-offset-4 hover:underline">
+                {announcement.text} →
+              </Link>
+            ) : (
+              announcement.text
+            )}
+          </div>
+        )}
 
-      <footer className='relative z-10 w-full pt-10 text-center text-grlPink bg-lightPink'>
-        
-        <div className='flex flex-col justify-center'>
-        <h2 className='py-2 text-2xl font-bold md:text-3xl'>
-        GRL PWR FSTVL
-        </h2>
-        <div className='flex justify-center w-full gap-6 pb-8'>
-        <a
-         href='https://www.instagram.com/grlpwr_fstvl/?next=%2Fmyuccia%2Ffeed%2F&hl'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={instaLogo} alt="Link to festival instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-        </a> 
-        <a
-         href='https://www.facebook.com/GRLPWRFSTVL/'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={faceLogo} alt="Link to festival facebook page" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-        </a> 
-        </div>
-        <div className='pb-6 font-semibold text-md'>
-          
+        <Menu items={navItems} ticketHref={tickets} />
 
-        <h3>Festivalsjef: Sara Jeanine Heidenstrøm</h3>
-        <a href='https://www.majabrenna.com/'><h3>Design og foto: Maja Brenna</h3></a>
-        <a href='https://www.instagram.com/nillustrasjon/'><h3>Grafikk: Nora Syvertsen</h3></a>
-        <a href='https://www.vadstein.dev/'><h3>Web: Håkon Vadstein</h3></a>
-
-        </div>
-        
-        <div className='flex flex-col justify-center gap-8 py-8 md:flex-row md:gap-20'>
-        <a
-         href='https://www.fredrikstad.kommune.no/tjenester/kulturogfritid/kulturhusene/st.-croix-huset/'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={stcroixLogo} alt="Link to st Croix" className="w-auto h-16 mx-auto transition-transform transform-gpu hover:scale-110" />
-        </a> 
-
-
-        <a
-         href='https://www.kulturdirektoratet.no/'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={kulturLogo} alt="Link to kulturrådet" className="w-auto h-16 mx-auto transition-transform transform-gpu hover:scale-110" />
-        </a> 
-
-        <a
-         href='https://www.fredrikstad.kommune.no/'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={kommuneLogo} alt="Link to kommunen" className="w-auto h-20 mx-auto transition-transform transform-gpu hover:scale-110" />
-        </a> 
-
-        <a
-         href='https://www.ofk.no/'
-         target="_blank" 
-         rel="noopener noreferrer">
-        <Image src={ostfoldLogo} alt="Link to fylkeskommunen" className="w-auto mx-auto transition-transform h-14 transform-gpu hover:scale-110" />
-        </a> 
-        </div>
-        </div>
+        <main id="main" className="relative z-10 w-full flex-1 px-4 pb-24 pt-6 md:pl-60 md:pr-16 md:pt-28 lg:pr-44">
+          <div className="mx-auto max-w-6xl">{children}</div>
+        </main>
 
         <Image
-      src={leg}
-      alt="festive art"
-      height={200}
-      className='absolute z-50 ml-10 transform rotate-180 -left-14 md:left-0 w-36 md:w-min -mt-36 md:-mt-48'
-      />
-      </footer>
+          src={hockey}
+          alt=""
+          sizes="(min-width: 768px) 25vw, 30vw"
+          className="pointer-events-none fixed bottom-0 right-0 z-20 h-28 w-auto md:h-[45vh]"
+        />
+
+        <Footer settings={settings} />
+
+        {tickets && (
+          <a
+            href={tickets}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="fixed bottom-4 left-4 z-30 rounded-full bg-grlPink px-6 py-3 text-lg font-extrabold text-white shadow-lg shadow-grlPink/30 transition active:scale-95 md:hidden"
+          >
+            Kjøp billetter
+          </a>
+        )}
+
+        <SanityLive />
+        {isDraftMode && <VisualEditing />}
       </body>
     </html>
-  )
+  );
 }

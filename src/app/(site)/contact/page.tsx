@@ -1,22 +1,26 @@
-import ContactForm from "./_components/ContactForm"
+import type { Metadata } from "next";
+import { getSettings } from "@/lib/sanity/fetch";
+import { PageTitle } from "../_components/Heading";
+import RichText from "../_components/RichText";
+import ContactForm from "./_components/ContactForm";
+
+export const metadata: Metadata = { title: "Kontakt" };
 
 export default async function Contact() {
+  const settings = await getSettings();
 
-    return (
-        <main className="w-full py-2 md:py-12">
-        <div className="flex flex-col justify-center">
-        <h1 className="text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
-                Kontakt
-        </h1> 
-        <p className="p-4 md:px-10">
-        Har du spørsmål om festivalen? Ønsker du fremtidig samarbeid?
-          <br />
-          Ta kontakt, så svarer vi på henvendelsen din så fort vi kan.
-
-        </p>
-        <ContactForm />
-          
-        </div>
-        </main>
-    )
+  return (
+    <div className="grid gap-10 md:grid-cols-2 md:gap-16">
+      <div>
+        <PageTitle>Kontakt</PageTitle>
+        <RichText value={settings?.contactIntro} className="text-xl font-semibold leading-relaxed" />
+        {settings?.contactEmail && (
+          <a href={`mailto:${settings.contactEmail}`} className="mt-6 inline-block text-2xl font-extrabold text-grlGreen underline-offset-4 hover:underline">
+            {settings.contactEmail}
+          </a>
+        )}
+      </div>
+      <ContactForm />
+    </div>
+  );
 }
