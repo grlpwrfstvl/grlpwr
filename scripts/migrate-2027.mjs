@@ -231,8 +231,8 @@ if (!docs.some((doc) => doc._id === 'siteSettings')) {
     ...(home?.accentColor ? {accentColor: home.accentColor} : {}),
     navigation: [
       navItem('Artister', {type: 'route', route: '/artists'}),
-      navItem('Program', {type: 'route', route: '/program'}),
       navItem('Events', {type: 'route', route: '/events'}),
+      navItem('Program', {type: 'route', route: '/program'}),
       navItem('Galleri', {type: 'route', route: '/gallery'}),
       navItem('Kontakt', {type: 'route', route: '/contact'}),
       ...pages.map((page) => navItem(page.title, {type: 'internal', internal: ref(page._id)})),

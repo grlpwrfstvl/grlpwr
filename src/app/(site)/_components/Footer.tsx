@@ -7,7 +7,11 @@ import { FacebookIcon, InstagramIcon, TikTokIcon } from "./Icons";
 type Settings = NonNullable<SETTINGS_QUERY_RESULT>;
 
 export default function Footer({ settings }: { settings: Settings | null }) {
-  const social = settings?.socialLinks;
+  // Keep the festival reachable even before Innstillinger is filled in
+  const social = settings?.socialLinks ?? {
+    instagram: "https://www.instagram.com/grlpwr_fstvl/",
+    facebook: "https://www.facebook.com/GRLPWRFSTVL/",
+  };
   const socialLinks = [
     { href: social?.instagram, label: "Instagram", Icon: InstagramIcon },
     { href: social?.facebook, label: "Facebook", Icon: FacebookIcon },

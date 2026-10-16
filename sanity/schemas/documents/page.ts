@@ -15,6 +15,14 @@ export default defineType({
   fields: [
     defineField({name: 'title', title: 'Tittel', type: 'string', group: 'content', validation: (rule) => rule.required()}),
     {...slugField('title'), group: 'content'},
+    defineField({
+      name: 'hideFromMenu',
+      title: 'Skjul fra menyen',
+      type: 'boolean',
+      group: 'content',
+      description: 'Alle sider vises i menyen automatisk. Slå på for å skjule denne (siden er fortsatt tilgjengelig via lenke).',
+      initialValue: false,
+    }),
     imageField({title: 'Toppbilde (liggende)', group: 'content'}),
     defineField({
       name: 'sections',

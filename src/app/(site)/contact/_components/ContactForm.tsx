@@ -10,7 +10,7 @@ export default function ContactForm() {
 
   if (state.succeeded) {
     return (
-      <p role="status" className="rounded-3xl bg-lightPink p-8 text-2xl font-extrabold text-grlPink">
+      <p role="status" className="rounded-3xl bg-lightPink p-8 text-center text-2xl font-extrabold text-grlPink">
         Takk for meldingen! Vi svarer så fort vi kan.
       </p>
     );
@@ -41,7 +41,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={state.submitting}
-        className="rounded-full bg-grlPink px-8 py-3 text-lg font-extrabold text-white transition hover:scale-105 hover:bg-grlGreen disabled:opacity-50"
+        className="mx-auto block rounded-full bg-grlPink px-8 py-3 text-lg font-extrabold text-white transition hover:scale-105 hover:bg-grlGreen disabled:opacity-50"
       >
         {state.submitting ? "Sender …" : "Send"}
       </button>

@@ -22,26 +22,39 @@ export default async function Home() {
     <div className="space-y-20 md:space-y-32">
       <section className="grid items-center gap-6 md:grid-cols-2 md:gap-10">
         <div className="order-2 md:order-1">
-          {festival && (
+          <p className="text-sm font-extrabold uppercase tracking-widest text-grlGreen md:text-base">
+            {festival
+              ? isOver
+                ? `Takk for ${festival.year}!`
+                : festival.title || `GRL PWR FSTVL ${festival.year ?? ""}`
+              : settings?.title || "GRL PWR FSTVL"}
+          </p>
+          <h1 className="mt-1 text-5xl font-extrabold leading-[0.95] tracking-tight text-grlPink sm:text-6xl lg:text-7xl">
+            {festival ? `${festival.location || "Fredrikstad"} ${festival.year ?? ""}` : "Neste festival kommer snart"}
+          </h1>
+          {/* Until dates are set (or after the festival) show a "stay tuned" line instead */}
+          {festival && !isOver && dates ? (
             <>
-              <p className="text-sm font-extrabold uppercase tracking-widest text-grlGreen md:text-base">
-                {isOver ? `Takk for ${festival.year}!` : festival.title}
-              </p>
-              <h1 className="mt-1 text-5xl font-extrabold leading-[0.95] tracking-tight text-grlPink sm:text-6xl lg:text-7xl">
-                {festival.location} {festival.year}
-              </h1>
-              {dates && <p className="mt-2 text-3xl font-extrabold text-grlPink md:text-4xl">{dates}</p>}
-              {!isOver && festival.startDate && (
-                <Countdown startDate={festival.startDate} className="mt-2 text-xl font-extrabold text-grlGreen" />
-              )}
+              <p className="mt-2 text-3xl font-extrabold text-grlPink md:text-4xl">{dates}</p>
+              {festival.startDate && <Countdown startDate={festival.startDate} className="mt-2 text-xl font-extrabold text-grlGreen" />}
             </>
+          ) : (
+            <p className="mt-3 text-xl font-extrabold text-grlGreen md:text-2xl">
+              {festival && !isOver ? "Dato kommer snart – følg med!" : "Følg med for datoer, artister og billetter!"}
+            </p>
           )}
           <RichText value={settings?.description} className="mt-6 text-xl font-semibold leading-snug md:text-2xl" />
           <div className="mt-8 flex flex-wrap gap-3">
             <TicketButton festival={festival} />
-            <Button href="/program" variant="secondary">
-              Se programmet
-            </Button>
+            {festival && !isOver ? (
+              <Button href="/program" variant="secondary">
+                Se programmet
+              </Button>
+            ) : (
+              <Button href="/gallery" variant="secondary">
+                Bilder fra tidligere år
+              </Button>
+            )}
           </div>
         </div>
         {hasAsset(settings?.image) && (

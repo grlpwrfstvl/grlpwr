@@ -28,6 +28,10 @@ Everything is organised around **festivals**: one `festival` document per year (
 3. Add artists and events under *Artister/Events → Per festival → 2027*. The festival field is filled in automatically.
 4. Once tickets are on sale, set the ticket status to "I salg" and add the link.
 
+**Between festivals:** you can leave *Årets festival* empty, or point it at a festival whose dates aren't filled in yet. The site then shows "Neste festival kommer snart" / "Dato kommer snart", hides ticket buttons and empty sections, and lists every artist under *Tidligere artister*.
+
+**Menu:** every page shows up in the menu automatically, after the menu items set in Innstillinger. Turn on *Skjul fra menyen* on a page to leave it out.
+
 Other editor-controlled content: menu, footer credits, sponsor logos, social links, contact text, the announcement bar, SEO defaults and brand colours (all under Innstillinger), plus pages built from sections (text, image, button, FAQ, lineup, gallery, video).
 
 ## Caching and live updates

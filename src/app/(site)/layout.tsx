@@ -5,7 +5,8 @@ import { Inter } from "next/font/google";
 import { draftMode } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
-import { getSettings } from "@/lib/sanity/fetch";
+import { fetchSanity, getSettings } from "@/lib/sanity/fetch";
+import { MENU_PAGES_QUERY } from "@/lib/sanity/queries";
 import { hasAsset, sanityImageUrl } from "@/lib/sanity/image";
 import { SanityLive } from "@/lib/sanity/live";
 import hockey from "./assets/Hockey_Sveis_Grønn.png";
@@ -19,8 +20,8 @@ const SITE_URL = "https://www.grlpwrfstvl.no";
 
 const DEFAULT_NAV: NavItem[] = [
   { label: "Artister", href: "/artists" },
-  { label: "Program", href: "/program" },
   { label: "Events", href: "/events" },
+  { label: "Program", href: "/program" },
   { label: "Galleri", href: "/gallery" },
   { label: "Kontakt", href: "/contact" },
 ];
@@ -52,7 +53,11 @@ export const viewport: Viewport = {
 };
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const [settings, { isEnabled: isDraftMode }] = await Promise.all([getSettings(), draftMode()]);
+  const [settings, pages, { isEnabled: isDraftMode }] = await Promise.all([
+    getSettings(),
+    fetchSanity(MENU_PAGES_QUERY),
+    draftMode(),
+  ]);
 
   const colors = {
     ...(settings?.primaryColor ? { "--color-grlPink": settings.primaryColor } : {}),
@@ -60,9 +65,16 @@ export default async function RootLayout({ children }: { children: React.ReactNo
     ...(settings?.accentColor ? { "--color-lightPink": settings.accentColor } : {}),
   } as React.CSSProperties;
 
-  const navItems = settings?.navigation?.length
+  // The editor's menu (or the default one), then any page it doesn't already link to
+  const baseNav = settings?.navigation?.length
     ? settings.navigation.flatMap((item) => (item.label && item.href ? [{ label: item.label, href: item.href }] : []))
     : DEFAULT_NAV;
+  const navItems = [
+    ...baseNav,
+    ...pages
+      .filter((page) => page.title && !baseNav.some((item) => item.href === `/${page.slug}`))
+      .map((page) => ({ label: page.title!, href: `/${page.slug}` })),
+  ];
   const tickets = ticketHref(settings?.festival);
   const announcement = settings?.announcement;
 
@@ -74,7 +86,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         </a>
 
         {announcement?.text && (
-          <div className="relative z-50 bg-grlGreen px-4 py-2 text-center text-sm font-bold text-white md:ml-56 md:text-base">
+          <div className="relative z-50 bg-grlGreen px-4 py-2 text-center text-sm font-bold text-white md:text-base">
             {announcement.href ? (
               <Link href={announcement.href} className="underline-offset-4 hover:underline">
                 {announcement.text} →
@@ -85,11 +97,14 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           </div>
         )}
 
-        <Menu items={navItems} ticketHref={tickets} />
+        {/* Desktop: the menu is sticky inside this row, so it scrolls away before the footer */}
+        <div className="flex-1 md:flex">
+          <Menu items={navItems} ticketHref={tickets} />
 
-        <main id="main" className="relative z-10 w-full flex-1 px-4 pb-24 pt-6 md:pl-60 md:pr-16 md:pt-28 lg:pr-44">
-          <div className="mx-auto max-w-6xl">{children}</div>
-        </main>
+          <main id="main" className="relative z-10 w-full min-w-0 flex-1 px-4 pb-24 pt-6 md:pl-4 md:pr-16 md:pt-28 lg:pr-44">
+            <div className="mx-auto max-w-6xl">{children}</div>
+          </main>
+        </div>
 
         <Image
           src={hockey}

@@ -72,7 +72,7 @@ export default function Menu({ items, ticketHref }: Props) {
       <nav
         id="site-nav"
         aria-label="Hovedmeny"
-        className={`fixed inset-0 z-30 flex flex-col overflow-y-auto bg-white pt-16 transition-[transform,visibility] duration-300 ease-out md:inset-auto md:left-0 md:top-0 md:h-dvh md:w-56 md:translate-x-0 md:bg-transparent md:pt-0 ${
+        className={`fixed inset-0 z-30 flex flex-col overflow-y-auto bg-white pt-16 transition-[transform,visibility] duration-300 ease-out md:sticky md:inset-auto md:top-0 md:h-dvh md:w-56 md:shrink-0 md:translate-x-0 md:bg-transparent md:pt-0 ${
           open ? "translate-x-0" : "-translate-x-full max-md:invisible"
         }`}
       >

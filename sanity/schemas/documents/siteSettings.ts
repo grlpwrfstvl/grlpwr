@@ -34,8 +34,7 @@ export default defineType({
       to: [{type: 'festival'}],
       group: 'festival',
       description:
-        'Styrer forside, program, billettknapper og hvilke artister som er «årets». Bytt denne når neste festival skal annonseres – alt annet blir arkivert automatisk.',
-      validation: (rule) => rule.required(),
+        'Styrer forside, program, billettknapper og hvilke artister som er «årets». Bytt denne når neste festival skal annonseres – alt annet blir arkivert automatisk. Tomt = siden viser «Neste festival kommer snart».',
     }),
     defineField({
       name: 'announcement',

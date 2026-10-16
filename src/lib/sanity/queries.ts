@@ -71,8 +71,15 @@ export const SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings" && _id == "
   accentColor
 }`);
 
+// Every page shows up in the menu unless the editor hides it, so a new page is never unreachable
+export const MENU_PAGES_QUERY = defineQuery(`*[_type == "page" && defined(slug.current) && hideFromMenu != true] | order(_createdAt asc){
+  _id,
+  title,
+  "slug": slug.current
+}`);
+
 export const HOME_QUERY = defineQuery(`{
-  "lineup": *[_type == "artist" && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(headliner desc, time asc)[0...6]${ARTIST_CARD},
+  "lineup": *[_type == "artist" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(headliner desc, time asc)[0...6]${ARTIST_CARD},
   "news": *[_type == "news"] | order(coalesce(date, _createdAt) desc)[0...8]{
     _id,
     title,
@@ -104,14 +111,14 @@ export const ARTIST_QUERY = defineQuery(`*[_type == "artist" && slug.current == 
   video,
   "stage": stage->name,
   "festival": festival->${FESTIVAL},
-  "more": *[_type == "artist" && festival._ref == ^.festival._ref && _id != ^._id] | order(time asc)[0...4]${ARTIST_CARD}
+  "more": *[_type == "artist" && defined(^.festival._ref) && festival._ref == ^.festival._ref && _id != ^._id] | order(time asc)[0...4]${ARTIST_CARD}
 }`);
 
 export const ARTIST_SLUGS_QUERY = defineQuery(`*[_type == "artist" && defined(slug.current)]{"slug": slug.current}`);
 
 export const EVENTS_QUERY = defineQuery(`{
-  "current": *[_type == "event" && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(time asc)${EVENT_CARD},
-  "past": *[_type == "event" && festival._ref != ${CURRENT_FESTIVAL_ID}] | order(time desc)${EVENT_CARD}
+  "current": *[_type == "event" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(time asc)${EVENT_CARD},
+  "past": *[_type == "event" && coalesce(festival._ref, "") != coalesce(${CURRENT_FESTIVAL_ID}, "none")] | order(time desc)${EVENT_CARD}
 }`);
 
 export const EVENT_QUERY = defineQuery(`*[_type == "event" && slug.current == $slug][0]{
@@ -134,7 +141,7 @@ export const EVENT_SLUGS_QUERY = defineQuery(`*[_type == "event" && defined(slug
 
 export const PROGRAM_QUERY = defineQuery(`*[
   _type in ["artist", "event"]
-  && festival._ref == ${CURRENT_FESTIVAL_ID}
+  && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}
   && defined(time)
   && (_type == "artist" || showInProgram != false)
 ] | order(time asc){
@@ -164,7 +171,7 @@ export const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slu
     _type == "faqSection" => {heading, items[]{_key, question, answer}},
     _type == "lineupSection" => {
       heading,
-      "artists": *[_type == "artist" && festival._ref == ${CURRENT_FESTIVAL_ID} && (!^.onlyHeadliners || headliner)] | order(headliner desc, time asc)${ARTIST_CARD}
+      "artists": *[_type == "artist" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID} && (!^.onlyHeadliners || headliner)] | order(headliner desc, time asc)${ARTIST_CARD}
     },
     _type == "gallerySection" => {"gallery": gallery->{name, images[]${IMAGE}}},
     _type == "videoSection" => {url, title}

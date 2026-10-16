@@ -25,14 +25,14 @@ export default defineType({
       name: 'startDate',
       title: 'Første festivaldag',
       type: 'date',
-      validation: (rule) => rule.required(),
+      description: 'Kan stå tomt til datoene er klare – siden viser da «Dato kommer snart».',
     }),
     defineField({
       name: 'endDate',
       title: 'Siste festivaldag',
       type: 'date',
       validation: (rule) =>
-        rule.required().custom((endDate, {document}) => {
+        rule.custom((endDate, {document}) => {
           const start = document?.startDate as string | undefined
           return !start || !endDate || endDate >= start ? true : 'Siste dag kan ikke være før første dag'
         }),
