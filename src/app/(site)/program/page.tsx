@@ -1,178 +1,112 @@
-import Link from 'next/link';
-import { getEvents, getArtists, getHome } from '@/lib/sanity/queries';
-import { getOsloDateParts } from '@/lib/utils/date';
-import type { Artist } from '../../../../types/Artist';
-import type { Eventer } from '../../../../types/Eventer';
+import type { Metadata } from "next";
+import { stegaClean } from "next-sanity";
+import Link from "next/link";
+import { fetchSanity, getSettings } from "@/lib/sanity/fetch";
+import { PROGRAM_QUERY } from "@/lib/sanity/queries";
+import { festivalDates, formatDay, formatTime, osloDateKey } from "@/lib/utils/date";
+import { PageTitle } from "../_components/Heading";
+import TicketButton from "../_components/TicketButton";
+import NowBadge from "./NowBadge";
 
-type ProgramItem = {
-  id: string;
-  time: string;
-  title: string;
-  href?: string;
-  sortMinutes: number;
+export const metadata: Metadata = { title: "Program" };
+
+const CATEGORY_LABELS: Record<string, string> = {
+  workshop: "Workshop",
+  party: "Fest",
+  talk: "Samtale",
+  screening: "Visning",
 };
-
-type ProgramDay = {
-  day: string;
-  date: string;
-  dayOfMonth: number;
-  items: ProgramItem[];
-};
-
-function buildArtistProgramItem(artist: Artist, festivalYear: number): (ProgramItem & { day: number }) | null {
-  if (!artist.time) {
-    return null;
-  }
-
-  const date = new Date(artist.time);
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-
-  const parts = getOsloDateParts(date);
-  const isFestivalDate =
-    parts.year === festivalYear &&
-    parts.month === 5;
-
-  if (!isFestivalDate) {
-    return null;
-  }
-
-  const time = `${String(parts.hour).padStart(2, '0')}:${String(parts.minute).padStart(2, '0')}`;
-
-  return {
-    id: `artist-${artist._id}`,
-    day: parts.day,
-    time,
-    title: artist.name,
-    href: artist.slug ? `/artists/${artist.slug}` : undefined,
-    sortMinutes: parts.hour * 60 + parts.minute,
-  };
-}
-
-function buildEventProgramItem(eventer: Eventer, festivalYear: number): (ProgramItem & { day: number }) | null {
-  if (!eventer.time) {
-    return null;
-  }
-
-  const date = new Date(eventer.time);
-  if (Number.isNaN(date.getTime())) {
-    return null;
-  }
-
-  const parts = getOsloDateParts(date);
-  const isFestivalDate =
-    parts.year === festivalYear &&
-    parts.month === 5;
-
-  if (!isFestivalDate) {
-    return null;
-  }
-
-  const time = `${String(parts.hour).padStart(2, '0')}:${String(parts.minute).padStart(2, '0')}`;
-
-  return {
-    id: `event-${eventer._id}`,
-    day: parts.day,
-    time,
-    title: eventer.name,
-    href: eventer.slug ? `/events/${eventer.slug}` : undefined,
-    sortMinutes: parts.hour * 60 + parts.minute,
-  };
-}
 
 export default async function ProgramPage() {
-  const [homeResult, artists, events] = await Promise.all([getHome(), getArtists(), getEvents()]);
-  const homeData = homeResult[0];
+  const [settings, items] = await Promise.all([getSettings(), fetchSanity(PROGRAM_QUERY)]);
+  const festival = settings?.festival;
 
-  const festivalYear = homeData.eventYear ?? new Date().getFullYear();
-  const ticketsLink = homeData.ticketsLink ?? 'https://checkout.ebillett.no/178/events/151120/purchase/setup';
-
-  const FESTIVAL_DAYS: Array<Omit<ProgramDay, 'items'>> = homeData.festivalDays?.length
-    ? homeData.festivalDays.map((d) => ({ day: d.dayName, date: d.displayDate, dayOfMonth: d.dayOfMonth }))
-    : [
-        { day: 'Fredag', date: '8. mai', dayOfMonth: 8 },
-        { day: 'Lørdag', date: '9. mai', dayOfMonth: 9 },
-      ];
-
-  const validDays = new Set(FESTIVAL_DAYS.map((d) => d.dayOfMonth));
-  const itemsByDay: Record<number, ProgramItem[]> = {};
-  for (const d of FESTIVAL_DAYS) {
-    itemsByDay[d.dayOfMonth] = [];
+  // Group by Oslo date; days outside the main festival (warm-ups, screenings) get their own heading
+  const days = new Map<string, typeof items>();
+  for (const item of items) {
+    if (!item.time) continue;
+    const key = osloDateKey(item.time);
+    days.set(key, [...(days.get(key) ?? []), item]);
   }
-
-  artists.forEach((artist) => {
-    const item = buildArtistProgramItem(artist, festivalYear);
-    if (item && validDays.has(item.day)) {
-      itemsByDay[item.day].push(item);
-    }
-  });
-
-  events.forEach((eventer) => {
-    const item = buildEventProgramItem(eventer, festivalYear);
-    if (item && validDays.has(item.day)) {
-      itemsByDay[item.day].push(item);
-    }
-  });
-
-  const festivalProgram: ProgramDay[] = FESTIVAL_DAYS.map((day) => ({
-    ...day,
-    items: [...(itemsByDay[day.dayOfMonth] ?? [])].sort((a, b) => a.sortMinutes - b.sortMinutes),
-  }));
+  const isFestivalDay = (key: string) =>
+    Boolean(festival?.startDate && festival.endDate && key >= festival.startDate && key <= festival.endDate);
 
   return (
-    <div className="w-full max-w-5xl py-8 mx-auto md:py-14">
-      <div className="max-w-3xl px-2 mx-auto mb-8 text-center md:mb-12">
-        <h1 className="text-5xl font-extrabold md:text-6xl text-grlPink">Program</h1>
-        <p className="mt-2 text-xl font-bold md:text-2xl text-grlGreen">GRL PWR FSTVL {festivalYear}</p>
-      </div>
+    <>
+      <PageTitle kicker={festival ? [festival.title, festivalDates(festival)].filter(Boolean).join(" · ") : undefined}>
+        Program
+      </PageTitle>
 
-      <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2">
-        {festivalProgram.map((programDay) => (
-          <section key={programDay.day}>
-            <header className="px-5 py-4">
-              <h2 className="text-4xl font-extrabold text-grlPink">{programDay.day}</h2>
-              <p className="text-xl font-bold text-grlGreen">{programDay.date}</p>
-            </header>
+      {days.size === 0 ? (
+        <p className="text-3xl font-extrabold text-grlPink">Programmet slippes snart – følg med!</p>
+      ) : (
+        <>
+          {/* Jump between days without scrolling through everything */}
+          <nav aria-label="Dager" className="no-scrollbar sticky top-16 z-20 -mx-4 mb-8 flex gap-2 overflow-x-auto bg-white/95 px-4 py-3 backdrop-blur md:top-0">
+            {[...days.keys()].map((key) => (
+              <a
+                key={key}
+                href={`#dag-${key}`}
+                className={`shrink-0 rounded-full px-4 py-2 font-extrabold capitalize transition ${
+                  isFestivalDay(key) ? "bg-grlPink text-white hover:bg-grlGreen" : "border-2 border-grlPink text-grlPink hover:bg-lightPink"
+                }`}
+              >
+                {formatDay(`${key}T12:00:00Z`).split(" ")[0]} {Number(key.slice(8))}.
+              </a>
+            ))}
+          </nav>
 
-            <ul className="px-5 py-3">
-              {programDay.items.length === 0 ? (
-                <li className="py-3 text-xl font-bold text-grlGreen">Ingen programposter i CMS ennå.</li>
-              ) : programDay.items.map((item) => (
-                <li
-                  key={item.id}
-                  className="py-3"
-                >
-                  {item.href ? (
-                    <Link
-                      href={item.href}
-                      className="grid grid-cols-[88px_1fr] gap-3 hover:opacity-75"
-                    >
-                      <span className="text-3xl font-extrabold text-grlPink">{item.time}</span>
-                      <div>
-                        <p className="text-3xl font-extrabold leading-tight text-grlPink">{item.title}</p>
-                      </div>
-                    </Link>
-                  ) : (
-                    <div className="grid grid-cols-[88px_1fr] gap-3">
-                      <span className="text-3xl font-extrabold text-grlPink">{item.time}</span>
-                      <div>
-                        <p className="text-3xl font-extrabold leading-tight text-grlPink">{item.title}</p>
-                      </div>
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          </section>
-        ))}
-      </div>
+          <div className="grid gap-12 md:grid-cols-2 md:gap-x-12">
+            {[...days.entries()].map(([key, dayItems]) => (
+              <section key={key} id={`dag-${key}`} className="scroll-mt-36 md:scroll-mt-24">
+                <h2 className="text-4xl font-extrabold capitalize text-grlPink md:text-5xl">
+                  {formatDay(`${key}T12:00:00Z`).split(" ")[0]}
+                </h2>
+                <p className="text-xl font-bold text-grlGreen">
+                  {formatDay(`${key}T12:00:00Z`).split(" ").slice(1).join(" ")}
+                  {!isFestivalDay(key) && " · før festivalen"}
+                </p>
 
-      <div className="flex justify-center w-full mt-10">
-        <a href={ticketsLink}>
-          <h2 className="text-3xl font-bold text-grlPink">Kjøp billetter her!</h2>
-        </a>
+                <ol className="mt-4 divide-y-2 divide-lightPink">
+                  {dayItems.map((item) => {
+                    const href = item.slug ? `/${item._type === "artist" ? "artists" : "events"}/${item.slug}` : null;
+                    const category = item._type === "event" ? CATEGORY_LABELS[stegaClean(item.category) ?? ""] : null;
+                    const content = (
+                      <>
+                        <span className="text-2xl font-extrabold tabular-nums text-grlPink md:text-3xl">{formatTime(item.time!)}</span>
+                        <span>
+                          <span className="block text-2xl font-extrabold leading-tight text-grlPink transition group-hover:text-grlGreen md:text-3xl">
+                            {item.name}
+                            <NowBadge start={item.time!} end={item.endTime} />
+                          </span>
+                          <span className="text-base font-bold text-gray-600">
+                            {[item.endTime && `til ${formatTime(item.endTime)}`, item.place, category].filter(Boolean).join(" · ")}
+                          </span>
+                        </span>
+                      </>
+                    );
+                    return (
+                      <li key={item._id}>
+                        {href ? (
+                          <Link href={href} className="group grid grid-cols-[4.5rem_1fr] gap-3 py-4 md:grid-cols-[5.5rem_1fr]">
+                            {content}
+                          </Link>
+                        ) : (
+                          <div className="grid grid-cols-[4.5rem_1fr] gap-3 py-4 md:grid-cols-[5.5rem_1fr]">{content}</div>
+                        )}
+                      </li>
+                    );
+                  })}
+                </ol>
+              </section>
+            ))}
+          </div>
+        </>
+      )}
+
+      <div className="mt-16 flex justify-center">
+        <TicketButton festival={festival} />
       </div>
-    </div>
+    </>
   );
 }

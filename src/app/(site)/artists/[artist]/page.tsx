@@ -1,84 +1,115 @@
-import { getArtist } from "@/lib/sanity/queries";
-import { blobPaths } from "@/lib/utils/blob";
-import Image from "next/image";
-import { PortableText } from '@portabletext/react';
-import instaLogo from '../../assets/Instagram_Glyph_White.png'
-import spotifyLogo from '../../assets/Spotify_Logo_CMYK_White.png'
-import ArtistPortrait from "../_components/ArtistPortrait";
+import type { Metadata } from "next";
+import { toPlainText } from "next-sanity";
+import Link from "next/link";
 import { notFound } from "next/navigation";
+import { fetchSanity, fetchSanityStatic } from "@/lib/sanity/fetch";
+import { hasAsset, sanityImageUrl } from "@/lib/sanity/image";
+import { ARTIST_QUERY, ARTIST_SLUGS_QUERY } from "@/lib/sanity/queries";
+import { formatDay, formatTime } from "@/lib/utils/date";
+import ArtistCard from "../../_components/ArtistCard";
+import BlobImage from "../../_components/BlobImage";
+import { SpotifyPlayer, VideoPlayer } from "../../_components/Embeds";
+import { SectionTitle } from "../../_components/Heading";
+import { CalendarIcon, InstagramIcon, SpotifyIcon } from "../../_components/Icons";
+import RichText from "../../_components/RichText";
+import TicketButton from "../../_components/TicketButton";
 
-export const revalidate = 36000;
+type Props = { params: Promise<{ artist: string }> };
 
+export async function generateStaticParams() {
+  const artists = await fetchSanityStatic(ARTIST_SLUGS_QUERY);
+  return artists.map(({ slug }) => ({ artist: slug }));
+}
 
-export default async function Artist({ params }: { params: Promise<{ artist: string }> }) {
-  const { artist: artistParam } = await params;
-  const artist = await getArtist(artistParam);
-  if (!artist) {
-    notFound();
-  }
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const artist = await fetchSanity(ARTIST_QUERY, { slug: (await params).artist });
+  if (!artist) return {};
+  return {
+    title: artist.name,
+    description: artist.description ? toPlainText(artist.description).slice(0, 160) : undefined,
+    openGraph: hasAsset(artist.image) ? { images: [{ url: sanityImageUrl(artist.image, 1200, 1200 / 630), width: 1200, height: 630 }] } : undefined,
+  };
+}
 
-
-  const playTime = new Date(artist.time);
-  const dateOptions: Intl.DateTimeFormatOptions = { day: 'numeric', month: 'long' };
-  const timeOptions: Intl.DateTimeFormatOptions = { hour: 'numeric', minute: 'numeric', timeZone: 'Europe/Oslo' };
-  const formattedDate = playTime.toLocaleDateString("no", dateOptions);
-  const formattedTime = playTime.toLocaleTimeString("no", timeOptions);
-
-  const instaLink = artist.instagram;
-  const spotiLink = artist.spotify;
+export default async function ArtistPage({ params }: Props) {
+  const artist = await fetchSanity(ARTIST_QUERY, { slug: (await params).artist });
+  if (!artist) notFound();
 
   return (
-    <main className="pl-0 md:pl-12">
-      <div className="relative flex flex-col w-full max-w-5xl mb-6 md:flex-row">
+    <article>
+      <div className="grid items-start md:grid-cols-[3fr_2fr]">
+        {hasAsset(artist.image) && (
+          <BlobImage image={artist.image} id={artist._id} priority sizes="(min-width: 768px) 50vw, 92vw" />
+        )}
 
-    <div className='z-10 pl-4 -mb-16 md:w-2/3 md:-mb-0 md:pl-0'>
-    <ArtistPortrait key={artist._id} artist={artist} />
-    </div>
+        {/* The floating pink info bubble */}
+        <div className="relative z-10 -mt-16 ml-auto w-[85%] rounded-[55%_45%_50%_50%/45%_50%_50%_55%] bg-grlPink px-8 py-10 text-white shadow-xl shadow-grlPink/20 md:-ml-24 md:mt-24 md:flex md:aspect-square md:w-[24rem] md:flex-col md:justify-center md:px-14 moving-object3">
+          {artist.festival?.year && <p className="text-sm font-extrabold uppercase tracking-widest opacity-90">{artist.festival.title}</p>}
+          <h1 className="text-4xl font-extrabold leading-none tracking-tight md:text-5xl">{artist.name}</h1>
+          <dl className="mt-3 text-lg font-bold">
+            {artist.time ? (
+              <>
+                <dt className="sr-only">Når</dt>
+                <dd className="first-letter:uppercase">{formatDay(artist.time)}</dd>
+                <dd>kl. {formatTime(artist.time)}</dd>
+              </>
+            ) : (
+              <dd>Tidspunkt kommer</dd>
+            )}
+            {artist.stage && (
+              <>
+                <dt className="sr-only">Hvor</dt>
+                <dd>{artist.stage}</dd>
+              </>
+            )}
+          </dl>
+          <div className="mt-4 flex gap-3">
+            {artist.instagram && (
+              <a href={artist.instagram} target="_blank" rel="noopener noreferrer" aria-label={`${artist.name} på Instagram`} className="transition hover:scale-110">
+                <InstagramIcon className="size-8" />
+              </a>
+            )}
+            {artist.spotify && (
+              <a href={artist.spotify} target="_blank" rel="noopener noreferrer" aria-label={`${artist.name} på Spotify`} className="transition hover:scale-110">
+                <SpotifyIcon className="size-8" />
+              </a>
+            )}
+            {artist.time && artist.slug && (
+              <a href={`/api/calendar/artist/${artist.slug}`} aria-label="Legg til i kalender" className="transition hover:scale-110">
+                <CalendarIcon className="size-8" />
+              </a>
+            )}
+          </div>
+        </div>
+      </div>
 
-    <div className="relative z-20 w-4/6 h-40 mt-0 md:w-2/6 md:mt-24 moving-object">
-    <svg viewBox="0 0 500 500" className="absolute inset-0 z-10">
-    <path d={blobPaths[2]} fill="var(--color-grlPink)" transform="scale(1.05)"/>
-    </svg>
-    <div className="absolute z-30 w-3/4 pt-8 pl-6 text-base font-bold text-white md:pt-12 top-1 md:pl-6 left-1 md:text-lg">
-    <h2 className={`${artist.name.length > 18 ? 'text-lg' : 'text-xl'} md:text-2xl`}>{artist.name}</h2>
-    <p>{formattedDate}</p>
-    <p>{formattedTime}</p>
-    {/* <h2>Tidspunkt: tba</h2> */}
-    <p>{artist.stage}</p>
-    <div className="flex justify-center gap-8 p-2 md:p-5">
-    {artist.instagram && (
-    <a
-    href={instaLink}
-    target="_blank"
-    rel="noopener noreferrer">
-        <Image src={instaLogo} alt="Link to artists instagram" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
+      <div className="mx-auto mt-12 max-w-3xl space-y-8 md:mt-20">
+        <RichText value={artist.description} className="text-xl font-semibold leading-relaxed text-gray-900 md:text-2xl" />
+        {artist.spotify && <SpotifyPlayer url={artist.spotify} name={artist.name ?? ""} />}
+        {artist.video && <VideoPlayer url={artist.video} title={`Video: ${artist.name}`} />}
+        <TicketButton festival={artist.festival} />
+      </div>
 
-    </a>
-    )}
-    {artist.spotify && (
-    <a
-    href={spotiLink}
-    target="_blank"
-    rel="noopener noreferrer">
-        <Image src={spotifyLogo} alt="Link to artists spotify" className="w-8 h-8 transition-transform transform-gpu hover:scale-110" />
-
-    </a>
-    )}
-    </div>
-    </div>
-    </div>
-  </div>
-
-
-  <div className="relative w-full max-w-5xl">
-  <svg viewBox="-10 0 400 350" className="absolute inset-0 opacity-0 md:opacity-100 -z-10 -mt-28">
-    <path d={blobPaths[2]} fill="var(--color-grlPink)" transform="scale(0.96, 0.76)" />
-  </svg>
-  <div className="relative z-10 w-full px-4 mx-auto font-bold md:pt-10 md:w-3/4 md:px-0 text-grlPink md:text-white md:pb-40">
-      <PortableText value={artist.description} />
-  </div>
-  </div>
-
-    </main>
-  )
+      {artist.more.length > 0 && (
+        <section className="mt-24">
+          <SectionTitle
+            action={
+              <Link href="/program" className="text-lg font-extrabold text-grlGreen hover:text-grlPink">
+                Se hele programmet →
+              </Link>
+            }
+          >
+            Flere artister
+          </SectionTitle>
+          <ul className="no-scrollbar -mx-4 flex snap-x snap-mandatory gap-4 overflow-x-auto px-4 md:mx-0 md:grid md:grid-cols-4 md:overflow-visible md:px-0">
+            {artist.more.map((other) => (
+              <li key={other._id} className="w-2/5 shrink-0 snap-start md:w-auto">
+                <ArtistCard artist={other} sizes="(min-width: 768px) 20vw, 40vw" />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+    </article>
+  );
 }

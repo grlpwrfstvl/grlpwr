@@ -1,22 +1,31 @@
-import ContactForm from "./_components/ContactForm"
+import type { Metadata } from "next";
+import { getSettings } from "@/lib/sanity/fetch";
+import RichText from "../_components/RichText";
+import ContactForm from "./_components/ContactForm";
+
+export const metadata: Metadata = { title: "Kontakt" };
+
+const FALLBACK_INTRO = "Har du spørsmål om festivalen? Ønsker du fremtidig samarbeid? Ta kontakt, så svarer vi på henvendelsen din så fort vi kan.";
 
 export default async function Contact() {
+  const settings = await getSettings();
 
-    return (
-        <main className="w-full py-2 md:py-12">
-        <div className="flex flex-col justify-center">
-        <h1 className="text-5xl p-4 md:px-10 text-grlPink drop-shadow font-extrabold">
-                Kontakt
-        </h1> 
-        <p className="p-4 md:px-10">
-        Har du spørsmål om festivalen? Ønsker du fremtidig samarbeid?
-          <br />
-          Ta kontakt, så svarer vi på henvendelsen din så fort vi kan.
-
-        </p>
-        <ContactForm />
-          
-        </div>
-        </main>
-    )
+  return (
+    <div className="mx-auto max-w-2xl">
+      <header className="mb-10 text-center">
+        <h1 className="text-5xl font-extrabold leading-[0.95] tracking-tight text-grlPink md:text-7xl">Kontakt</h1>
+        {settings?.contactIntro?.length ? (
+          <RichText value={settings.contactIntro} className="mt-6 text-xl font-semibold leading-relaxed" />
+        ) : (
+          <p className="mt-6 text-xl font-semibold leading-relaxed">{FALLBACK_INTRO}</p>
+        )}
+        {settings?.contactEmail && (
+          <a href={`mailto:${settings.contactEmail}`} className="mt-4 inline-block text-2xl font-extrabold text-grlGreen underline-offset-4 hover:underline">
+            {settings.contactEmail}
+          </a>
+        )}
+      </header>
+      <ContactForm />
+    </div>
+  );
 }

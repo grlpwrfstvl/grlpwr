@@ -1,185 +1,193 @@
-import { groq } from "next-sanity";
-import { sanityClient } from "./client";
-import type { Artist } from "../../../types/Artist";
-import type { Home } from "../../../types/Home";
-import type { Page } from "../../../types/Page";
-import type { News } from "../../../types/News";
-import type { Workshop } from "../../../types/Workshop";
-import type { Eventer } from "../../../types/Eventer";
-import type { Gallery } from "../../../types/Gallery";
+import { defineQuery } from "next-sanity";
 
-const HOME_QUERY = groq`*[_type == "home"]{
+// Images keep hotspot/crop for the URL builder, plus alt text and a blur placeholder
+const IMAGE = /* groq */ `{
+  asset,
+  hotspot,
+  crop,
+  "alt": coalesce(alt, ""),
+  "lqip": asset->metadata.lqip,
+  "aspectRatio": asset->metadata.dimensions.aspectRatio
+}`;
+
+const HREF = /* groq */ `select(
+  type == "route" => route,
+  type == "external" => url,
+  internal->_type == "artist" => "/artists/" + internal->slug.current,
+  internal->_type == "event" => "/events/" + internal->slug.current,
+  internal->_type == "page" => "/" + internal->slug.current
+)`;
+
+const FESTIVAL = /* groq */ `{
   _id,
-  _createdAt,
+  title,
+  year,
+  startDate,
+  endDate,
+  dateLabel,
+  location,
+  ticketStatus,
+  ticketsLink
+}`;
+
+const CURRENT_FESTIVAL_ID = /* groq */ `*[_type == "siteSettings" && _id == "siteSettings"][0].currentFestival._ref`;
+
+const ARTIST_CARD = /* groq */ `{
+  _id,
   name,
-  "image": image.asset->url,
-  "logo": image.asset->url,
+  "slug": slug.current,
+  image${IMAGE},
+  headliner,
+  time
+}`;
+
+const EVENT_CARD = /* groq */ `{
+  _id,
+  name,
+  "slug": slug.current,
+  image${IMAGE},
+  hideTitle,
+  category,
+  time,
+  location,
+  "year": festival->year
+}`;
+
+export const SETTINGS_QUERY = defineQuery(`*[_type == "siteSettings" && _id == "siteSettings"][0]{
+  title,
   description,
-  ticketsLink,
-  video,
-  eventYear,
-  eventLocation,
-  eventDates,
-  festivalDays[]{_key, dayName, displayDate, dayOfMonth},
+  image${IMAGE},
+  "festival": currentFestival->${FESTIVAL},
+  announcement{text, "href": link{"href": ${HREF}}.href},
+  navigation[]{_key, label, "href": link{"href": ${HREF}}.href},
+  socialLinks,
+  credits[]{_key, role, name, url},
+  sponsors[]{_key, name, url, logo${IMAGE}},
+  contactIntro,
+  contactEmail,
+  seo{title, description, image${IMAGE}},
   primaryColor,
   secondaryColor,
-  accentColor,
-}`;
+  accentColor
+}`);
 
-const PAGES_QUERY = groq`*[_type == "page"]{
+// Every page shows up in the menu unless the editor hides it, so a new page is never unreachable
+export const MENU_PAGES_QUERY = defineQuery(`*[_type == "page" && defined(slug.current) && hideFromMenu != true] | order(_createdAt asc){
   _id,
-  _createdAt,
   title,
-  link,
-  "slug": slug.current,
-  "image": image.asset->url,
-  content,
-}`;
+  "slug": slug.current
+}`);
 
-const PAGE_BY_SLUG_QUERY = groq`*[_type == "page" && slug.current == $slug][0]{
+export const HOME_QUERY = defineQuery(`{
+  "lineup": *[_type == "artist" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(headliner desc, time asc)[0...6]${ARTIST_CARD},
+  "news": *[_type == "news"] | order(coalesce(date, _createdAt) desc)[0...8]{
+    _id,
+    title,
+    date,
+    description,
+    image${IMAGE},
+    "href": link{"href": ${HREF}}.href
+  }
+}`);
+
+export const ARTISTS_QUERY = defineQuery(`*[_type == "festival"] | order(year desc){
   _id,
-  _createdAt,
+  year,
   title,
-  link,
-  "image": image.asset->url,
-  "slug": slug.current,
-  content,
-}`;
+  "artists": *[_type == "artist" && festival._ref == ^._id] | order(headliner desc, time asc)${ARTIST_CARD}
+}[count(artists) > 0]`);
 
-const ARTISTS_QUERY = groq`*[_type == "artist"]{
+export const ARTIST_QUERY = defineQuery(`*[_type == "artist" && slug.current == $slug][0]{
   _id,
-  _createdAt,
   name,
   "slug": slug.current,
+  image${IMAGE},
+  description,
+  headliner,
+  time,
+  endTime,
   instagram,
   spotify,
-  "image": image.asset->url,
-  stage,
-  time,
-  description
-}`;
+  video,
+  "stage": stage->name,
+  "festival": festival->${FESTIVAL},
+  "more": *[_type == "artist" && defined(^.festival._ref) && festival._ref == ^.festival._ref && _id != ^._id] | order(time asc)[0...4]${ARTIST_CARD}
+}`);
 
-const ARTIST_BY_SLUG_QUERY = groq`*[_type == "artist" && slug.current == $slug][0]{
+export const ARTIST_SLUGS_QUERY = defineQuery(`*[_type == "artist" && defined(slug.current)]{"slug": slug.current}`);
+
+export const EVENTS_QUERY = defineQuery(`{
+  "current": *[_type == "event" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}] | order(time asc)${EVENT_CARD},
+  "past": *[_type == "event" && coalesce(festival._ref, "") != coalesce(${CURRENT_FESTIVAL_ID}, "none")] | order(time desc)${EVENT_CARD}
+}`);
+
+export const EVENT_QUERY = defineQuery(`*[_type == "event" && slug.current == $slug][0]{
   _id,
-  _createdAt,
   name,
   "slug": slug.current,
-  instagram,
-  spotify,
-  "image": image.asset->url,
-  stage,
-  time,
-  description
-}`;
-
-const WORKSHOPS_QUERY = groq`*[_type == "workshop"]{
-  _id,
-  _createdAt,
-  name,
-  link,
-  "slug": slug.current,
-  "image": image.asset->url,
-  location,
-  time,
-  description
-}`;
-
-const WORKSHOP_BY_SLUG_QUERY = groq`*[_type == "workshop" && slug.current == $slug][0]{
-  _id,
-  _createdAt,
-  name,
-  hideTitle,
-  link,
-  "slug": slug.current,
-  "image": image.asset->url,
-  location,
-  time,
-  description
-}`;
-
-const EVENTS_QUERY = groq`*[_type == "event"]{
-  _id,
-  _createdAt,
-  name,
-  hideTitle,
-  link,
-  "slug": slug.current,
-  "image": image.asset->url,
-  location,
-  time,
+  image${IMAGE},
+  category,
   description,
-}`;
-
-const EVENT_BY_SLUG_QUERY = groq`*[_type == "event" && slug.current == $slug][0]{
-  _id,
-  _createdAt,
-  name,
   link,
-  "slug": slug.current,
-  "image": image.asset->url,
-  gallery[],
+  linkLabel,
   location,
   time,
-  description
-}`;
+  endTime,
+  gallery[]${IMAGE},
+  "festival": festival->${FESTIVAL}
+}`);
 
-const NEWS_QUERY = groq`*[_type == "news"]{
+export const EVENT_SLUGS_QUERY = defineQuery(`*[_type == "event" && defined(slug.current)]{"slug": slug.current}`);
+
+export const PROGRAM_QUERY = defineQuery(`*[
+  _type in ["artist", "event"]
+  && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID}
+  && defined(time)
+  && (_type == "artist" || showInProgram != false)
+] | order(time asc){
   _id,
-  _createdAt,
+  _type,
+  name,
+  "slug": slug.current,
+  time,
+  endTime,
+  headliner,
+  category,
+  "place": coalesce(stage->name, location)
+}`);
+
+export const PAGE_QUERY = defineQuery(`*[_type == "page" && slug.current == $slug][0]{
+  _id,
   title,
   "slug": slug.current,
-  date,
-  description,
-  "image": image.asset->url,
-}`;
+  image${IMAGE},
+  seo{title, description, image${IMAGE}},
+  sections[]{
+    _key,
+    _type,
+    _type == "textSection" => {body},
+    _type == "imageSection" => {image${IMAGE}, caption, shape},
+    _type == "ctaSection" => {heading, text, buttonLabel, "href": link{"href": ${HREF}}.href},
+    _type == "faqSection" => {heading, items[]{_key, question, answer}},
+    _type == "lineupSection" => {
+      heading,
+      "artists": *[_type == "artist" && defined(festival._ref) && festival._ref == ${CURRENT_FESTIVAL_ID} && (!^.onlyHeadliners || headliner)] | order(headliner desc, time asc)${ARTIST_CARD}
+    },
+    _type == "gallerySection" => {"gallery": gallery->{name, images[]${IMAGE}}},
+    _type == "videoSection" => {url, title}
+  }
+}`);
 
-const GALLERIES_QUERY = groq`*[_type == "gallery"]{
+export const PAGE_SLUGS_QUERY = defineQuery(`*[_type == "page" && defined(slug.current)]{"slug": slug.current}`);
+
+export const GALLERIES_QUERY = defineQuery(`*[_type == "gallery" && count(images) > 0] | order(coalesce(festival->year, 0) desc, name desc){
   _id,
-  _createdAt,
   name,
-  images[],
-}`;
+  images[]${IMAGE}
+}`);
 
-export async function getHome(): Promise<Home[]> {
-  return sanityClient.fetch(HOME_QUERY);
-}
-
-export async function getPages(): Promise<Page[]> {
-  return sanityClient.fetch(PAGES_QUERY);
-}
-
-export async function getPage(slug: string): Promise<Page | null> {
-  return sanityClient.fetch(PAGE_BY_SLUG_QUERY, { slug });
-}
-
-export async function getArtists(): Promise<Artist[]> {
-  return sanityClient.fetch(ARTISTS_QUERY);
-}
-
-export async function getArtist(slug: string): Promise<Artist | null> {
-  return sanityClient.fetch(ARTIST_BY_SLUG_QUERY, { slug });
-}
-
-export async function getWorkshops(): Promise<Workshop[]> {
-  return sanityClient.fetch(WORKSHOPS_QUERY);
-}
-
-export async function getWorkshop(slug: string): Promise<Workshop | null> {
-  return sanityClient.fetch(WORKSHOP_BY_SLUG_QUERY, { slug });
-}
-
-export async function getEvents(): Promise<Eventer[]> {
-  return sanityClient.fetch(EVENTS_QUERY);
-}
-
-export async function getEvent(slug: string): Promise<Eventer | null> {
-  return sanityClient.fetch(EVENT_BY_SLUG_QUERY, { slug });
-}
-
-export async function getNews(): Promise<News[]> {
-  return sanityClient.fetch(NEWS_QUERY);
-}
-
-export async function getGalleries(): Promise<Gallery[]> {
-  return sanityClient.fetch(GALLERIES_QUERY);
-}
+export const SITEMAP_QUERY = defineQuery(`{
+  "artists": *[_type == "artist" && defined(slug.current)]{"slug": slug.current, _updatedAt},
+  "events": *[_type == "event" && defined(slug.current)]{"slug": slug.current, _updatedAt},
+  "pages": *[_type == "page" && defined(slug.current)]{"slug": slug.current, _updatedAt}
+}`);
